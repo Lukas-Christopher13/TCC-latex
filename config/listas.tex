@@ -1,0 +1,176 @@
+% =======================================================
+% CONFIGURAÇÕES E IMPRESSÃO DAS LISTAS (TUDO EM UM ARQUIVO)
+% Pode ser chamado com \input{listas} APÓS o \begin{document}
+	% =======================================================
+	
+	\makeatletter
+	
+	%------------------------------------------------------------
+	% 1. AJUSTES DO SUMÁRIO
+	%------------------------------------------------------------
+	\renewcommand{\cftsubsecfont}{\itshape\bfseries}
+	\renewcommand{\cftsubsecpagefont}{\normalfont}
+	
+	%------------------------------------------------------------
+	% 2. AJUSTES DOS PREFIXOS DAS LISTAS
+	%------------------------------------------------------------
+	\@ifundefined{cftfigpresnum}{}{
+		\renewcommand{\cftfigpresnum}{\figurename~}
+		\renewcommand{\cftfigaftersnum}{~--~}
+		\settowidth{\cftfignumwidth}{\cftfigpresnum 000~--~}
+	}
+	\@ifundefined{cfttabpresnum}{}{
+		\renewcommand{\cfttabpresnum}{\tablename~}
+		\renewcommand{\cfttabaftersnum}{~--~}
+		\settowidth{\cfttabnumwidth}{\cfttabpresnum 000~--~}
+	}
+	\@ifundefined{cftquadropresnum}{}{
+		\renewcommand{\cftquadropresnum}{Quadro~}
+		\renewcommand{\cftquadroaftersnum}{~--~}
+		\settowidth{\cftquadronumwidth}{\cftquadropresnum 000~--~}
+	}
+	\@ifundefined{cftgraficopresnum}{}{
+		\renewcommand{\cftgraficopresnum}{Gráfico~}
+		\renewcommand{\cftgraficoaftersnum}{~--~}
+		\settowidth{\cftgraficonumwidth}{\cftgraficopresnum 000~--~}
+	}
+	
+	%------------------------------------------------------------
+	% 3. REGISTRO E DETECÇÃO AUTOMÁTICA DE ELEMENTOS NO TEXTO
+	%------------------------------------------------------------
+	\let\native@addcontentsline\addcontentsline
+	\renewcommand{\addcontentsline}[3]{%
+		\immediate\write\@mainaux{\string\gdef\string\temitem@#1{1}}%
+		\native@addcontentsline{#1}{#2}{#3}%
+	}
+	
+	% Travas lógicas para escrever no .aux apenas 1 vez e evitar loops
+	\def\temitem@acr@written{0}
+	\newcommand{\RegistrarUsoAcr}{%
+		\ifnum\temitem@acr@written=0
+		\immediate\write\@mainaux{\string\gdef\string\temitem@acr{1}}%
+		\global\def\temitem@acr@written{1}%
+		\fi
+	}
+	
+	\def\temitem@nls@written{0}
+	\newcommand{\RegistrarUsoNls}{%
+		\ifnum\temitem@nls@written=0
+		\immediate\write\@mainaux{\string\gdef\string\temitem@nls{1}}%
+		\global\def\temitem@nls@written{1}%
+		\fi
+	}
+	
+	% Monitora os comandos padrões do glossaries e o SEU comando customizado \sigla
+	\@ifpackageloaded{glossaries}{
+		\AddToHook{cmd/glsadd/before}{\RegistrarUsoAcr}
+		\AddToHook{cmd/gls/before}{\RegistrarUsoAcr}
+	}{}
+	% Gatilho crucial para quem usa o comando \sigla{}{}:
+	\AddToHook{cmd/sigla/before}{\RegistrarUsoAcr}
+	
+	\@ifpackageloaded{nomencl}{
+		\AddToHook{cmd/nomenclature/before}{\RegistrarUsoNls}
+	}{}
+	
+	\newcommand{\SeTemItem}[2]{%
+		\def\elemento@achado{0}%
+		\@ifundefined{temitem@#1}{}{%
+			\def\elemento@achado{1}%
+		}%
+		\@ifundefined{ext@#1}{}{%
+			\@ifundefined{temitem@\csname ext@#1\endcsname}{}{%
+				\def\elemento@achado{1}%
+			}%
+		}%
+		\ifnum\elemento@achado=1\relax
+		#2%
+		\fi
+	}
+	
+	%------------------------------------------------------------
+	% 4. LISTAS SEM TÍTULO AUTOMÁTICO E FORMATAÇÃO
+	%------------------------------------------------------------
+	\renewcommand{\listoffigures}{\@starttoc{lof}}
+	\renewcommand{\listoftables}{\@starttoc{lot}}
+	\renewcommand{\listof}[2]{\@starttoc{\csname ext@#1\endcsname}}
+	
+	\newcommand{\PreTextualTitulo}[1]{%
+		\begin{center}
+			\bfseries\MakeUppercase{#1}
+		\end{center}
+	}
+	
+	\makeatother
+	
+	% =======================================================
+	% 5. IMPRESSÃO DAS LISTAS E SUMÁRIO
+	% =======================================================
+	
+	% LISTA DE ILUSTRAÇÕES
+	\SeTemItem{lof}{%
+		\PreTextualTitulo{Lista de Ilustrações}
+		\listoffigures
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% LISTA DE TABELAS
+	\SeTemItem{lot}{%
+		\PreTextualTitulo{Lista de Tabelas}
+		\listoftables
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% LISTA DE ABREVIATURAS E SIGLAS
+	\SeTemItem{acr}{%
+		% Trava de segurança extra para garantir que não haja registros durante a impressão
+		\global\def\temitem@acr@written{1}
+		\PreTextualTitulo{Lista de Abreviaturas e Siglas}
+		\printglossary[
+		type=\acronymtype,
+		style=siglasABNT,
+		title={}
+		]
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% LISTA DE SÍMBOLOS
+	\SeTemItem{nls}{%
+		\global\def\temitem@nls@written{1}
+		\printnomenclature
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% LISTA DE QUADROS
+	\SeTemItem{quadro}{%
+		\PreTextualTitulo{Lista de Quadros}
+		\listof{quadro}{}
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% LISTA DE GRÁFICOS
+	\SeTemItem{grafico}{%
+		\PreTextualTitulo{Lista de Gráficos}
+		\listof{grafico}{}
+		\thispagestyle{empty}
+		\newpage
+	}
+	
+	% SUMÁRIO
+	\tableofcontents
+	\thispagestyle{empty}
+	
+	% =======================================================
+	% 6. CORREÇÃO DOS CONTADORES (ABNT)
+	% =======================================================
+	\setcounter{table}{0}
+	\setcounter{figure}{0}
+	\makeatletter
+	\@ifundefined{c@quadro}{}{\setcounter{quadro}{0}}
+	\@ifundefined{c@grafico}{}{\setcounter{grafico}{0}}
+	\makeatother

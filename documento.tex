@@ -1,0 +1,69 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%
+%Este template em \LaTeX\ foi desenvolvido pelo \textbf{Prof. Dr. José Wilker de Lima Silva} (UEPB) com o objetivo de facilitar a elaboração de trabalhos acadêmicos em conformidade com as %normas da ABNT. Além de fornecer uma estrutura organizada para monografias, dissertações e %teses, o template reúne exemplos dos principais recursos do \LaTeX, como capítulos, seções, %subseções, citações, figuras, tabelas, equações, listas, nomenclaturas, algoritmos e %referências bibliográficas. Sugestões, correções e melhorias são sempre bem-vindas e %contribuirão para o aperfeiçoamento contínuo deste material. Versão Julho/2026
+%Contato: wilker+template@servidor.uepb.edu.br
+%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------------- PACOTES -----------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[12pt, a4paper]{report}
+
+\input{config/pacotes}
+
+\begin{document}
+
+\input{pre-textual/0-infobasica}
+
+%Pré-Textual
+\input{pre-textual/1-capa}
+
+% Inicia a contagem na folha de rosto
+\clearpage
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+% Não mostra o número nas páginas pré-textuais
+\pagestyle{empty}
+\input{pre-textual/2-folhaderosto} % Comentar esta linha e liberar a linha abaixo caso queira inserir pdf com folha de rosto
+\input{pre-textual/3-fichacatalografica} %<---- trocar pelo pdf da ficha catalografica
+%\includepdf{pre-textual/fichacatalografica.pdf} %<--- Liberar essa linha para inserir outra ficha
+\input{pre-textual/4-folhadeaprovacao}%<--- COMENTAR SE usar PDF
+%\includepdf{pre-textual/folhadeaprovacao.pdf} %<--- Liberar essa linha para inserir outra folha de aprovacao
+\input{pre-textual/5-dedicatoria}
+\input{pre-textual/6-agradecimentos}
+\input{pre-textual/7-epigrafe}
+\input{pre-textual/8-resumo}
+\input{pre-textual/9-abstract}
+%----------
+%---LISTAS DE FIGURAS, TABELAS, QUADROS E SÍMBOLOS
+% OBS: NÃO FAZER EDIÇÕES NESTE ARQUIVO pre-textual/10-listas ********************
+\input{config/listas}
+
+%Capítulos
+\clearpage
+\pagestyle{plain} % ou myheadings, se preferir manter seu cabeçalho
+%OBS: crie mais capítulos se necessário
+
+\input{capitulos/introducao}
+\input{capitulos/metodologia}
+\input{capitulos/resultados}
+\input{capitulos/conclusoes}
+
+%-----------------------------
+%---REFERÊNCIAS BIBLIOGRÁFICAS
+
+\addcontentsline{toc}{chapter}{\protect\numberline{}REFERÊNCIAS}
+% Redefine o título para centralizado e em caixa alta
+\renewcommand{\bibname}{\normalsize\bfseries \begin{center}REFERÊNCIAS\end{center}}
+%\bibliographystyle{abntex2-alf}
+\bibliography{referencias}
+
+%------------
+%---APÊNDICES
+
+\input{capitulos/apendices} %<----- Comentar caso não tenha apêndice no trabalho
+
+
+\end{document}

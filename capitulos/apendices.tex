@@ -1,0 +1,21 @@
+%------------
+%---APÊNDICES
+
+\appendix
+\setcounter{chapter}{0}
+\renewcommand{\thechapter}{\Alph{chapter}}
+
+\chapter*{\normalsize\bfseries\hfill APÊNDICE A -- TÍTULO DO APÊNDICE \hfill}
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\protect\numberline{}APÊNDICE A -- TÍTULO DO APÊNDICE}
+
+\stepcounter{chapter}
+
+% Limpa a memória do cabeçalho para não puxar o nome REFERÊNCIAS
+\markboth{}{} 
+
+Se este capítulo não for necessário para o seu trabalho, vá até o arquivo \textbf{documento.tex} e insira \% na linha 
+\begin{verbatim}
+    \input{capitulos/apendices}
+\end{verbatim}

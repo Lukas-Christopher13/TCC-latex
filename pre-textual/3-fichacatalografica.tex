@@ -1,0 +1,54 @@
+% A ficha catalográfica deve ficar no verso da folha de rosto.
+% Se estiver incluindo em um projeto maior (book/report), 
+% use \newpage ou \clearpage antes deste bloco.
+\thispagestyle{empty}
+
+% Joga o conteúdo da ficha para o final (rodapé) da página
+\vspace*{\fill}
+
+\begin{center}
+    \small
+    É expressamente proibida a comercialização deste documento, tanto na forma impressa como eletrônica. 
+    Sua reprodução total ou parcial é permitida exclusivamente para fins acadêmicos e científicos, 
+    desde que na reprodução figure a identificação do autor, título, instituição e ano da defesa.
+    
+    \vspace{1cm}
+    
+    \textbf{Ficha Catalográfica elaborada pela Biblioteca da Universidade Estadual da Paraíba}
+    
+    \vspace{0.5cm}
+    
+    % Caixa retangular padrão de fichas catalográficas
+    \fbox{
+        \begin{minipage}[c][8.5cm]{13.5cm}
+            \vspace{0.5cm}
+            % Coluna do código de catalogação (Cutter)
+            \begin{minipage}[t]{1.5cm}
+                S000x
+            \end{minipage}%
+            % Coluna com os dados bibliográficos
+            \begin{minipage}[t]{11.5cm}
+                \singlespacing
+                Sobrenome, Nome do Autor.\\
+                \hspace*{0.5cm} Título do trabalho acadêmico: subtítulo (se houver) / Nome do Autor. -- Campina Grande, 2026.\\
+                \hspace*{0.5cm} 120 f. : il. color.\\
+                \\
+                \hspace*{0.5cm} Orientador: Prof. Dr. Nome do Orientador.\\
+                \hspace*{0.5cm} Coorientador: Prof. Dr. Nome do Coorientador (se houver).\\
+                \\
+                \hspace*{0.5cm} Trabalho de Conclusão de Curso (Graduação em [Nome do Curso]) -- Universidade Estadual da Paraíba, Centro de [Nome do Centro], [Ano da defesa].\\
+                \\
+                \hspace*{0.5cm} 1. Primeira palavra-chave. 2. Segunda palavra-chave. 3. Terceira palavra-chave. I. Título.
+                
+                \vspace{0.5cm}
+                % Código Dewey Decimal Classification (CDD) ou CDU
+                \begin{flushright}
+                    \textbf{CDD} 000.000
+                \end{flushright}
+            \end{minipage}
+            \vspace*{0.2cm}
+        \end{minipage}
+    }
+\end{center}
+
+\newpage

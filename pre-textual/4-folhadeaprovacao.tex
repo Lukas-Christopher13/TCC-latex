@@ -1,0 +1,85 @@
+%----------------
+%--FOLHA DE APROVAÇÃO
+
+\thispagestyle{empty}
+\begin{center}
+\textbf{\MakeUppercase\estudante}
+
+\vspace{1cm}
+
+\textbf{\MakeUppercase\titulo}
+
+\end{center}
+
+\vspace{.4cm}
+\begin{flushright}
+\parbox{8cm}{
+\singlespacing{\begin{hyphenrules}{nohyphenation}
+\tipodetrabalho~apresentada à \coordenacao \ da \universidade, como requisito parcial à obtenção do título de \grau \ em \nomedocurso. % natureza do trabalho
+\vspace{0.5cm}
+
+\textbf{Área de concentração}: \area
+\end{hyphenrules}}}
+\end{flushright}
+
+\vspace{.6cm}
+
+\noindent Aprovado em: \datadeaprovacao     %<----- Inserir data no estilo dd/mm/aaaa
+
+\begin{center}
+
+\textbf{BANCA EXAMINADORA}
+
+\vspace{0.8cm}
+
+%-----------------------------------
+% Orientador (sempre aparece)
+%-----------------------------------
+
+\noindent\rule{12cm}{0.4pt}\\
+\orientador\ \ (Orientador(a))\\
+\universidade\ (\siglauniversidade)
+
+\vspace{0.5cm}
+
+%-----------------------------------
+% Membro B (sempre aparece)
+%-----------------------------------
+
+\noindent\rule{12cm}{0.4pt}\\
+\membrob\\
+\filiacaob\ (\siglafiliacaob)
+
+\vspace{0.5cm}
+
+%-----------------------------------
+% Membro C (sempre aparece)
+%-----------------------------------
+
+\noindent\rule{12cm}{0.4pt}\\
+\membroc\\
+\filiacaoc\ (\siglafiliacaoc)
+
+\vspace{0.5cm}
+
+%-----------------------------------
+% Apenas Dissertação e Tese
+%-----------------------------------
+
+\ifnum\tipodetrabalhonum>1
+
+\noindent\rule{12cm}{0.4pt}\\
+\membrod\\
+\filiacaod\ (\siglafiliacaod)
+
+\vspace{0.5cm}
+
+\noindent\rule{12cm}{0.4pt}\\
+\membroe\\
+\filiacaoe\ (\siglafiliacaoe)
+
+\vspace{0.5cm}
+
+\fi
+
+\end{center}

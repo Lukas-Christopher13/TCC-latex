@@ -1,0 +1,50 @@
+%----------
+%--- RESULTADOS
+
+\chapter{RESULTADOS}
+\thispagestyle{myheadings}
+
+\begin{grafico}[H]
+    \centering
+    \caption{$\sin x^{2}$.}
+    \includegraphics[width=0.7\textwidth]{imagens/grafico.pdf}\\[0.6em] % <-- Adiciona o espaço desejado aqui (ajuste de 0.4em a 0.8em)
+{\small Fonte: Autoria própria.}
+    \label{graf:1}
+\end{grafico}
+
+Este capítulo apresenta exemplos de utilização dos principais recursos disponíveis neste template para a apresentação e discussão dos resultados. O conteúdo possui finalidade exclusivamente ilustrativa e demonstra a organização típica de um capítulo de resultados, incluindo seções, subseções, equações, tabelas, figuras, referências cruzadas e a criação de símbolos na Lista de Símbolos por meio do comando \verb|\nomenclature{}{}|.
+
+Antes da primeira utilização de um símbolo, recomenda-se cadastrá-lo utilizando o comando \verb|\nomenclature|. Por exemplo:
+
+\nomenclature{$x$}{Variável independente.}
+\nomenclature{$y$}{Variável dependente.}
+\nomenclature{$\alpha$}{Parâmetro do modelo.}
+\nomenclature{$\Omega$}{Domínio do problema.}
+
+\begin{verbatim}
+\nomenclature{$x$}{Variável independente.}
+\nomenclature{$y$}{Variável dependente.}
+\nomenclature{$\alpha$}{Parâmetro do modelo.}
+\nomenclature{$\Omega$}{Domínio do problema.}    
+\end{verbatim}
+
+Os símbolos cadastrados serão automaticamente incluídos na Lista de Símbolos, desde que o documento seja compilado conforme as instruções do template.
+
+\section{Análise dos resultados}
+
+Esta seção exemplifica a utilização do comando \verb|\section{}|. Nela podem ser apresentados gráficos, tabelas, análises quantitativas e comparações entre resultados experimentais ou numéricos.
+
+\subsection{Discussão}
+
+Esta subseção exemplifica o uso do comando \verb|\subsection{}|. Neste espaço podem ser discutidos os resultados obtidos, comparando-os com a literatura ou com modelos teóricos.
+
+A Equação~\ref{eq:resultado} ilustra a inserção de equações numeradas.
+
+\begin{equation}
+f(x)=\frac{1}{n}\sum_{i=1}^{n}x_i
+\label{eq:resultado}
+\end{equation}
+
+Os comandos \verb|\ref{}|, \verb|\eqref{}| e \verb|\pageref{}| permitem realizar referências cruzadas para figuras, tabelas, equações, capítulos e demais elementos do documento, facilitando sua manutenção e atualização.
+
+Este capítulo serve apenas como exemplo de utilização do template. Todo o conteúdo apresentado deve ser substituído pelos resultados efetivamente obtidos durante o desenvolvimento da pesquisa.

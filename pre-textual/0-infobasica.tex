@@ -1,0 +1,108 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- CONFIGURAÇÃO DO TRABALHO ------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Tipo de trabalho:
+% 1 = Trabalho de Conclusão de Curso
+% 2 = Dissertação
+% 3 = Tese
+\newcommand{\tipodetrabalhonum}{1} % <-- Altere apenas este número
+
+% Nome do tipo de trabalho
+\newcommand{\tipodetrabalho}{%
+\ifcase\tipodetrabalhonum
+\or Trabalho de Conclusão de Curso%
+\or Dissertação%
+\or Tese%
+\else Tipo de trabalho inválido%
+\fi
+}
+
+% Grau obtido
+\newcommand{\grau}{%
+\ifcase\tipodetrabalhonum
+\or Bacharel(a) / Licenciado(a) / Tecnólogo(a) % <-- Editar apenas para TCC
+\or Mestre(a)%
+\or Doutor(a)%
+\else Grau inválido%
+\fi
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- DADOS INSTITUCIONAIS ----------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\universidade}{Universidade Estadual da Paraíba}
+\newcommand{\siglauniversidade}{UEPB}
+
+\newcommand{\campus}{CAMPUS I - CAMPINA GRANDE}
+
+\newcommand{\proreitoria}{%
+PRÓ-REITORIA DE PÓS-GRADUAÇÃO E PESQUISA}
+
+\newcommand{\centro}{%
+Centro de Ciências e Tecnologia}
+
+\newcommand{\departamentoouprograma}{%
+Departamento de Ciência de Dados}
+
+\newcommand{\coordenacao}{%
+Coordenação do Curso de Ciência de Dados}
+
+\newcommand{\curso}{%
+Curso de Ciência de Dados}
+
+\newcommand{\nomedocurso}{%
+Ciência de Dados}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- DADOS DO TRABALHO -------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\titulo}{Título do Trabalho}
+
+\newcommand{\area}{%
+Qualidade de Sistemas Ambientais}
+
+\newcommand{\cidade}{%
+CAMPINA GRANDE - PB}
+
+\newcommand{\datadeaprovacao}{01/01/2000}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- DADOS DO(A) AUTOR(A) ----------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\estudante}{Nome do(a) Estudante(a)}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- ORIENTAÇÃO --------------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newcommand{\orientador}{Prof. Dr(a). Fulano de Tal}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%---------- BANCA EXAMINADORA -------------------------
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Membro 1
+\newcommand{\membrob}{Prof. Dr. B}
+\newcommand{\filiacaob}{Universidade Federal}
+\newcommand{\siglafiliacaob}{UFB}
+
+% Membro 2
+\newcommand{\membroc}{Prof. Dr. C}
+\newcommand{\filiacaoc}{Universidade Estadual}
+\newcommand{\siglafiliacaoc}{UEC}
+
+% Membro 3 (utilizado apenas quando necessário)
+\newcommand{\membrod}{Prof. Dr. D}
+\newcommand{\filiacaod}{Instituto Federal}
+\newcommand{\siglafiliacaod}{IFD}
+
+% Membro 4 (utilizado apenas quando necessário)
+\newcommand{\membroe}{Prof. Dr. E}
+\newcommand{\filiacaoe}{Universidade Estadual}
+\newcommand{\siglafiliacaoe}{UEE}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

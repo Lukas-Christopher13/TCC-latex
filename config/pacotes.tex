@@ -1,0 +1,309 @@
+\usepackage{morewrites} % <-- Adicionado o mais alto possível!
+
+% !TeX TXS-program:compile = txs:///pdflatex | txs:///makeindex %.nlo -s nomencl.ist -o %.nls | txs:///pdflatex
+
+\usepackage{morewrites} % <-- Importante estar no topo da lista de pacotes!
+
+%-------------------------------------------------------
+% CONFIGURAÇÃO DA PÁGINA
+%-------------------------------------------------------
+\usepackage[top=3cm, bottom=2cm, right=2cm, left=3cm]{geometry} % Margens ABNT
+
+%-------------------------------------------------------
+% IDIOMA E CODIFICAÇÃO
+%-------------------------------------------------------
+\usepackage[utf8]{inputenc}      % Permite digitação em UTF-8 (acentuação)
+\usepackage[brazilian]{babel}    % Traduz automaticamente nomes para o português
+\usepackage{silence}
+\WarningFilter{tracklang}{No `datatool' support for dialect}
+
+%-------------------------------------------------------
+% PDF
+%-------------------------------------------------------
+\usepackage[final]{pdfpages}     % Insere páginas de arquivos PDF
+
+%-------------------------------------------------------
+% CITAÇÕES, LEGENDAS E NUMERAÇÃO
+%-------------------------------------------------------
+\usepackage{csquotes}            % Aspas inteligentes
+\usepackage[labelsep=endash]{caption} % Formatação das legendas de figuras e tabelas
+
+% Desvincula a numeração de figuras e tabelas dos capítulos (1, 2, 3...)
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+
+%-------------------------------------------------------
+% PARÁGRAFOS
+%-------------------------------------------------------
+\usepackage{indentfirst}         % Indenta o primeiro parágrafo de cada seção
+
+%-------------------------------------------------------
+% AMBIENTES PERSONALIZADOS (Gráficos e Quadros)
+%-------------------------------------------------------
+\usepackage{newfloat}            % Permite criar novos ambientes flutuantes
+
+\DeclareFloatingEnvironment[
+    name=Gráfico, 
+    listname={Lista de Gráficos},
+    within=none % Garante numeração contínua (1, 2, 3...)
+]{grafico}
+
+\DeclareFloatingEnvironment[
+    fileext=loq,
+    listname={Lista de Quadros},
+    name=Quadro,
+    within=none % Garante numeração contínua (1, 2, 3...)
+]{quadro}
+
+%-------------------------------------------------------
+% TEXTO DE EXEMPLO E APÊNDICES
+%-------------------------------------------------------
+\usepackage{blindtext}           % Gera texto fictício para testes
+\usepackage{lipsum}              % Gera texto Lorem Ipsum
+\usepackage[titletoc]{appendix}  % Melhor controle dos apêndices
+
+% Altera o título da bibliografia
+\addto{\captionsbrazil}{%
+\renewcommand{\bibname}{\normalsize\bfseries\hfill REFERÊNCIAS\hfill}
+}
+
+%-------------------------------------------------------
+% CABEÇALHO E NUMERAÇÃO DE PÁGINAS
+%-------------------------------------------------------
+\usepackage{fancyhdr}
+\setlength{\headheight}{14.5pt} 
+
+% Configura o estilo padrão para todas as páginas
+\pagestyle{fancy}
+\fancyhf{} % Limpa configurações antigas de cabeçalho e rodapé
+\fancyhead[R]{\thepage} % Número da página no topo (Right/Direita)
+\renewcommand{\headrulewidth}{0pt} % Remove a linha horizontal abaixo do número
+
+% Redefine o estilo "plain" (usado automaticamente no início dos capítulos)
+\fancypagestyle{plain}{
+    \fancyhf{}
+    \fancyhead[R]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+}
+
+\usepackage{epigraph}            % Cria epígrafes
+\renewcommand{\textflush}{flushepinormal} % Alinhamento do texto da epígrafe
+
+%-------------------------------------------------------
+% FIGURAS E TABELAS
+%-------------------------------------------------------
+\usepackage{graphicx}            % Inclusão de imagens
+\usepackage{float}               % Posicionamento preciso de figuras e tabelas (H)
+\usepackage{capt-of}             % Permite usar legendas fora de ambientes flutuantes
+\usepackage{booktabs}            % Tabelas com melhor qualidade tipográfica
+\usepackage{longtable}           % Necessário para o glossário customizado
+
+%-------------------------------------------------------
+% DESENHOS E DIAGRAMAS
+%-------------------------------------------------------
+\usepackage{tikz}                % Desenhos vetoriais
+\usetikzlibrary{arrows.meta,bending} % Bibliotecas extras do TikZ
+\usepackage[all]{xy}             % Diagramas comutativos (matemática)
+
+%-------------------------------------------------------
+% MATEMÁTICA E FÍSICA
+%-------------------------------------------------------
+\usepackage{amsmath}             % Fórmulas matemáticas
+\usepackage{amssymb}             % Símbolos matemáticos
+\usepackage{amsfonts}            % Fontes matemáticas
+\usepackage{amsthm}              % Ambientes de teoremas
+\usepackage{MnSymbol}            % Símbolos matemáticos adicionais
+\usepackage{thmtools}            % Gerenciamento avançado de teoremas
+\usepackage{physics}             % Comandos úteis para Física e Matemática
+\usepackage{cancel}              % Cancela termos em equações
+
+\DeclareMathOperator{\mdc}{mdc}  % Operador matemático "mdc"
+\DeclareMathOperator{\sen}{sen}  % Operador matemático "sen"
+
+%-------------------------------------------------------
+% TEXTO E CAIXAS
+%-------------------------------------------------------
+\usepackage{hyphenat}            % Controle da hifenização
+\usepackage{setspace}            % Controle do espaçamento entre linhas
+\linespread{1.25}                % Espaçamento de 1,25
+\usepackage{boxedminipage}       % Cria caixas envolvendo blocos de texto
+\usepackage{enumitem}            % Personalização de listas
+\usepackage{changepage}          % Permite alterar margens temporariamente
+
+\newenvironment{citacao}
+{\begin{quote}\small\singlespacing}
+{\{end{quote}}
+
+%-------------------------------------------------------
+% NOMENCLATURA E SIGLAS
+%-------------------------------------------------------
+\usepackage{nomencl}             % Lista de símbolos (nomenclatura)
+\makenomenclature                % Inicializa o gerador de símbolos
+\setlength{\nomlabelwidth}{3cm}
+\setlength{\nomitemsep}{-\parsep}
+\renewcommand{\nomname}{\normalsize \makebox[\linewidth]{\MakeUppercase{Lista de Símbolos}}}
+
+\usepackage[acronym,nogroupskip]{glossaries}
+\makeglossaries                  % Inicializa o gerador de siglas
+\renewcommand{\glossarysection}[2][]{}
+
+\newglossarystyle{siglasABNT}{
+  \setglossarystyle{long}
+  \renewenvironment{theglossary}
+  {\begin{longtable}{@{}p{3cm}p{12cm}@{}}}
+  {\end{longtable}}
+  \renewcommand*{\glossentry}[2]{%
+    \glstarget{##1}{\textbf{\glossentryname{##1}}} & \glossentrydesc{##1} \\
+  }
+}
+
+\newcommand{\sigla}[2]{%
+    \newacronym{#1}{#1}{#2}%
+    \gls{#1}%
+}
+
+% --- DEFINIÇÃO DAS SIGLAS PADRÃO ---
+\newacronym{abnt}{ABNT}{Associação Brasileira de Normas Técnicas}
+\newacronym{usp}{USP}{Universidade de São Paulo}
+\newacronym{ia}{IA}{Inteligência Artificial}
+
+%-------------------------------------------------------
+% DATAS E TÍTULOS DE SEÇÃO
+%-------------------------------------------------------
+\usepackage{datetime}
+\usepackage{titlesec}
+
+\titleformat*{\section}{\normalsize \bfseries}
+\titleformat*{\subsection}{\normalsize\itshape\bfseries}
+\titleformat*{\subsubsection}{\normalsize \bfseries}
+\titleformat*{\paragraph}{\large\bfseries}
+\titleformat*{\subparagraph}{\large\bfseries}
+\titleformat{\chapter}{\bfseries}{\filright \thechapter}{20pt}{\filright}
+\titlespacing*{\chapter}{0pt}{0pt}{*1.5}
+\titlespacing{\section}{0pt}{*1.5}{*1.5}
+
+%-------------------------------------------------------
+% TOCLOFT: FORMATAÇÃO DO SUMÁRIO (ABNT NBR 6027: 2012)
+%-------------------------------------------------------
+\usepackage{tocloft}
+
+\renewcommand\cftchapnumwidth{3.8em}
+\renewcommand\cftsecnumwidth{3.8em}
+\renewcommand\cftsubsecnumwidth{3.8em}
+\renewcommand{\cftsecfont}{\bfseries }
+
+\renewcommand{\cftfigpresnum}{Figura~}
+\renewcommand{\cftfigaftersnum}{ --}
+\settowidth{\cftfignumwidth}{Figura 99 --}
+
+\renewcommand{\cfttabpresnum}{Tabela~}
+\renewcommand{\cfttabaftersnum}{ --}
+\settowidth{\cfttabnumwidth}{Tabela 99 --}
+
+% Configurações para a Lista de Quadros
+\newlength{\cftquadnumwidth}
+\newcommand{\cftquadpresnum}{Quadro~}
+\newcommand{\cftquadaftersnum}{ --}
+\settowidth{\cftquadnumwidth}{\cftquadpresnum 99\cftquadaftersnum}
+
+% Configurações para a Lista de Gráficos
+\newlength{\cftgrafnumwidth}
+\newcommand{\cftgrafpresnum}{Gráfico~}
+\newcommand{\cftgrafaftersnum}{ --}
+\settowidth{\cftgrafnumwidth}{\cftgrafpresnum 99\cftgrafaftersnum}
+
+% Atalhos de referência
+\newcommand{\tabref}[1]{Tabela~\ref{#1}}
+\newcommand{\figref}[1]{Figura~\ref{#1}}
+\newcommand{\secref}[1]{Seção~\ref{#1}}
+\newcommand{\chapref}[1]{Capítulo~\ref{#1}}
+\newcommand{\eqnref}[1]{Equação~\eqref{#1}}
+
+% Recuos de seção
+\setlength{\cftsecindent}{0pt}
+\setlength{\cftsubsecindent}{0pt}
+
+% Formatação do título do sumário e listas
+\renewcommand{\cfttoctitlefont}{\hfil \normalfont \centering \bfseries\MakeUppercase}
+\renewcommand{\cftaftertoctitle}{\\[\baselineskip]\mbox{}\hfill{\normalfont Página}}
+\setlength{\cftbeforetoctitleskip}{-1.5em}
+\setlength{\cftaftertoctitleskip}{0pt}
+
+%-------------------------------------------------------
+% AMBIENTES DE TEOREMAS E APLICAÇÕES
+%-------------------------------------------------------
+\newtheorem{theorem}{Teorema}[chapter]
+\newtheorem{teorema}{Teorema}[chapter]
+\newtheorem{corollary}{Corolário}[theorem]
+\newtheorem{corolario}{Corolário}[chapter]
+\newtheorem{lemma}[theorem]{Lema}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Observação}[chapter]
+
+\theoremstyle{definition}
+\newtheorem{definition}{Definição}[chapter]
+\newtheorem{exemplo}{Exemplo}[chapter]
+
+\theoremstyle{plain}
+\newtheorem{lema}{Lema}[chapter]
+\newtheorem{prop}{Proposição}[chapter]
+\newtheorem{cor}{Corolário}[chapter]
+
+\declaretheorem[style=definition,qed=$\filledmedtriangleleft$, name=Aplicação, numberwithin=chapter]{ap}
+
+\theoremstyle{definition}
+\newtheorem*{nota}{Notação}
+
+%-------------------------------------------------------
+% INJEÇÃO DOS PREFIXOS NAS LISTAS (Gráfico e Quadro)
+%-------------------------------------------------------
+\makeatletter
+% Formatação da Lista de Gráficos
+\renewcommand{\l@grafico}[2]{%
+  \begingroup
+  \renewcommand{\numberline}[1]{\hb@xt@\@tempdima{\cftgrafpresnum##1\cftgrafaftersnum\hfil}}%
+  \@dottedtocline{1}{0em}{\cftgrafnumwidth}{#1}{#2}%
+  \endgroup
+}
+
+% Formatação da Lista de Quadros
+\renewcommand{\l@quadro}[2]{%
+  \begingroup
+  \renewcommand{\numberline}[1]{\hb@xt@\@tempdima{\cftquadpresnum##1\cftquadaftersnum\hfil}}%
+  \@dottedtocline{1}{0em}{\cftquadnumwidth}{#1}{#2}%
+  \endgroup
+}
+
+% Comandos nativos para geração de listas pelo sumário global
+\renewcommand{\listoffigures}{\@starttoc{lof}}
+\renewcommand{\listoftables}{\@starttoc{lot}}
+\makeatother
+
+%-------------------------------------------------------
+% REFERÊNCIAS CRUZADAS E LINKS
+%-------------------------------------------------------
+\usepackage[
+    colorlinks=true, % Ativa cores nos links
+    linkcolor=black, % Cor dos links internos
+    citecolor=black, % Cor dos links das citações bibliográficas
+    urlcolor=black   % Cor dos links de internet
+]{hyperref}
+
+%-------------------------------------------------------
+% CITAÇÕES ABNT E BACKREF
+%-------------------------------------------------------
+\usepackage[brazilian,hyperpageref]{backref}
+\usepackage[alf]{abntex2cite}
+
+% Configurações do pacote backref
+\renewcommand{\backrefpagesname}{Citada na(s) página(s):~}
+\renewcommand{\backref}{}
+\renewcommand*{\backrefalt}[4]{
+    \ifcase #1 %
+        Nenhuma citação no texto.%
+    \or
+        Citação na pág. #2.%
+    \else
+        Citação nas págs. #2.%
+    \fi}

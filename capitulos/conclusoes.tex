@@ -1,0 +1,38 @@
+%----------
+%--- CONCLUSOES
+
+\chapter{CONCLUSÕES}
+\thispagestyle{myheadings}
+
+Este capítulo apresenta um exemplo da estrutura utilizada para redigir as conclusões de um trabalho acadêmico. O texto possui finalidade exclusivamente ilustrativa e deve ser substituído pelas conclusões obtidas ao término da pesquisa, destacando os principais resultados alcançados, as limitações do estudo, as contribuições científicas e sugestões para trabalhos futuros.
+
+Ao finalizar a edição do documento, recomenda-se revisar todas as referências cruzadas, verificar a atualização do sumário, da lista de figuras, da lista de tabelas, da lista de símbolos e da lista de abreviaturas, bem como conferir a consistência das referências bibliográficas.
+
+Caso a instituição forneça uma \textbf{ficha catalográfica em formato PDF}, ela poderá ser inserida diretamente no documento. Para isso, localize as seguintes linhas no arquivo principal:
+
+\begin{verbatim}
+\input{pre/2-folhaderosto} % Comentar esta linha e liberar a linha abaixo 
+%\includepdf{pre/fichacatalografica.pdf} %<--- Liberar essa linha
+\end{verbatim}
+
+O comportamento dessas linhas é o seguinte:
+
+\begin{itemize}
+    \item O comando
+\begin{verbatim}
+\input{pre/2-folhaderosto}
+\end{verbatim}
+insere a folha preparada em \LaTeX\ disponível no diretório \texttt{pre}.
+
+    \item Caso a instituição forneça a ficha catalográfica (ou a folha de rosto) em arquivo PDF, basta comentar a linha anterior e remover o caractere \texttt{\%} da linha
+
+\begin{verbatim}
+\includepdf{pre/fichacatalografica.pdf}
+\end{verbatim}
+
+substituindo o arquivo pelo PDF correspondente (e mude o nome do arquivo se necessário).
+
+    \item Certifique-se de que o pacote \texttt{pdfpages} esteja carregado no preâmbulo do documento para utilizar o comando \verb|\includepdf|.
+\end{itemize}
+
+Este template foi desenvolvido com o objetivo de facilitar a elaboração de trabalhos acadêmicos em conformidade com as normas da ABNT, proporcionando uma estrutura organizada e exemplos dos principais recursos do \LaTeX. Recomenda-se que todos os textos ilustrativos sejam removidos antes da versão final do documento.

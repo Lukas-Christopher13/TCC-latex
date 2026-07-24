@@ -1,0 +1,72 @@
+%----------
+%--- METODOLOGIA
+
+\chapter{METODOLOGIA}
+\thispagestyle{myheadings}
+
+Este capítulo apresenta um exemplo de organização da metodologia em um trabalho acadêmico utilizando este template. O conteúdo tem finalidade exclusivamente ilustrativa e demonstra a estrutura recomendada para capítulos, seções, subseções, citações, equações, tabelas, figuras e referências cruzadas.
+
+\section{Seção Caracterização da pesquisa}
+
+Esta seção exemplifica a utilização do comando \verb|\section{}| para criar uma seção. O texto pode descrever a natureza da pesquisa, os materiais empregados, a área de estudo ou qualquer outra informação metodológica pertinente.
+
+Como exemplo de citação indireta, utiliza-se o comando \verb|\cite{}|, conforme ilustrado em \cite{de2018proposito}. Quando o nome do autor faz parte da redação da frase, recomenda-se utilizar o comando \verb|\citeonline{}|, como em \citeonline{de2018proposito}.
+
+\subsection{Subseção Procedimentos metodológicos}
+
+Esta subseção exemplifica a utilização do comando \verb|\subsection{}|. Aqui podem ser descritos os procedimentos experimentais, computacionais ou analíticos empregados no desenvolvimento da pesquisa.
+
+A Equação~\ref{eq:pitagoras} ilustra a inserção de equações numeradas utilizando o ambiente \verb|equation|.
+
+\begin{equation}
+a^2+b^2=c^2
+\label{eq:pitagoras}
+\end{equation}
+
+A Tabela~\ref{tab:populacao} apresenta um exemplo de tabela com legenda e rótulo para posterior referência no texto.
+
+\begin{table}[htb]
+\centering
+\caption{População das capitais da Região Sul do Brasil}
+\label{tab:populacao}
+\begin{tabular}{lcc}
+\hline
+Estado & Capital & População (habitantes) \\
+\hline
+Paraná & Curitiba & 1.773.718 \\
+Santa Catarina & Florianópolis & 537.211 \\
+Rio Grande do Sul & Porto Alegre & 1.332.845 \\
+\hline
+\end{tabular}\\[0.6em]
+{\small Fonte: IBGE (2023).}
+\end{table}
+
+Caso seja necessário apresentar uma citação direta longa, pode-se utilizar o seguinte formato:
+
+\begin{adjustwidth}{4cm}{0cm} 
+\small \singlespacing 
+Este é apenas um texto ilustrativo para demonstrar a formatação de uma citação direta longa. Substitua-o pelo trecho original a ser citado, incluindo a referência bibliográfica correspondente e, quando aplicável, a indicação da página.
+\end{adjustwidth}
+
+
+A seguir temos o \autoref{qua:variaveis}. Note que o mesmo será identificado na página LISTA DE QUADROS, antes do Sumário.
+
+\begin{quadro}[htb]
+\centering
+\caption{Classificação das variáveis estatísticas}
+\label{qua:variaveis}
+\begin{tabular}{|l|l|}
+\hline
+\textbf{Tipo de Variável} & \textbf{Exemplo} \\
+\hline
+Qualitativa Nominal & Cor dos olhos, Tipo sanguíneo \\
+\hline
+Qualitativa Ordinal & Grau de escolaridade, Classe social \\
+\hline
+Quantitativa Discreta & Número de filhos, Quantidade de carros \\
+\hline
+Quantitativa Contínua & Altura, Peso, Salário \\
+\hline
+\end{tabular}\\[0.6em]
+{\small Fonte: Autoria própria (2026).}
+\end{quadro}
