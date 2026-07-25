@@ -1,0 +1,292 @@
+%----------
+%--- RESULTADOS
+
+\chapter{FUNDAMENTAÇÃO TEÓRICA}
+\thispagestyle{myheadings}
+
+\section{Big Data}
+
+Embora não exista uma definição única e consensual para Big Data, observa-se um certo 
+consenso sobre as características que definem o Big Data. Para a Oracle, Big Data são 
+dados que contêm maior variedade, chegando em volumes crescentes e com mais velocidade 
+\cite{oracle_bigdata}. Já para o Google, o Big Data é um conjunto de dados maior e mais 
+complexo, de modo que software tradicional não consegue processá-los e gerenciá-los 
+\cite{googlecloud2025bigdata}.
+
+Com base nessas definições, podemos observar um certo padrão para o Big Data, grande 
+variedade, o alto volume e a velocidade com que os dados são gerados. Esses elementos 
+convergem para uma das abordagens mais difundidas na literatura, os 3 Vs, proposto por 
+Doug Laney. Nesse contexto, o Big Data é caracterizado por três dimensões fundamentais: 
+volume, velocidade e variedade \cite{laney2001}.
+
+No que se refere ao volume, este diz respeito à gigantesca quantidade dos dados gerados e 
+armazenados, 90\% dos dados existentes no mundo hoje foram criados somente nos últimos dois 
+anos \cite{sherman2015business}. Essa crescente no volume de dados gerados deve-se principalmente a 
+fatores como a digitalização das atividades humanas, a popularização da internet e aumento 
+da capacidade de armazenamento de dados.
+
+Em relação a velocidade, ela está relacionada com a rapidez com que os dados são produzidos 
+junto a necessidade de processá-los em tempo real. Atualmente dependemos da velocidade de 
+alguns desses dados. "É extremamente útil receber uma notificação imediata do banco quando 
+uma transação fraudulenta é detectada […]" \cite[p. 26]{sherman2015business}.
+
+Quanto à variedade, refere-se às diferentes fontes de geração dos dados, bem como aos 
+diversos formatos em que esses dados se encontram, como texto, áudio, vídeo, mídias sociais 
+e dados semi estruturados, como XML. Nesse contexto, "atualmente, as empresas podem coletar 
+dados de publicações em redes sociais sobre seus produtos […] assim como lidar com dados 
+valiosos gerados em planilhas e documentos de texto" \cite[p. 27]{sherman2015business}.
+
+Ademais, a definição de Big Data em termos dos 3 Vs evoluiu, ganhando dois Vs adicionais 
+de veracidade e valor, formando os 5 Vs do Big Data. A veracidade, se refere à confiabilidade
+e à qualidade dos dados, considerando aspectos como inconsistências, ruídos e possíveis 
+incertezas presentes nas informações. Já o valor diz respeito à capacidade de extrair 
+insights úteis e relevantes a partir dos dados, transformando-os em informação estratégica 
+que possa apoiar a tomada de decisão e gerar benefícios para as organizações.
+
+No mais, as características intrínsecas representadas pelos Vs do Big Data permitem 
+diferenciá-lo dos modelos tradicionais de dados. Estes, por sua vez, são geralmente 
+limitados a volumes menores, como gigabytes, o que torna seu armazenamento e processamento 
+mais viáveis \cite{siddiqui2024bigdata}. Além disso, as fontes de dados tradicionais tendem a ser 
+mais estruturadas e centralizadas, incluindo bases operacionais, registros de transações e 
+sistemas de planejamento de recursos empresariais \cite{siddiqui2024bigdata}.
+
+Diante das limitações dos modelos tradicionais de dados, incapazes de lidar com as demandas 
+do Big Data, novas ferramentas e paradigmas surgiram a fim de resolver esses problemas. 
+Modelos de programação como o MapReduce permitiram a organizações como a Apache 
+desenvolverem todo um ecossistema voltado para solução de problemas envolvendo o Big Data, 
+hoje ferramentas como o Apache Hadoop são amplamente utilizadas em empresas convencionais 
+\cite{white2012hadoop}.
+
+Diante do exposto, o Big Data configura-se como um paradigma marcado pelas características 
+dos 5 Vs, superando os modelos tradicionais. Nesse contexto, a adoção de tecnologias como o 
+Apache Hadoop evidencia a necessidade de novas abordagens para o tratamento dos dados. 
+Assim, torna-se relevante compreender seu contexto de evolução e aplicação.
+
+\subsection{Contextualização do Big Data}
+
+O cenário de Big Data surgiu naturalmente como resposta ao acelerado processo de digitalização
+das atividades humanas que se intensificou no início dos anos 2000. Embora, segundo 
+\citeonline{gandomi2015beyond}, o conceito de Big Data provavelmente teve origem em conversas informais 
+durante almoços na Silicon Graphics Inc. (SGI) em meados da década de 1990.
+
+A partir dessas primeiras décadas, o Big Data passou a evoluir à medida que o volume, a 
+velocidade e a variedade dos dados se ampliaram. Com esse crescimento, as ferramentas 
+tradicionais tornaram-se insuficientes para lidar com esse novo paradigma, o que impulsionou 
+o surgimento de novas soluções tecnológicas. Nesse contexto, empresas como Google e 
+Microsoft, bem como a Fundação Apache, destacaram-se como importantes provedoras de 
+plataformas e soluções de Big Data \cite{khamaru2022dynamics}.
+
+Essas novas soluções, se mostraram essenciais para o novo cenário global. Instituições que 
+já dependiam de dados viram-se cada vez mais inundadas pelos grandes contingentes de 
+informações. Em contrapartida, muitas empresas passaram a enxergar no cenário de Big Data 
+uma oportunidade de extrair insights relevantes dos dados, com o objetivo de apoiar a tomada 
+de decisões estratégicas, e assim, obter vantagens competitivas.
+
+Nesse sentido, o Big Data passou a atuar de forma integrada às práticas de Business 
+Intelligence (BI), ampliando a capacidade analítica e o uso estratégico das informações 
+nas organizações. Sob essa ótica, \citeonline{narulita2025bigdata} concluem que o Big 
+Data e o Business Intelligence constituem pilares estratégicos na contabilidade gerencial, 
+permitindo às organizações obter vantagem competitiva por meio de decisões mais rápidas e 
+precisas baseadas em dados.
+
+\subsection{Arquitetura do Big Data}
+
+Uma arquitetura de Big Data gerencia a ingestão, o processamento e a análise de dados muito 
+grandes ou complexos para sistemas de banco de dados tradicionais \cite{microsoft2025bigdata}. 
+Nesse contexto, a arquitetura organiza-se por meio de diferentes elementos e processos que, 
+de forma integrada, viabilizam o tratamento eficiente dos dados ao longo de seu ciclo de vida.
+
+\subsection{Elementos do Big Data}
+
+A infraestrutura de armazenamento é um dos principais pilares do Big Data, é nela que o 
+volume massivo e diverso dos dados é armazenado. Dado as características do Big Data, os 
+principais mecanismos de armazenamento adotados são os sistemas de arquivos distribuídos, 
+NoSQL, NewSQL e outros sistemas de gerenciamento de dados \cite{wang2020architecture}. 
+
+No mais, não basta apenas armazenar dados, sendo necessário processar grandes volumes a 
+fim de extrair informações relevantes. Segundo \citeonline{albarznji2022big}, o processamento de Big Data 
+é essencial para transformar dados em informação útil, classificando os frameworks em cinco 
+categorias principais: \textit{batch processing, streaming processing, real-time processing, 
+interactive processing e hybrid processing.}
+
+Ademais, os dados devem ser coletados a partir de uma ou mais fontes. Nesse contexto, os 
+sistemas de ingestão de dados são responsáveis pela coleta e integração dessas informações. 
+Assim, ferramentas de ETL são amplamente utilizadas nesse processo, permitindo a extração, 
+transformação e carregamento de diferentes tipos de dados \cite{wang2020architecture}.
+
+Por fim, as ferramentas de Business Intelligence permitem que os usuários interajam com 
+a infraestrutura de dados por meio de recursos como visualização, consultas, dashboards 
+e análises preditivas \cite{sherman2015business}. Essas ferramentas são essenciais para a extração 
+de insights relevantes a partir dos dados. Elas são o destino final no que tange a 
+utilidade dos dados.
+
+\subsection{Processos do Big Data}
+
+Os processos da arquitetura de dados abrangem a preparação dos dados, o data 
+franchising, o uso de BI, bem como o gerenciamento de dados e de metadados. A preparação 
+envolve atividades como coleta, transformação, limpeza e armazenamento. Já o data 
+franchising refere-se à reorganização dos dados para fins analíticos. Por sua vez, o 
+Business Intelligence possibilita o acesso e a análise desses dados por meio de 
+ferramentas específicas. Além disso, o gerenciamento de dados e de metadados estabelece 
+padrões, governança e controle sobre os ativos informacionais da organização 
+\cite{sherman2015business}.
+
+\section{ETL}
+
+No âmbito dos processos de integração de dados, o ETL (Extract, Transform, Load) 
+desempenha papel fundamental no cenário de Big Data. Segundo \citeonline{singh2022etl}, "os 
+processos de ETL podem consumir até 80\% do esforço em projetos de BI [...] envolvendo a 
+extração de dados de fontes externas, sua transformação para atender às necessidades de 
+negócios e, por fim, seu armazenamento em um repositório de informações".
+
+Nesse contexto, a sigla ETL refere-se às etapas de extração (Extract), transformação 
+(Transform) e carregamento (Load), que, se executadas de forma estruturada, garantem a 
+qualidade, consistência e integridade dos dados. Assim, para uma melhor compreensão de 
+sua aplicação, torna-se necessário detalhar cada uma dessas etapas, evidenciando suas 
+características, técnicas e desafios no processo de integração de dados.
+
+A primeira etapa do processo de ETL é denominada Extract. Seu principal objetivo consiste
+em capturar os dados de interesse a partir de diferentes fontes de dados 
+\cite{assisvilela2021realtime}. Nessa fase, realiza-se a identificação, seleção e 
+coleta dos dados provenientes de das mais diversas fontes, como bancos de dados 
+relacionais, arquivos XML e aplicações externas, Essa etapa garante  que as informações 
+relevantes sejam disponibilizadas para as etapas subsequentes.
+
+Após a etapa de extração, os dados passam por um processo de transformação antes de 
+serem carregados no destino final. Essa etapa é necessária devido à heterogeneidade 
+das fontes e dos formatos de origem. Denominada Transform, os dados são transformados 
+ara corresponder ao esquema de dados de destino, geralmente um data warehouse 
+\cite{venkateswarlu2023cloud}.
+
+Por fim, os dados extraídos e transformados precisam ser carregados no repositório de 
+destino para que possam ser efetivamente utilizados. Essa etapa, denominada Load, 
+consiste na inserção dos dados no banco de dados final \cite{singh2022etl}. Trata-se da 
+última fase do processo de ETL, sendo responsável por disponibilizar as informações 
+de forma estruturada para diversas atividades no cenário de Big Data e BI.
+
+\subsection{Aplicações do ETL}
+
+Os processos de ETL apresentam ampla aplicabilidade nos mais diversos contextos, 
+sendo essenciais para a integração, organização e disponibilização de informações em 
+diferentes cenários. Dentre as principais aplicações do ETL, destacam-se a integração 
+de dados provenientes de múltiplas fontes, processos de limpeza e qualidade de dados, 
+a migração de dados e a replicação de dados.
+
+No mais, \citeonline{arsyad2021dynamic} define a integração de dados de múltiplas fontes no contexto de 
+ETL como a combinação de técnicas de engenharia e de BI usadas para combinar dados de 
+diferentes fontes em informações significativas e valiosas.
+
+Ademais, outra atividade na qual processos de ETL são comumente empregados é no data 
+warehousing. O data warehouse é um banco de dados em que dados de várias origens são 
+combinados para que possam ser analisados coletivamente. O ETL é geralmente usado para 
+mover os dados para um data warehouse \cite{googlecloudetl}.
+
+Outra atividade que se beneficia das etapas de um ETL, principalmente no que diz respeito
+a etapa de Transform, é a limpeza e qualidade de dados. A limpeza de dados remove erros 
+e mapeia os dados de origem para o formato de dados de destino
+\cite{aws2026etl}.
+
+Ademais, as ferramentas de ETL são amplamente utilizadas para migração de dados e 
+para a replicação de dados e bancos de dados. Segundo \citeonline{googlecloudetl}, as 
+empresas estão movendo seus dados e aplicativos locais para a nuvem, a fim de 
+economizar dinheiro, nesse contexto, o ETL é muito usado para executar essas 
+migrações. No mais, a \citeonline{ibm2026etl} reforça que, data replication (Replicação de Dados)
+é frequentemente listada como um método de integração de dados que envolve ETL.
+
+\subsection{Variações ETL e ELT}
+
+O modelo de ETL é o mais tradicional e mais utilizado no Big Data; entretanto, não é o único. 
+Existem outras variações do processo, como o ELT. Embora ETL e ELT sejam métodos de integração 
+de dados, a diferença entre eles está no momento da transformação de dados. O ETL processa os 
+dados transformando-os antes de carregá-los no sistema de destino. No ELT, os dados são 
+carregados no sistema de destino no formato bruto e depois transformados \cite{googlecloudetl}.
+
+Ademais, o modelo ELT mostra-se especialmente vantajoso em ambientes de destino com alta 
+capacidade de processamento ou quando há necessidade de maior flexibilidade analítica. 
+Nesse contexto, \citeonline{naphade2025evolution} destaca que o paradigma ELT aproveita o processamento massivamente
+paralelo das plataformas modernas, transferindo a lógica de transformação para o ambiente de 
+destino. Tal abordagem é particularmente relevante em cenários cujos requisitos analíticos 
+estão em constante evolução.
+
+\subsection{Ferramentas de ETL}
+
+Dado o amplo uso do ETL e de seus derivados, é natural que empresas e instituições tenham 
+desenvolvido ferramentas e frameworks voltados para esse tipo de processo. Nesse contexto, 
+destacam-se soluções como o Apache Airflow, o SQL Server Integration Services (SSIS), o 
+Apache NiFi e o Pentaho Data Integration, amplamente utilizadas na construção e gerenciamento 
+de pipelines de dados.
+
+\begin{itemize}
+    \item \textbf{Apache Airflow:} é uma ferramenta de código aberto voltada à automação de fluxos de 
+    trabalho. o Airflow surgiu como alternativa às ferramentas tradicionais de ETL e sendo 
+    projetado para orquestrar processos computacionais complexos de forma dinâmica e escalável 
+    \cite{eeti2022efficient}. Além disso, sua flexibilidade permite a integração com ferramentas de 
+    processamento distribuído, como o Apache Spark. No mais, a plataforma baseia-se no conceito 
+    de grafos acíclicos direcionados (DAGs) e utiliza a linguagem Python para a programação dos 
+    fluxos. 
+
+    \item \textbf{SSIS:} o SQL Server Integration Services (SSIS) é uma plataforma para criar integração 
+    de dados em nível empresarial e soluções de transformações de dados. 
+    Segundo \citeonline{microsoftssis}, o SSIS é utilizado para resolver problemas de negócios 
+    complexos. Ademais, o SSIS se destaca como uma plataforma poderosa para executar processos 
+    de ETL, permitindo que as empresas manipulem grandes volumes de dados, garantindo precisão e 
+    consistência \cite{banoth2024ssis}.
+
+    \item \textbf{Apache NIFI:} é uma ferramenta ETL de código aberto usada para automatizar fluxos que 
+    lidam com dados em tempo real. O NiFi foi desenvolvido pela Apache Software Foundation e é 
+    adequado para tarefas de fluxo de dados, processamento e interação com sistemas, tudo isso 
+    apresentado por meio de um sofisticado fluxograma gráfico \cite{singu2022automation}. 
+
+    \item \textbf{Pentaho:} é uma plataforma de Business Intelligence amplamente utilizada para 
+    integração, transformação e análise de dados. A ferramenta possibilita a execução de 
+    processos de ETL, além de oferecer suporte à criação de relatórios, dashboards e outros 
+    mecanismos de visualização. Segundo \citeonline{demussa2018business}, o Pentaho dispõe de uma 
+    infraestrutura completa para a realização de operações de BI, abrangendo desde ferramentas 
+    de ETL até mecanismos de acesso, controle e suporte à elaboração de relatórios e painéis 
+    analíticos.
+\end{itemize}
+
+\subsection{Projeto de ETL}
+
+O projeto de um ETL consiste na definição de estratégias e técnicas para a coleta, 
+tratamento e disponibilização de dados provenientes de múltiplas fontes. Essa etapa é 
+fundamental, pois garante que os dados sejam integrados, consistentes e adequados para 
+análises. Um projeto de ETL bem estruturado deve considerar aspectos como qualidade dos dados, 
+desempenho, escalabilidade e governança, assegurando que as informações estejam disponíveis de 
+forma confiável para apoio à tomada de decisão.
+
+\begin{itemize}
+    \item \textbf{Data Extraction:} a etapa de extração de dados (Data Extraction) é responsável por 
+    coletar dados de diferentes fontes, como bancos de dados relacionais, arquivos, APIs e 
+    sistemas, planilhas etc. Essa fase é crítica, pois impacta diretamente a qualidade e a 
+    integridade das etapas subsequentes do processo de ETL. A extração pode ocorrer de forma 
+    completa ou incremental, sendo esta última utilizada para capturar apenas dados novos ou 
+    modificados, reduzindo o volume de processamento e aumentando a eficiência do sistema. 
+    Além disso, é importante que o processo de extração minimize impactos nos sistemas de 
+    origem, garantindo a continuidade das operações.
+
+    \item \textbf{Data Franchising:} o data franchising refere-se ao processo de disponibilização dos 
+    dados já tratados em repositórios voltados ao consumo pelos usuários. Essa abordagem 
+    consiste em empacotar os dados em estruturas como data marts (subconjuntos de dados 
+    orientados a áreas específicas) ou cubos analíticos, facilitando o acesso, a compreensão 
+    e a utilização das informações por analistas e gestores. Embora essa prática gera 
+    redundância em relação ao data warehouse, trata-se de uma redundância controlada e 
+    intencional, que visa melhorar o desempenho e a usabilidade dos dados. Ademais, o data 
+    franchising ocorre após as etapas de preparação e transformação, garantindo que apenas 
+    dados consistentes e estruturados sejam disponibilizados \cite{sherman2015business}.
+
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
