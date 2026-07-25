@@ -1,0 +1,42 @@
+%----------
+%--- DISCUSSÃO
+
+\chapter{DISCUSSÃO}
+\thispagestyle{myheadings}
+
+Esta seção discute os principais ganhos, desafios e limitações decorrentes da reestruturação
+do processo de ETL. A análise fundamenta-se nos resultados obtidos nos experimentos, 
+buscando evidenciar as contribuições da arquitetura proposta, bem como os fatores que 
+podem influenciar sua adoção e evolução.
+
+Nesse contexto, a reestruturação do processo de ETL proporcionou ganhos significativos em 
+três aspectos principais: manutenibilidade, desempenho e economia de espaço em disco, 
+evidenciando a superioridade da arquitetura proposta. Em relação à manutenibilidade, a 
+redução da complexidade dos workflows e da quantidade de consultas SQL, aliada à 
+centralização da lógica de processamento em código Python, tornou o processo mais 
+organizado, facilitando sua compreensão, manutenção e evolução em comparação ao sistema 
+desenvolvido em SSIS.
+
+Ademais, os experimentos demonstraram uma redução expressiva no tempo de carga, 
+disponibilizando os dados em menor tempo e permitindo que os fiscais da SEFAZ tenham 
+acesso mais rápido às informações necessárias às atividades de fiscalização. A adoção do 
+ClickHouse, um banco de dados colunar otimizado para processamento analítico, também 
+proporcionou expressiva economia de espaço em disco, além de maior eficiência no 
+processamento das consultas analíticas.
+
+Por outro lado, a reestruturação do ETL também apresentou desafios relacionados à migração 
+de SSIS para Apache Airflow, diferentemente do SSIS, o Airflow não dispõe de componentes 
+prontos para certas funcionalidades como laços de repetição, exigindo em muitos casos o 
+desenvolvimento de soluções próprias. Além disso, a adoção do Data Lake como nova fonte de 
+dados exigiu a adaptação das consultas de extração ao novo esquema, demandando esforço na 
+correção de incompatibilidades e na adequação das consultas.
+
+Adicionalmente, o ambiente disponibilizado impôs limitações à avaliação da solução, por não 
+haver acesso direto ao Data Lake original, os testes foram realizados sobre uma réplica 
+contendo apenas dados de 2020, limitando os experimentos ao período de janeiro a março 
+deste ano. Embora essa infraestrutura tenha sido suficiente para validar a arquitetura 
+proposta, a indisponibilidade da base completa impediu a avaliação do comportamento do 
+sistema em cenários com todo o volume de dados de produção.
+
+
+
