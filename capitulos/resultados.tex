@@ -217,7 +217,7 @@ Largura máxima (SSIS $\rightarrow$ Airflow) &
 \end{tabularx}
 
 \vspace{0.5em}
-{\small Fonte: Elaborado pelo autor 2026}
+{\small Fonte: Elaborado pelo autor, 2026}
 
 \end{table}
 
@@ -234,7 +234,68 @@ conforme a demanda, aumentando ou reduzindo o grau de paralelismo do processamen
 
 \subsection{Análise comparativa de desempenho}
 
+Todos os testes de desempenho foram realizados em um ambiente dedicado disponibilizado pela 
+SEFAZ-PB. Esse ambiente é composto por uma réplica do Data Lake da UFPB contendo dados 
+referentes ao ano de 2020, um banco de dados ClickHouse, um servidor Apache Airflow e um 
+cluster Apache Spark formado por um nó master e dois nós workers. A Tabela \ref{tab:ambiente_execucao} 
+apresenta a configuração dos recursos computacionais utilizados em cada componente da 
+infraestrutura empregada nos experimentos.
 
+%-------------------
+%-----Tabela--------
+
+\begin{table}[htb]
+\centering
+\caption{Configuração do ambiente de execução utilizado nos experimentos.}
+\label{tab:ambiente_execucao}
+
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{|p{4.8cm}|c|c|c|c|}
+\hline
+\textbf{Componente} & \textbf{Qtd.} & \textbf{CPU} & \textbf{Memória RAM} & \textbf{Armazenamento} \\
+\hline
+Airflow + Spark Master & 1 & 4 vCPUs & 8 GB & 150 GB SSD \\
+\hline
+Spark Worker & 2 & 8 vCPUs & 8 GB & 310 GB SSD \\
+\hline
+PostgreSQL & 1 & 8 vCPUs & 16 GB & 800 GB SSD \\
+\hline
+ClickHouse & 1 & 8 vCPUs & 16 GB & 410 GB SSD \\
+\hline
+\end{tabular}
+
+\vspace{0.6em}
+{\small Fonte: Elaborado pelo autor, 2026}
+
+\end{table}
+
+Vale ressaltar que a quantidade de workers do Spark influencia diretamente a capacidade 
+de processamento paralelo do sistema. No ambiente avaliado, foi possível executar até 
+seis tasks simultaneamente, limite que pode variar conforme a disponibilidade de recursos 
+e as configurações de paralelismo do Airflow.
+
+No mais, para avaliar o desempenho do processo de carga, foram executados experimentos 
+com os quatro tipos de documentos fiscais em três intervalos temporais distintos: 
+7 dias, 1 mês e 3 meses. Em cada execução, foram registrados separadamente os tempos de 
+extração, inserção, overhead de execução e o tempo total de execução, permitindo uma 
+análise detalhada do comportamento de cada etapa. Os resultados são apresentados 
+no Gráfico \ref{graf:tempo_exec}.
+
+
+\begin{grafico}[ht!]
+    \centering
+    \caption{Tempos de execução das cargas ETL.}\label{graf:tempo_exec}
+    \includegraphics[width=1\textwidth]{imagens/grafico_tempo_exec}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{grafico}
+
+
+Continua....
+
+\subsection{Comparação do Espaço de Armazenamento}
+
+Continua....
 
 
 \section{-------comandos-------}
