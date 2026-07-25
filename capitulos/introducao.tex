@@ -4,13 +4,114 @@
 \chapter{INTRODUÇÃO}
 \thispagestyle{myheadings}
 
-Este template em \LaTeX\ foi desenvolvido pelo \textbf{Prof. Dr. José Wilker de Lima Silva} (UEPB) com o objetivo de facilitar a elaboração de trabalhos acadêmicos em conformidade com as normas da ABNT. Além de fornecer uma estrutura organizada para monografias, dissertações e teses, o template reúne exemplos dos principais recursos do \LaTeX, como capítulos, seções, subseções, citações, figuras, tabelas, equações, listas, nomenclaturas, algoritmos e referências bibliográficas. Sugestões, correções e melhorias são sempre bem-vindas e contribuirão para o aperfeiçoamento contínuo deste material. \sigla{UEPB}{Universidade Estadual da Paraíba}
+Segundo \citeonline{sherman2015business}, as empresas hoje em dia são movidas por dados ou, mais precisamente, por 
+informações obtidas a partir de dados. Essas informações esclarecem o desconhecido, reduzem incertezas 
+e facilitam os processos de tomada de decisão.
 
-Este capítulo tem como objetivo apresentar exemplos de utilização dos principais recursos disponíveis neste template. Os textos, figuras, citações e demais elementos apresentados possuem caráter meramente ilustrativo e devem ser substituídos pelo conteúdo do trabalho.
+Contudo, extrair informações e insights relevantes desses dados não é uma tarefa simples, uma vez que eles 
+são caracterizados por grande volume, alta velocidade de geração e diversidade de formatos. Essas 
+características, conhecidas como os “3 Vs”, (velocidade, volume e variedade) foram sistematizadas 
+por \citeonline{laney2001}, que associou o conceito de Big Data a conjuntos de dados que apresentam essas 
+propriedades.
 
-Como exemplo de \textit{citação indireta}, utiliza-se o comando `\verb|\cite{}|`, conforme ilustrado a seguir: a presente pesquisa tem como objetivo principal apontar as adequações e as impropriedades frequentemente observadas na produção escrita de gêneros acadêmicos, em especial do artigo científico, a fim de traçar caminhos para o desenvolvimento de um texto de qualidade \cite[p. 200]{de2018proposito}.
+Desse modo, dado as características do Big Data, empresas e instituições passaram a desenvolver e adotar 
+novos métodos, tecnologias e novas formas de se trabalhar com dados, em resposta ao novo cenário 
+caracterizado pelos 3 Vs. Esse movimento deu origem a um conjunto complexo de ferramentas, tecnologias e 
+processos chamado ecossistema de Big Data.
 
-Quando o nome do autor faz parte da redação da frase, recomenda-se utilizar o comando `\verb|\citeonline{}|`, como no exemplo a seguir: \citeonline{de2018proposito} verificam a necessidade de harmonia entre os elementos linguísticos e extralinguísticos na produção dos gêneros acadêmicos.
+Ademais, esse ecossistema engloba diferentes componentes, cada um responsável por etapas distintas do ciclo
+de vida dos dados, tais como: coleta, armazenamento, processamento, análise e visualização. Nesse contexto, 
+destaca-se o processo de ETL (Extract, Transform, Load), responsável por etapas fundamentais como a coleta,
+transformação e armazenamento dos dados. 
+
+Dadas as necessidades oriundas dos processos de ETL, diversas ferramentas foram desenvolvidas com o 
+objetivo de apoiar a criação e a gestão de fluxos de dados, dentre as quais se destacam: Apache Airflow, 
+SQL Server Integration Services (SSIS), Apache NiFi e Pentaho Data Integration.
+
+Apesar da existência de diversas ferramentas de ETL, o sucesso da implementação não está atrelado 
+exclusivamente à tecnologia utilizada, mas também da aplicação adequada de técnicas e boas práticas de 
+integração de dados. Quando o ETL é mal projetado, podem surgir problemas como inconsistência de dados, 
+duplicação de registros, perda de informações e dificuldades na integração entre diferentes sistemas.
+
+Além disso, a utilização de ferramentas ETL inadequadas ou obsoletas para o cenário de dados vigente pode 
+impactar negativamente o desempenho dos processos e operações das instituições, gerando demoras excessivas 
+e problemas de desempenho que afetam a disponibilidade das informações. 
+
+\section{Motivação}
+
+Nesse contexto, a Secretaria de Estado da Fazenda da Paraíba (SEFAZ-PB) vem enfrentando 
+desafios decorrentes do cenário de Big Data. O crescimento contínuo da geração de dados ao 
+longo dos anos fez com que os processos de ETL utilizados pela secretaria se tornassem 
+insuficientes para lidar com o volume cada vez mais expressivo de informações produzidas. 
+Essa problemática se agrava, uma vez que as atividades desempenhadas pelos fiscais da secretaria 
+são operações altamente dependentes da análise massiva de dados.
+
+Desse modo, se faz necessário uma modernização dos processos de ETL utilizado na SEFAZ-PB, 
+tendo em vista os desafios e impactos associados a essa transformação. Nesse contexto surge 
+a seguinte questão de pesquisa: quais são os principais desafios associados à modernização 
+dos processos de ETL da SEFAZ-PB e quais impactos essa modernização produz sobre o desempenho,
+a escalabilidade e a gestão dos pipelines de dados?
+
+\section{Objetivo}
+
+Nesse sentido, este trabalho propõe uma reestruturação da estratégia de ETL utilizados na 
+SEFAZ-PB, tomando como base o projeto BDMalhas, um sistema de ETL que compõem o ecossistema 
+de apoio à fiscalização tributária da secretaria.
+
+Para tanto, foi delimitado os seguintes objetivos: desenvolver um sistema de ETL que 
+materialize a proposta de reestruturação; avaliar os resultados obtidos por meio da 
+comparação de indicadores entre o sistema original e o sistema desenvolvido, considerando 
+aspectos estruturais e de desempenho; e discutir os desafios, as limitações e os ganhos 
+decorrentes da reestruturação do ETL.
+
+Desse modo, parte-se da hipótese que, embora a reestruturação do processo de ETL tenha os 
+seus desafios, ela resultará em impactos positivos na flexibilidade, escalabilidade e 
+manutenção da arquitetura de dados, trazendo benefícios para a eficiência e sustentabilidade 
+dos processos de Big Data da instituição.
+
+Assim, com o intuito de viabilizar a hipótese proposta, realiza-se uma pesquisa de natureza 
+aplicada, com objetivos descritivos e exploratórios, fundamentada no método 
+hipotético-dedutivo, de abordagem quantitativa, desenvolvida por meio de um estudo de caso.
+
+Na primeira seção, é apresentado o sistema de ETL desenvolvido para materializar a proposta 
+de reestruturação, descrevendo a arquitetura do sistema original e do sistema desenvolvido.
+
+Na segunda seção, é realizada uma análise comparativa entre os resultados do sistema original
+e do sistema desenvolvido, considerando indicadores estruturais e de desempenho.
+
+Na terceira seção, são discutidos os resultados da reestruturação do ETL, analisando seus 
+benefícios, limitações e impactos no processo de ETL da SEFAZ-PB.
+
+Ao final, espera-se que este trabalho contribua para a compreensão dos desafios e 
+impactos envolvidos na modernização dos processos de ETL. Além disso, busca-se verificar a 
+hipótese de que, embora a reestruturação apresente desafios, ela resultará em impactos 
+positivos e benefícios para os processos de Big Data da SEFAZ-PB.
+
+
+\section{-----Comandos tutorial-----}
+
+
+Este template em \LaTeX\ foi desenvolvido pelo \textbf{Prof. Dr. José Wilker de Lima Silva} (UEPB) 
+com o objetivo de facilitar a elaboração de trabalhos acadêmicos em conformidade com as normas da 
+ABNT. Além de fornecer uma estrutura organizada para monografias, dissertações e teses, o template 
+reúne exemplos dos principais recursos do \LaTeX, como capítulos, seções, subseções, citações, 
+figuras, tabelas, equações, listas, nomenclaturas, algoritmos e referências bibliográficas. 
+Sugestões, correções e melhorias são sempre bem-vindas e contribuirão para o aperfeiçoamento contínuo 
+deste material. \sigla{UEPB}{Universidade Estadual da Paraíba}
+
+Este capítulo tem como objetivo apresentar exemplos de utilização dos principais recursos disponíveis 
+neste template. Os textos, figuras, citações e demais elementos apresentados possuem caráter meramente 
+ilustrativo e devem ser substituídos pelo conteúdo do trabalho.
+
+Como exemplo de \textit{citação indireta}, utiliza-se o comando `\verb|\cite{}|`, conforme ilustrado 
+a seguir: a presente pesquisa tem como objetivo principal apontar as adequações e as impropriedades 
+frequentemente observadas na produção escrita de gêneros acadêmicos, em especial do artigo científico, 
+a fim de traçar caminhos para o desenvolvimento de um texto de qualidade \cite[p. 200]{de2018proposito}.
+
+Quando o nome do autor faz parte da redação da frase, recomenda-se utilizar o comando 
+`\verb|\citeonline{}|`, como no exemplo a seguir: \citeonline{de2018proposito} verificam a 
+necessidade de harmonia entre os elementos linguísticos e extralinguísticos na produção dos 
+gêneros acadêmicos.
 
 \begin{figure*}[ht!]
     \centering
