@@ -119,6 +119,13 @@ fim de extrair informações relevantes. Segundo \citeonline{albarznji2022big}, 
 categorias principais: \textit{batch processing, streaming processing, real-time processing, 
 interactive processing e hybrid processing.}
 
+Nesse contexto, temos que o \textit{batch processing} processa grandes volumes de dados acumulados, 
+enquanto o \textit{streaming processing} atua sobre fluxos contínuos de dados. 
+Ja o \textit{real-time processing} prioriza respostas com baixa latência, ao passo que o 
+\textit{interactive processing} permite consultas \textit{ad-hoc} (consultas formuladas sob demanda) 
+e exploração dinâmica dos dados. Por fim, o \textit{hybrid processing} combina duas ou mais dessas 
+abordagens para atender a diferentes demandas operacionais e analíticas.
+
 Ademais, os dados devem ser coletados a partir de uma ou mais fontes. Nesse contexto, os 
 sistemas de ingestão de dados são responsáveis pela coleta e integração dessas informações. 
 Assim, ferramentas de ETL são amplamente utilizadas nesse processo, permitindo a extração, 
@@ -133,10 +140,10 @@ utilidade dos dados.
 \subsection{Processos do Big Data}
 
 Os processos da arquitetura de dados abrangem a preparação dos dados, o data 
-franchising, o uso de BI, bem como o gerenciamento de dados e de metadados. A preparação 
-envolve atividades como coleta, transformação, limpeza e armazenamento. Já o data 
-franchising refere-se à reorganização dos dados para fins analíticos. Por sua vez, o 
-Business Intelligence possibilita o acesso e a análise desses dados por meio de 
+franchising, as atividades de Business Intelligence (BI), bem como o gerenciamento 
+de dados e de metadados. A preparação envolve atividades como coleta, transformação, 
+limpeza e armazenamento. Já o data franchising refere-se à reorganização dos dados para fins analíticos. 
+Por sua vez, as soluções de BI possibilitam o acesso e a análise desses dados por meio de 
 ferramentas específicas. Além disso, o gerenciamento de dados e de metadados estabelece 
 padrões, governança e controle sobre os ativos informacionais da organização 
 \cite{sherman2015business}.
@@ -164,7 +171,7 @@ relevantes sejam disponibilizadas para as etapas subsequentes.
 
 Após a etapa de extração, os dados passam por um processo de transformação antes de 
 serem carregados no destino final. Essa etapa é necessária devido à heterogeneidade 
-das fontes e dos formatos de origem. Denominada Transform, os dados são transformados 
+das fontes e dos formatos de origem. Na fase de Transform, os dados são transformados 
 ara corresponder ao esquema de dados de destino, geralmente um data warehouse 
 \cite{venkateswarlu2023cloud}.
 
@@ -197,19 +204,20 @@ e mapeia os dados de origem para o formato de dados de destino
 \cite{aws2026etl}.
 
 Ademais, as ferramentas de ETL são amplamente utilizadas para migração de dados e 
-para a replicação de dados e bancos de dados. Segundo \citeonline{googlecloudetl}, as 
+para a replicação de bancos de dados. Segundo \citeonline{googlecloudetl}, as 
 empresas estão movendo seus dados e aplicativos locais para a nuvem, a fim de 
 economizar dinheiro, nesse contexto, o ETL é muito usado para executar essas 
-migrações. No mais, a \citeonline{ibm2026etl} reforça que, data replication (Replicação de Dados)
-é frequentemente listada como um método de integração de dados que envolve ETL.
+migrações. No mais, a \citeonline{ibm2026etl} reforça que, o processo de data replication 
+(Replicação de Dados) é frequentemente listada como um método de integração de dados que envolve ETL.
 
 \subsection{Variações ETL e ELT}
 
 O modelo de ETL é o mais tradicional e mais utilizado no Big Data; entretanto, não é o único. 
-Existem outras variações do processo, como o ELT. Embora ETL e ELT sejam métodos de integração 
-de dados, a diferença entre eles está no momento da transformação de dados. O ETL processa os 
-dados transformando-os antes de carregá-los no sistema de destino. No ELT, os dados são 
-carregados no sistema de destino no formato bruto e depois transformados \cite{googlecloudetl}.
+Existem outras variações do processo, como o ELT (\textit{Extract, Load, Transform}). 
+Embora ETL e ELT sejam métodos de integração de dados, a diferença entre eles está no momento da 
+transformação de dados. O ETL processa os dados transformando-os antes de carregá-los no sistema de 
+destino. No ELT, os dados são carregados no sistema de destino no formato bruto e depois transformados 
+\cite{googlecloudetl}.
 
 Ademais, o modelo ELT mostra-se especialmente vantajoso em ambientes de destino com alta 
 capacidade de processamento ou quando há necessidade de maior flexibilidade analítica. 
@@ -235,8 +243,8 @@ de pipelines de dados.
     de grafos acíclicos direcionados (DAGs) e utiliza a linguagem Python para a programação dos 
     fluxos. 
 
-    \item \textbf{SSIS:} o SQL Server Integration Services (SSIS) é uma plataforma para criar integração 
-    de dados em nível empresarial e soluções de transformações de dados. 
+    \item \textbf{SSIS:} o SQL Server Integration Services (SSIS) é uma plataforma da Microsoft 
+    voltada à integração e transformação de dados, amplamente utilizada na construção de processos de ETL. 
     Segundo \citeonline{microsoftssis}, o SSIS é utilizado para resolver problemas de negócios 
     complexos. Ademais, o SSIS se destaca como uma plataforma poderosa para executar processos 
     de ETL, permitindo que as empresas manipulem grandes volumes de dados, garantindo precisão e 
