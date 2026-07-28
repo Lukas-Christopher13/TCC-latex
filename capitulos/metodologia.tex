@@ -33,26 +33,35 @@ o projeto BDMalhas, desenvolvido pelo NUTES em parceria com a SEFAZ-PB. Essa cla
 decorre do fato de que a pesquisa busca avaliar os efeitos da reestruturação dos processos 
 de ETL em um contexto real e específico.
 
-\section{Desenvolvimento do estudo}
+\section{A concretização da solução}
+
+Após o levantamento da arquitetura existente e a identificação de suas limitações, iniciou-se o 
+desenvolvimento da nova solução de ETL proposta neste trabalho.
+
+Para isso, definiu-se uma nova arquitetura baseada em tecnologias do ecossistema de Big Data, 
+adotando o Apache Airflow como ferramenta responsável pela orquestração dos processos de ETL, o Apache 
+Spark como mecanismo de processamento distribuído, um Data Lake em PostgreSQL como fonte dos dados e o 
+ClickHouse como banco de dados analítico para a persistência das informações processadas.
+
+Com a arquitetura definida, iniciou-se à implementação dos pipelines de ETL para o projeto BDMalhas. 
+Durante essa etapa, buscou-se estruturar os pipelines de forma modular, favorecendo a reutilização 
+de componentes e facilitando sua manutenção e evolução.
+
 \section{Procedimentos experimentais e análise}
 
-Ademais, o estudo de caso foi conduzido no âmbito do projeto BDMalhas, desenvolvido pelo Núcleo 
-de Tecnologias Estratégicas em Saúde (NUTES) em parceria com a SEFAZ-PB, responsável pelo 
-processamento de grandes volumes de documentos fiscais eletrônicos. Nesse contexto, foi elaborada
-uma proposta de reestruturação dos processos de ETL, concretizada por meio do desenvolvimento de 
-um sistema baseado em tecnologias modernas voltadas ao processamento de dados em ambientes de 
-Big Data.
+Após a implementação dos novos pipilines de ETL pra o BDmalhas, foram coletadas métricas como o número de 
+nós, a quantidade de dependências entre tarefas e a profundidade dos fluxos, com o objetivo de comparar a 
+complexidade estrutural e a manutenibilidade de ambas as arquiteturas.
 
-No contexto da arquitetura proposta, o ambiente experimental é composto por um Data Lake em 
-PostgreSQL, utilizado como fonte de dados, Apache Airflow para orquestração dos pipelines de 
-ETL e Apache Spark para o processamento distribuído das cargas.Após as etapas de extração, 
-transformação e carga, os dados são armazenados no banco de dados colunar ClickHouse, destinado 
-à construção das bases analíticas.
+Essa coleta foi realizada por meio da contagem individual dos elementos presentes nos fluxos correspondentes
+a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solução baseada em SSIS quanto 
+na arquitetura proposta baseada em Apache Airflow.
 
-Em seguida, foram realizados experimentos com os quatro tipos de documentos fiscais processados 
-pelo BDMalhas: NFe, NFCe, CTe e EFD. Para cada documento, foram executadas cargas referentes aos 
-períodos de sete dias, um mês e três meses, compreendidos entre janeiro e março de 2020, 
-comparando o desempenho da arquitetura proposta com a solução legada baseada em SSIS.
+Após isso foram realizados experimentos com os quatro tipos de documentos 
+fiscais processados pelo BDMalhas: NFe, NFCe, CTe e EFD. Para cada documento, foram executadas 
+cargas referentes aos períodos de sete dias, um mês e três meses, compreendidos entre 
+janeiro e março de 2020, comparando o desempenho da arquitetura proposta com a solução legada 
+baseada em SSIS.
 
 Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de 
 registros processados em cada experimento e ao tamanho final das bases analíticas. Os resultados
