@@ -14,24 +14,24 @@ SEFAZ-PB. Nesse sentido, foi desenvolvido um novo sistema de ETL para o projeto 
 fundamentado em uma nova arquitetura baseada em tecnologias modernas do ecossistema de Big Data, 
 com o objetivo de superar as limitações de desempenho e escalabilidade da solução legada.
 
-Em relação aos objetivos da pesquisa, podemos a caracteriza-la como descritiva e exploratória. 
-Seu caráter descritivo se deve pela comparação entre a solução desenvolvida e a solução legada, 
+Em relação aos objetivos da pesquisa, caracteriza-se como descritiva e exploratória. 
+Seu caráter descritivo decorre da comparação entre a solução desenvolvida e a solução legada, 
 com base em métricas de desempenho, manutenibilidade e utilização de espaço em disco obtidas 
 durante os experimentos. Já o caráter exploratório está relacionado à investigação da aplicação 
 de uma nova arquitetura para a reestruturação dos processos de ETL na SEFAZ-PB, 
 buscando compreender seus benefícios e limitações.
 
-Quanto ao método da pesquisa, adota-se o método hipotético-dedutivo, com abordagem quantitativa. 
-Uma vez que parte-se da hipótese de que a reestruturação da arquitetura resultará em melhorias 
-significativas de desempenho, escalabilidade e manutenibilidade. Por sua vez, a pesquisa 
-caracteriza-se como quantitativa por fundamentar-se na coleta e análise de dados numéricos 
+Quanto ao método da pesquisa, adota-se o método hipotético-dedutivo com abordagem quantitativa, 
+visto que se parte da hipótese de que a reestruturação da arquitetura resultará em melhorias de 
+desempenho e manutenibilidade, além de fornecer uma arquitetura mais adequada para cenários escaláveis. 
+Por sua vez, a pesquisa caracteriza-se como quantitativa por fundamentar-se na coleta e análise de dados numéricos 
 obtidos durante os experimentos, tais como tempos de execução, métricas de manutenibilidade e 
 utilização de espaço em disco.
 
-Por fim, a pesquisa é conduzida por meio de um estudo de caso, tomando como objeto de estudo 
-o projeto BDMalhas, desenvolvido pelo NUTES em parceria com a SEFAZ-PB. Essa classificação 
-decorre do fato de que a pesquisa busca avaliar os efeitos da reestruturação dos processos 
-de ETL em um contexto real e específico.
+Por fim, a pesquisa é conduzida por meio de um estudo de caso, por se tratar de um sistema real de 
+processamento de documentos fiscais desenvolvido pelo NUTES em parceria com a SEFAZ-PB. 
+Essa classificação decorre do fato de que a pesquisa busca avaliar os efeitos da reestruturação dos 
+processos de ETL em um contexto real e específico.
 
 \section{A concretização da solução}
 
@@ -43,27 +43,65 @@ adotando o Apache Airflow como ferramenta responsável pela orquestração dos p
 Spark como mecanismo de processamento distribuído, um Data Lake em PostgreSQL como fonte dos dados e o 
 ClickHouse como banco de dados analítico para a persistência das informações processadas.
 
-Com a arquitetura definida, iniciou-se à implementação dos pipelines de ETL para o projeto BDMalhas. 
+Com a arquitetura definida, iniciou-se a implementação dos pipelines de ETL para o projeto BDMalhas. 
 Durante essa etapa, buscou-se estruturar os pipelines de forma modular, favorecendo a reutilização 
 de componentes e facilitando sua manutenção e evolução.
 
 \section{Procedimentos experimentais e análise}
 
-Após a implementação dos novos pipilines de ETL pra o BDmalhas, foram coletadas métricas como o número de 
-nós, a quantidade de dependências entre tarefas e a profundidade dos fluxos, com o objetivo de comparar a 
-complexidade estrutural e a manutenibilidade de ambas as arquiteturas.
+Após a implementação dos novos pipelines de ETL para o BDMalhas, foram coletadas métricas de número de 
+nós, dependências e profundidade dos fluxos por representarem indicadores da complexidade estrutural e 
+do esforço necessário para manutenção dos pipelines.
 
 Essa coleta foi realizada por meio da contagem individual dos elementos presentes nos fluxos correspondentes
 a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solução baseada em SSIS quanto 
 na arquitetura proposta baseada em Apache Airflow.
 
-Após isso foram realizados experimentos com os quatro tipos de documentos 
+Em seguida, foram realizados experimentos com os quatro tipos de documentos 
 fiscais processados pelo BDMalhas: NFe, NFCe, CTe e EFD. Para cada documento, foram executadas 
 cargas referentes aos períodos de sete dias, um mês e três meses, compreendidos entre 
-janeiro e março de 2020, comparando o desempenho da arquitetura proposta com a solução legada 
-baseada em SSIS.
+janeiro e março de 2020. Em cada cenário experimental, a mesma carga foi executada na solução legada e 
+na arquitetura proposta, utilizando o mesmo conjunto de dados. 
 
 Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de 
 registros processados em cada experimento e ao tamanho final das bases analíticas. Os resultados
 obtidos foram organizados em tabelas e gráficos, possibilitando a comparação do desempenho da 
 arquitetura proposta em relação à solução legada baseada em SSIS.
+
+\section{Ambiente utilizado}
+
+Todos os testes de desempenho foram realizados em um ambiente dedicado disponibilizado pela 
+SEFAZ-PB. Esse ambiente é composto por uma réplica do Data Lake da UFPB contendo dados 
+referentes ao ano de 2020, um banco de dados ClickHouse, um servidor Apache Airflow e um 
+cluster Apache Spark formado por um nó master e dois nós workers. A Tabela \ref{tab:ambiente_execucao} 
+apresenta a configuração dos recursos computacionais utilizados em cada componente da 
+infraestrutura empregada nos experimentos.
+
+
+\begin{table}[htb]
+\centering
+\caption{Configuração do ambiente de execução utilizado nos experimentos.}
+\label{tab:ambiente_execucao}
+
+\renewcommand{\arraystretch}{1.2}
+
+\begin{tabular}{|p{4.8cm}|c|c|c|c|}
+\hline
+\textbf{Componente} & \textbf{Qtd.} & \textbf{CPU} & \textbf{Memória RAM} & \textbf{Armazenamento} \\
+\hline
+Airflow + Spark Master & 1 & 4 vCPUs & 8 GB & 150 GB SSD \\
+\hline
+Spark Worker & 2 & 8 vCPUs & 8 GB & 310 GB SSD \\
+\hline
+PostgreSQL & 1 & 8 vCPUs & 16 GB & 800 GB SSD \\
+\hline
+ClickHouse & 1 & 8 vCPUs & 16 GB & 410 GB SSD \\
+\hline
+\end{tabular}
+
+\vspace{0.6em}
+{\small Fonte: Elaborado pelo autor, 2026}
+
+\end{table}
+
+\section{quantas execuções foram feitas.....}
