@@ -1,18 +1,20 @@
 \chapter{DESENVOLVIMENTO DA SOLUÇÃO}
 \thispagestyle{myheadings}
 
-Os resultados e discussões apresentados a seguir referem-se aos experimentos realizados durante 
-a reestruturação dos processos de ETL do BDMalhas. As análises baseiam-se nas métricas definidas 
-na metodologia, permitindo comparar o desempenho da arquitetura proposta com a solução legada 
-baseada em SSIS.
+Este capítulo apresenta o desenvolvimento da solução proposta para a reestruturação dos 
+processos de ETL do BDMalhas. Inicialmente, descreve-se a arquitetura da solução legada, 
+evidenciando suas principais características e limitações. Em seguida, é apresentada a 
+arquitetura proposta e sua implementação, detalhando os componentes adotados e a forma 
+como foram estruturados os novos pipelines de ETL.
 
-\section{Arquitetura proposta para a reestruturação da plataforma de dados}
+\section{Proposta de reestruturação}
 
-A seguir, apresenta-se o sistema de ETL desenvolvido para materializar a proposta de 
-reestruturação da plataforma de dados da SEFAZ-PB, utilizando como referência o sistema BDMalhas.
-A solução contempla tanto a reestruturação das pipelines de ETL quanto a adoção 
-de uma nova arquitetura visando atender às demandas de processamento e análise de grandes 
-volumes de dados. Também são apresentados os principais aspectos da implementação da solução.
+A proposta de reestruturação da plataforma de dados da SEFAZ-PB foi materializada por meio 
+do desenvolvimento de um novo sistema de ETL para o projeto BDMalhas. A solução contempla a 
+reestruturação dos pipelines de ETL e a adoção de uma arquitetura baseada em tecnologias do 
+ecossistema de Big Data, com o objetivo de atender às demandas de processamento e análise de 
+grandes volumes de dados. As seções seguintes descrevem os componentes que compõem essa 
+arquitetura e os principais aspectos de sua implementação.
 
 \section{Arquitetura do BDMalhas}
 
@@ -74,9 +76,9 @@ plataforma de orquestração dos pipelines de dados, juntamente com a adoção d
 mecanismo de processamento distribuído. Essa mudança  visa proporcionar maior escalabilidade, 
 flexibilidade e capacidade de processamento.
 
-Por fim, o banco de dados da camada de staging foi substituído por um banco de dados colunar, 
-mais adequado a cenários de Big Data. Esse modelo de armazenamento proporciona maior eficiência 
-no processamento de grandes volumes de dados e melhor desempenho em consultas analíticas, 
+Por fim, o banco de dados da camada de staging foi substituído por um banco de dados de tipo 
+colunar, o Clickhouse, mais adequado a cenários de Big Data. Esse modelo de armazenamento 
+proporciona maior eficiência no processamento de grandes volumes de dados e melhor desempenho em consultas analíticas, 
 características essenciais para a nova arquitetura proposta.
 
 \begin{figure*}[ht!]
@@ -106,9 +108,14 @@ paralela, mantendo a mesma lógica operacional anteriormente implementada em Mic
 
 Contudo, diferentemente da arquitetura anterior, o Airflow não realiza diretamente o 
 processamento das cargas de dados, atuando apenas como mecanismo de orquestração. 
-As operações de transformação e carga de dados são delegadas a um \textit{cluster} Spark composto 
-por múltiplos nós computacionais, responsável pelo processamento distribuído dos dados e 
-posterior inserção no ambiente de \textit{staging}.
+As operações de transformação e carga de dados são delegadas a um \textit{cluster} 
+Spark que pode ser composto por um ou múltiplos nós computacionais, responsáveis pelo 
+processamento distribuído dos dados e posterior inserção no ambiente de \textit{staging}.
+
+\section{Implementação dos pipelines de ETL}
+
+
+
 
 \section{Benefícios e considerações Arquiteturais}
 
