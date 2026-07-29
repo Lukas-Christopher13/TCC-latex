@@ -33,7 +33,7 @@ processamento de documentos fiscais desenvolvido pelo NUTES em parceria com a SE
 Essa classificação decorre do fato de que a pesquisa busca avaliar os efeitos da reestruturação dos 
 processos de ETL em um contexto real e específico.
 
-\section{A concretização da solução}
+\section{Desenvolvimento da solução}
 
 Após o levantamento da arquitetura existente e a identificação de suas limitações, iniciou-se o 
 desenvolvimento da nova solução de ETL proposta neste trabalho.
@@ -47,7 +47,7 @@ Com a arquitetura definida, iniciou-se a implementação dos pipelines de ETL pa
 Durante essa etapa, buscou-se estruturar os pipelines de forma modular, favorecendo a reutilização 
 de componentes e facilitando sua manutenção e evolução.
 
-\section{Procedimentos experimentais e análise}
+\section{Procedimentos experimentais}
 
 Após a implementação dos novos pipelines de ETL para o BDMalhas, foram coletadas métricas de número de 
 nós, dependências e profundidade dos fluxos por representarem indicadores da complexidade estrutural e 
@@ -62,6 +62,10 @@ fiscais processados pelo BDMalhas: NFe, NFCe, CTe e EFD. Para cada documento, fo
 cargas referentes aos períodos de sete dias, um mês e três meses, compreendidos entre 
 janeiro e março de 2020. Em cada cenário experimental, a mesma carga foi executada na solução legada e 
 na arquitetura proposta, utilizando o mesmo conjunto de dados. 
+
+Ademais, cada cenário experimental foi executado uma única vez, mantendo-se o mesmo ambiente 
+computacional e o mesmo conjunto de dados para garantir a comparabilidade dos resultados 
+obtidos.
 
 Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de 
 registros processados em cada experimento e ao tamanho final das bases analíticas. Os resultados
@@ -103,5 +107,3 @@ ClickHouse & 1 & 8 vCPUs & 16 GB & 410 GB SSD \\
 {\small Fonte: Elaborado pelo autor, 2026}
 
 \end{table}
-
-\section{quantas execuções foram feitas.....}
