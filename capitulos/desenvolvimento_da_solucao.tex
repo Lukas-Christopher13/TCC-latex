@@ -198,6 +198,20 @@ evolução dos fluxos de ETL como um todo.
 
 \subsection{Estrutura dos scripts Spark}
 
+Os scripts Spark são arquivos Python que contem a logica de execuçõa das dags. Esses scripts são
+enviados ao clusters e executados por ele, de modo que o Airflow não fica encarregado de realizar
+qualquer execução, ele apenas gerencia o fluxo das atividades, que realiza o trabalho pesado é o
+cluster Spark,
+
+De modo geral, esses scripts definem a sequência de etapas necessárias para a execução de cada tarefa. 
+Assim, sempre que for necessário modificar o fluxo de processamento, como a inclusão de uma etapa 
+adicional de validação antes da persistência dos dados no banco de destino, as alterações deverão 
+ser realizadas nesses arquivos.
+
+
+
+
+
 visão geral da estrutura da dags
 
 -imagem da dag
