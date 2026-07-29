@@ -149,6 +149,36 @@ destino.
 
 \subsection{Estrutura das dags}
 
+Durante as análises iniciais do projeto ETL, observou-se a existência de um padrão 
+recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os pipelines seguiam 
+uma sequência bem definida de etapas, repetida ao longo de grande parte do projeto: validação 
+inicial dos dados, carga efetiva das informações referentes ao documento fiscal em processamento, 
+contabilização dos registros inseridos no banco de dados, e atualização das informações na tabela 
+de logs.
+
+\begin{figure*}[ht!]
+    \centering
+    \caption{Exemplo de fluxo do projeto original}\label{fig:ex_task_siss}
+    \includegraphics[width=0.3\textwidth]{imagens/ex_task_siss.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure*}
+
+A Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão econtrado no projeto original. 
+No mais, a identificação dessa estrutura recorrente motivou o desenvolvimento de uma abstração
+que facilitasse a implementação da nova solução, alem de promover tanto o reaproveitamento tanto de 
+código quanto da lógica de negócio existente. Para isso, foi desenvolvida uma classe em 
+Python para facilitar a criação de tasks seguindo esse padrão. 
+
+A classe em questão, denominada \textit{BaseTask}, foi desenvolvida com o objetivo de facilitar a 
+implementação da nova solução e evitar a duplicação de código entre as tarefas do Airflow. Essa classe 
+permite a criação de tasks que seguem uma lógica de funcionamento padronizada: recebem parâmetros 
+opcionais de entrada, como valores numéricos ou cadeias de caracteres (\textit{strings}), executam 
+consultas SQL parametrizadas ou não e encaminham os resultados obtidos para as etapas subsequentes do 
+pipeline, podendo realizar ou não a persistência dos dados, conforme a necessidade de cada fluxo.
+
+
+
+
 visão geral da estrutura da dags
 
 -imagem da dag
