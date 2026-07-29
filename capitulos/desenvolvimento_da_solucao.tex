@@ -114,6 +114,52 @@ processamento distribuído dos dados e posterior inserção no ambiente de \text
 
 \section{Implementação dos pipelines de ETL}
 
+Antes de apresentar a implementação, é importante destacar que a solução desenvolvida buscou 
+preservar a lógica de negócio já existente no BDMalhas. Assim, as modificações concentraram-se 
+principalmente na infraestrutura e nas tecnologias empregadas, sem alterar as regras de negócio
+do sistema.
+
+\begin{figure*}[ht!]
+    \centering
+    \caption{Estrutura de diretorios do projeto}\label{fig:estrutura_diretorios}
+    \includegraphics[width=0.3\textwidth]{imagens/estrutura_de_diretorios.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure*}
+
+\subsection{Estrutura de diretorios}
+
+Inicialmente, foi estabelecida a estrutura de diretórios apresentada na Figura 
+\ref{fig:estrutura_diretorios}. Dentre os diretórios que compõem a solução, os mais relevantes 
+para a implementação são \textit{/dags}, \textit{/sql} e \textit{/scripts\_spark}, cada um 
+responsável por uma etapa específica da execução do projeto.
+
+O diretório \textit{/dags} concentra os arquivos responsáveis pela lógica de orquestração dos 
+pipelines, implementandos em Apache Airflow. Assim como os demais diretórios, sua estrutura 
+é organizada em quatro subdiretórios, cada um correspondente a um dos documentos fiscais 
+processados pelo BDMalhas. Em cada subdiretório encontram-se os arquivos Python que implementam
+o fluxo de execução das respectivas cargas.
+
+O diretório \textit{/sql}, por sua vez, armazena as consultas SQL utilizadas na extração dos 
+dados do Data Lake. Essas consultas são referenciadas e executadas pelas DAGs durante a etapa 
+de extração. Vale destacar que essas consultas são equivalentes as consultas do projeto original.
+
+Por fim, o diretório \textit{/scripts\_spark} reúne os scripts submetidos ao cluster Apache 
+Spark, responsáveis pela execução efetiva extração e inserção dos dados no banco de 
+destino.
+
+\subsection{Estrutura das dags}
+
+visão geral da estrutura da dags
+
+-imagem da dag
+
+-detalhanmento de compoentes da dag
+
+-Explicação da logica da construção das dags no ssis
+
+-Explicação da BaseTask
+
+-Imagem da Base Task
 
 
 
