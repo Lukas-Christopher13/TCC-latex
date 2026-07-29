@@ -159,7 +159,7 @@ de logs.
 \begin{figure*}[ht!]
     \centering
     \caption{Exemplo de fluxo do projeto original}\label{fig:ex_task_siss}
-    \includegraphics[width=0.3\textwidth]{imagens/ex_task_siss.png}\\
+    \includegraphics[width=0.4\textwidth]{imagens/ex_task_siss.png}\\
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
@@ -176,8 +176,27 @@ opcionais de entrada, como valores numéricos ou cadeias de caracteres (\textit{
 consultas SQL parametrizadas ou não e encaminham os resultados obtidos para as etapas subsequentes do 
 pipeline, podendo realizar ou não a persistência dos dados, conforme a necessidade de cada fluxo.
 
+\begin{figure*}[ht!]
+    \centering
+    \caption{Exemplo de objeto instanciado com a BaseTask}\label{fig:base_task}
+    \includegraphics[width=0.8\textwidth]{imagens/base_task_ex.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure*}
 
+A Figura \ref{fig:base_task} apresenta um exemplo real da utilização da classe \textit{BaseTask} na 
+criação de tasks Airflow. Após sua instanciação, é possível invocar um conjunto de métodos 
+responsáveis por configurar os principais aspectos da tarefa, como seu identificador, a consulta SQL a 
+ser executada, o script Spark submetido para processamento e a tabela de destino na qual os dados 
+resultantes da operação serão armazenados, além de outras configurações disponibilizadas pela classe.
 
+Concluido, a utilização da classe \textit{BaseTask} permitiu que a implementação das DAGs fosse 
+realizada de forma padronizada. Dessa forma, a construção dos pipelines passou a consistir, 
+principalmente, na definição da sequência de tarefas e de suas configurações, enquanto a lógica 
+comum de execução permaneceu encapsulada na própria classe. Essa abordagem favoreceu o 
+reaproveitamento de código, reduziu a duplicação de funcionalidades e simplificou a manutenção e a 
+evolução dos fluxos de ETL como um todo.
+
+\subsection{Estrutura dos scripts Spark}
 
 visão geral da estrutura da dags
 
