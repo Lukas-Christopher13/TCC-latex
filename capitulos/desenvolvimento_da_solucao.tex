@@ -161,12 +161,12 @@ fiscais sejam incorporados seguindo a mesma estrutura já estabelecida.
 
 \subsection{Estrutura das DAGs}
 
-Durante as análises iniciais do projeto ETL, observou-se a existência de um padrão
+Durante as análises iniciais do projeto original, observou-se a existência de um padrão
 recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os pipelines
 seguiam uma sequência bem definida de etapas, repetida ao longo de grande parte do projeto:
 validação inicial dos dados, carga efetiva das informações referentes ao documento fiscal em
 processamento, contabilização dos registros inseridos no banco de dados e atualização das
-informações na tabela de logs.
+informações na tabela de logs que realiza o controle das cargas.
 
 \begin{figure*}[ht!]
     \centering
@@ -175,24 +175,24 @@ informações na tabela de logs.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-A Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
-original. Durante a implementação da nova solução, verificou-se que uma migração direta para o
-Apache Airflow exigiria a criação de diversas tasks com estruturas muito semelhantes,
-diferenciando-se apenas por parâmetros específicos, como a consulta SQL executada, o script
-Spark responsável pelo processamento e a tabela de destino. Essa abordagem implicaria elevada
-duplicação de código e dificultaria a manutenção dos pipelines.
+Nesse contexto, a Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
+original. Ainda nesse contexto, foi verificado que uma migração direta para Apache Airflow acarretaria na 
+criação de diversas tasks com estruturas muito semelhantes, diferenciando-se apenas por parâmetros 
+específicos, como a consulta SQL a ser executada, o script Spark responsável pelo processamento e a tabela de 
+destino. Logo, a escolha da abordate da migração direta implicaria em uma elevada duplicação de código e 
+dificultaria a manutenção dos pipelines.
 
-Para solucionar esse problema, foi desenvolvida uma abstração denominada \textit{BaseTask},
-responsável por encapsular a lógica comum de criação das tasks do ETL. Em vez de instanciar
-diretamente os operadores disponibilizados pelo Airflow, cada tarefa passou a ser definida por
-meio da configuração de seus elementos específicos, enquanto a lógica comum de execução ficou
-centralizada na própria classe.
+Desse modo, para solucionar esse problema, foi desenvolvida uma abstração denominada \textit{BaseTask},
+uma classe abstrata responsável por encapsular a lógica comum de criação das tasks Airflow. Em vez de 
+instanciar diretamente os operadores disponibilizados pelo Airflow e criar seus respectivos metodos de
+execução, cada tarefa passou a ser definida por meio da configuração de elementos específicos, enquanto 
+a lógica comum de execução ficou centralizada na própria classe.
 
-A abstração foi projetada para suportar os principais tipos de tarefas presentes nos pipelines 
-do BDMalhas, incluindo tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
-do fluxo de ETL. Dessa forma, a implementação de novos pipelines passou a consistir, predominantemente, 
+Devmos destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
+no ETL do BDMalhas, incluindo as tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
+do fluxo de ETL. Com isso, a implementação de novos pipelines passou a consistir, predominantemente
 na configuração das tarefas necessárias, reutilizando a mesma estrutura de criação disponibilizada 
-pela classe.
+por esssa classe.
 
 \begin{figure*}[ht!]
     \centering
@@ -201,24 +201,32 @@ pela classe.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são definidos
-os parâmetros necessários para a execução da task, como seu identificador, a consulta SQL, o
-script Spark responsável pelo processamento, a tabela de destino e demais configurações
-específicas da carga. Após essa configuração, a própria \textit{BaseTask} instancia o operador
-mais adequado para a tarefa, retornando um \textit{PythonOperator} ou um
-\textit{SparkSubmitOperator}, conforme o tipo de processamento solicitado.
+Nesse contexto, conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
+definidos os parâmetros necessários para a criação da task Airflow, como seu identificador, o 
+caminho da consulta SQL, o caminho do script Spark responsável pelo processamento, a tabela de destino dos 
+dados e as demais configurações específicas da carga. Após essa configuração, podemos escolher atravez dos
+metodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de task Airflow que será craida,
+retornando um \textit{PythonOperator} ou um \textit{SparkSubmitOperator}, conforme o tipo de processamento 
+solicitado.
 
-Essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
-definição da sequência das tarefas e de seus respectivos parâmetros, enquanto toda a lógica
-comum de criação e configuração dos operadores permaneceu encapsulada na \textit{BaseTask}.
-Como consequência, reduziu-se significativamente a duplicação de código, simplificou-se a
-manutenção dos pipelines e tornou-se possível reutilizar essa abstração em outros projetos de
-ETL desenvolvidos no mesmo contexto.
+No mais, essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
+definição da sequência das tarefas e de seus respectivos parâmetros de criação, enquanto toda a lógica
+comum de criação e configuração dos operadores Airflow permaneceu encapsulada na \textit{BaseTask}.
+Por consequência, tivemos uma redução significativa na quantidade de código necessária para implementar 
+todo o novo sistema ETL do BDMalhas. Alem de que, a utilização da  \textit{BaseTask} tornou o desenvolvimento 
+do projeto bem mais ágil do que seria com uma implementação utilizando apenas os recursos 
+nativos do Airflow.
+
+Parei aqui.....
 
 Outra funcionalidade incorporada às classes base das DAGs foi o suporte à execução paralela das cargas 
 por meio do particionamento do intervalo de datas. Como as consultas utilizadas pelos pipelines 
 normalmente processam dados dentro de um período específico, tornou-se possível dividir um intervalo 
 maior em múltiplos subintervalos independentes.
+
+
+
+
 
 Para isso, foi implementado um mecanismo que recebe o período solicitado para a carga e o particiona 
 em uma quantidade configurável de intervalos, definida por meio de variáveis de ambiente. Em seguida, 
