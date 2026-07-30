@@ -116,8 +116,8 @@ processamento distribuído dos dados e posterior inserção no ambiente de \text
 
 Antes de apresentar a implementação, é importante destacar que a solução desenvolvida buscou 
 preservar a lógica de negócio já existente no BDMalhas. Assim, as modificações concentraram-se 
-principalmente na infraestrutura e nas tecnologias empregadas, sem alterar as regras de negócio
-do sistema.
+principalmente na reestruturação da arquitetura e nas tecnologias empregadas, sem alterar as regras 
+de negócio do sistema.
 
 \begin{figure*}[ht!]
     \centering
@@ -128,37 +128,36 @@ do sistema.
 
 \subsection{Estrutura de diretorios}
 
-Durante a implementação da nova solução, definiu-se uma estrutura de diretórios que refletisse a 
+Durante a implementação da nova solução, foi definida uma estrutura de diretórios capaz de refletir a 
 separação de responsabilidades entre os diferentes componentes do ETL. Essa organização teve como 
 objetivo facilitar a manutenção do sistema, reduzir o acoplamento entre seus módulos e permitir a 
-reutilização de componentes em diferentes pipelines.
+reutilização de componentes.
 
-Inicialmente, foi estabelecida a estrutura de diretórios apresentada na Figura 
-\ref{fig:estrutura_diretorios}. Dentre os diretórios que compõem a solução, os mais relevantes 
-para a implementação são \textit{/dags}, \textit{/sql} e \textit{/scripts\_spark}, cada um 
-responsável por uma etapa específica da execução do projeto.
+Para tal, foi estabelecida a estrutura de diretórios apresentada na Figura 
+\ref{fig:estrutura_diretorios}. Ademais, dentre os diretórios que compõem a solução, 
+podemos destacar os mais relevantes para a implementação como: \textit{/dags}, \textit{/sql} e 
+\textit{/scripts\_spark}, cada um responsável por uma etapa específica da execução do projeto.
 
 O diretório \textit{/dags} concentra exclusivamente os arquivos responsáveis pela orquestração dos 
-pipelines. Essa separação evita que regras de processamento fiquem acopladas ao fluxo de execução 
-definido pelo Airflow, permitindo que alterações na sequência das tarefas possam ser realizadas 
-independentemente da lógica de transformação dos dados.
+pipelines. Essa separação evita que regras de processamento fiquem acopladas ao fluxo de execução, 
+permitindo que alterações na sequência das tarefas possam ser realizadas independentemente da lógica 
+de transformação dos dados.
 
-As consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, em vez de serem 
-incorporadas ao código Python. Essa abordagem facilita a manutenção das consultas, permite sua 
-reutilização em diferentes pipelines e simplifica futuras alterações nas regras de extração sem a 
-necessidade de modificar a implementação das DAGs ou dos scripts Spark.
+Alem disso, as consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, 
+em vez de serem incorporadas diretamete ao código Python. Essa abordagem facilita a manutenção das 
+consultas, permite sua reutilização em diferentes pipelines e simplifica futuras alterações nas regras 
+de extração sem a necessidade de modificar a implementação das DAGs ou dos scripts Spark.
 
-Os scripts responsáveis pelo processamento foram isolados no diretório \textit{/scripts\_spark}, 
-mantendo a lógica de processamento desacoplada da camada de orquestração implementada pelo Airflow. 
-Dessa forma, cada componente passou a desempenhar uma única responsabilidade, permitindo que 
-modificações na lógica de transformação ou inserção dos dados fossem realizadas sem impactar a 
+Por suar vez, os scripts responsáveis pelo processamento dos dados foram isolados no diretório 
+\textit{/scripts\_spark}, mantendo toda a lógica de processamento desacoplada da camada de orquestração. 
+Dessa forma, cada componente passou a desempenhar uma única responsabilidade, permitindo que modificações 
+na lógica de extração, transformação e inserção dos dados, sejam realizadas sem que haja impacto na 
 definição dos pipelines.
 
-Além da separação por responsabilidade, cada um desses diretórios foi organizado em quatro 
-subdiretórios correspondentes aos documentos fiscais processados pelo BDMalhas. Essa organização foi 
-adotada para manter relacionados os artefatos pertencentes a um mesmo pipeline, simplificando sua 
-localização e permitindo que novos documentos fiscais sejam incorporados seguindo a mesma estrutura 
-já estabelecida.
+Por fim, vale resaltar que cada um desses diretórios foi organizado em quatro subdiretórios correspondentes 
+aos documentos fiscais processados pelo BDMalhas. Essa organização foi adotada para manter relacionados os 
+artefatos pertencentes a um mesmo pipeline, simplificando sua localização e permitindo que novos documentos 
+fiscais sejam incorporados seguindo a mesma estrutura já estabelecida.
 
 \subsection{Estrutura das DAGs}
 
