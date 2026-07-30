@@ -196,17 +196,22 @@ comum de execução permaneceu encapsulada na própria classe. Essa abordagem fa
 reaproveitamento de código, reduziu a duplicação de funcionalidades e simplificou a manutenção e a 
 evolução dos fluxos de ETL como um todo.
 
-\subsection{Estrutura dos scripts Spark}
+\subsection{Scripts Spark}
 
-Os scripts Spark são arquivos Python que contem a logica de execuçõa das dags. Esses scripts são
-enviados ao clusters e executados por ele, de modo que o Airflow não fica encarregado de realizar
-qualquer execução, ele apenas gerencia o fluxo das atividades, que realiza o trabalho pesado é o
-cluster Spark,
+Os scripts Spark são arquivos Python que contêm a lógica de execução utilizada pelas DAGs. Esses 
+scripts são enviados ao cluster e executados por ele, de modo que o Airflow não fica encarregado de 
+executar as cargas. Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o 
+Spark é responsável pela execução do processamento.
 
-De modo geral, esses scripts definem a sequência de etapas necessárias para a execução de cada tarefa. 
-Assim, sempre que for necessário modificar o fluxo de processamento, como a inclusão de uma etapa 
-adicional de validação antes da persistência dos dados no banco de destino, as alterações deverão 
-ser realizadas nesses arquivos.
+Com isso, foram desenvolvidos dois tipos de scripts para a implementação do ETL do BDMalhas. 
+O primeiro é responsável pela extração, transformação, inserção dos dados e pela validação inicial, 
+enquanto o segundo realiza a validação dos dados já carregados na base de destino.
+
+Esses scripts foram implementados como classes abstratas, permitindo sua extensão e o reaproveitamento
+de grande parte da lógica de funcionamento em outros scripts. Essa abordagem foi adotada porque os 
+demais scripts do projeto apresentam um funcionamento bastante semelhante, diferenciando-se apenas em 
+alguns comportamentos específicos.
+
 
 
 
