@@ -128,24 +128,37 @@ do sistema.
 
 \subsection{Estrutura de diretorios}
 
+Durante a implementação da nova solução, definiu-se uma estrutura de diretórios que refletisse a 
+separação de responsabilidades entre os diferentes componentes do ETL. Essa organização teve como 
+objetivo facilitar a manutenção do sistema, reduzir o acoplamento entre seus módulos e permitir a 
+reutilização de componentes em diferentes pipelines.
+
 Inicialmente, foi estabelecida a estrutura de diretórios apresentada na Figura 
 \ref{fig:estrutura_diretorios}. Dentre os diretórios que compõem a solução, os mais relevantes 
 para a implementação são \textit{/dags}, \textit{/sql} e \textit{/scripts\_spark}, cada um 
 responsável por uma etapa específica da execução do projeto.
 
-O diretório \textit{/dags} concentra os arquivos responsáveis pela lógica de orquestração dos 
-pipelines, implementandos em Apache Airflow. Assim como os demais diretórios, sua estrutura 
-é organizada em quatro subdiretórios, cada um correspondente a um dos documentos fiscais 
-processados pelo BDMalhas. Em cada subdiretório encontram-se os arquivos Python que implementam
-o fluxo de execução das respectivas cargas.
+O diretório \textit{/dags} concentra exclusivamente os arquivos responsáveis pela orquestração dos 
+pipelines. Essa separação evita que regras de processamento fiquem acopladas ao fluxo de execução 
+definido pelo Airflow, permitindo que alterações na sequência das tarefas possam ser realizadas 
+independentemente da lógica de transformação dos dados.
 
-O diretório \textit{/sql}, por sua vez, armazena as consultas SQL utilizadas na extração dos 
-dados do Data Lake. Essas consultas são referenciadas e executadas pelas DAGs durante a etapa 
-de extração. Vale destacar que essas consultas são equivalentes as consultas do projeto original.
+As consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, em vez de serem 
+incorporadas ao código Python. Essa abordagem facilita a manutenção das consultas, permite sua 
+reutilização em diferentes pipelines e simplifica futuras alterações nas regras de extração sem a 
+necessidade de modificar a implementação das DAGs ou dos scripts Spark.
 
-Por fim, o diretório \textit{/scripts\_spark} reúne os scripts submetidos ao cluster Apache 
-Spark, responsáveis pela execução efetiva extração e inserção dos dados no banco de 
-destino.
+Os scripts responsáveis pelo processamento foram isolados no diretório \textit{/scripts\_spark}, 
+mantendo a lógica de processamento desacoplada da camada de orquestração implementada pelo Airflow. 
+Dessa forma, cada componente passou a desempenhar uma única responsabilidade, permitindo que 
+modificações na lógica de transformação ou inserção dos dados fossem realizadas sem impactar a 
+definição dos pipelines.
+
+Além da separação por responsabilidade, cada um desses diretórios foi organizado em quatro 
+subdiretórios correspondentes aos documentos fiscais processados pelo BDMalhas. Essa organização foi 
+adotada para manter relacionados os artefatos pertencentes a um mesmo pipeline, simplificando sua 
+localização e permitindo que novos documentos fiscais sejam incorporados seguindo a mesma estrutura 
+já estabelecida.
 
 \subsection{Estrutura das dags}
 
