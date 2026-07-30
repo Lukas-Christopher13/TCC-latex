@@ -216,6 +216,27 @@ Como consequência, reduziu-se significativamente a duplicação de código, sim
 manutenção dos pipelines e tornou-se possível reutilizar essa abstração em outros projetos de
 ETL desenvolvidos no mesmo contexto.
 
+Outra funcionalidade incorporada às classes base das DAGs foi o suporte à execução paralela das cargas 
+por meio do particionamento do intervalo de datas. Como as consultas utilizadas pelos pipelines 
+normalmente processam dados dentro de um período específico, tornou-se possível dividir um intervalo 
+maior em múltiplos subintervalos independentes.
+
+Para isso, foi implementado um mecanismo que recebe o período solicitado para a carga e o particiona 
+em uma quantidade configurável de intervalos, definida por meio de variáveis de ambiente. Em seguida, 
+utilizando o recurso de *Dynamic Task Mapping* do Airflow, é criada uma tarefa para cada subintervalo, 
+permitindo que todas sejam executadas em paralelo. Como cada tarefa processa apenas uma fração do período 
+original, obtém-se melhor aproveitamento dos recursos computacionais disponíveis e reduz-se o tempo total 
+de execução das cargas.
+
+Além de definir o fluxo comum de execução, a classe abstrata também incorpora otimizações compartilhadas por 
+todos os pipelines. No sistema legado, a etapa de validação inicial executava uma consulta à base de origem para 
+obter métricas como quantidade de registros e valores mínimo e máximo das chaves. Em seguida, uma nova consulta 
+era realizada para extrair os dados utilizados na carga.
+
+Na implementação proposta, essa redundância foi eliminada. Os dados são consultados apenas uma vez e reutilizados
+tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários à base de 
+origem e tornando o processo de ETL mais eficiente.
+
 \subsection{Scripts Spark}
 
 Os scripts Spark são arquivos Python que contêm a lógica de execução utilizada pelas DAGs. Esses scripts 
@@ -237,22 +258,6 @@ inserção e validação inicial dos dados. Os scripts específicos de cada docu
 e sobrescrevem apenas os métodos responsáveis pelas particularidades de cada pipeline. Dessa forma, a criação de 
 novos pipelines exige apenas a implementação das diferenças específicas de cada documento, mantendo inalterada a 
 estrutura geral de processamento.
-
-
-
-visão geral da estrutura da dags
-
--imagem da dag
-
--detalhanmento de compoentes da dag
-
--Explicação da logica da construção das dags no ssis
-
--Explicação da BaseTask
-
--Imagem da Base Task
-
-
 
 \section{Benefícios e considerações Arquiteturais}
 
