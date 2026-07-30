@@ -160,14 +160,14 @@ adotada para manter relacionados os artefatos pertencentes a um mesmo pipeline, 
 localização e permitindo que novos documentos fiscais sejam incorporados seguindo a mesma estrutura 
 já estabelecida.
 
-\subsection{Estrutura das dags}
+\subsection{Estrutura das DAGs}
 
-Durante as análises iniciais do projeto ETL, observou-se a existência de um padrão 
-recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os pipelines seguiam 
-uma sequência bem definida de etapas, repetida ao longo de grande parte do projeto: validação 
-inicial dos dados, carga efetiva das informações referentes ao documento fiscal em processamento, 
-contabilização dos registros inseridos no banco de dados, e atualização das informações na tabela 
-de logs.
+Durante as análises iniciais do projeto ETL, observou-se a existência de um padrão
+recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os pipelines
+seguiam uma sequência bem definida de etapas, repetida ao longo de grande parte do projeto:
+validação inicial dos dados, carga efetiva das informações referentes ao documento fiscal em
+processamento, contabilização dos registros inseridos no banco de dados e atualização das
+informações na tabela de logs.
 
 \begin{figure*}[ht!]
     \centering
@@ -176,18 +176,24 @@ de logs.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-A Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão econtrado no projeto original. 
-No mais, a identificação dessa estrutura recorrente motivou o desenvolvimento de uma abstração
-que facilitasse a implementação da nova solução, alem de promover tanto o reaproveitamento tanto de 
-código quanto da lógica de negócio existente. Para isso, foi desenvolvida uma classe em 
-Python para facilitar a criação de tasks seguindo esse padrão. 
+A Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
+original. Durante a implementação da nova solução, verificou-se que uma migração direta para o
+Apache Airflow exigiria a criação de diversas tasks com estruturas muito semelhantes,
+diferenciando-se apenas por parâmetros específicos, como a consulta SQL executada, o script
+Spark responsável pelo processamento e a tabela de destino. Essa abordagem implicaria elevada
+duplicação de código e dificultaria a manutenção dos pipelines.
 
-A classe em questão, denominada \textit{BaseTask}, foi desenvolvida com o objetivo de facilitar a 
-implementação da nova solução e evitar a duplicação de código entre as tarefas do Airflow. Essa classe 
-permite a criação de tasks que seguem uma lógica de funcionamento padronizada: recebem parâmetros 
-opcionais de entrada, como valores numéricos ou cadeias de caracteres (\textit{strings}), executam 
-consultas SQL parametrizadas ou não e encaminham os resultados obtidos para as etapas subsequentes do 
-pipeline, podendo realizar ou não a persistência dos dados, conforme a necessidade de cada fluxo.
+Para solucionar esse problema, foi desenvolvida uma abstração denominada \textit{BaseTask},
+responsável por encapsular a lógica comum de criação das tasks do ETL. Em vez de instanciar
+diretamente os operadores disponibilizados pelo Airflow, cada tarefa passou a ser definida por
+meio da configuração de seus elementos específicos, enquanto a lógica comum de execução ficou
+centralizada na própria classe.
+
+A abstração foi projetada para suportar os principais tipos de tarefas presentes nos pipelines 
+do BDMalhas, incluindo tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
+do fluxo de ETL. Dessa forma, a implementação de novos pipelines passou a consistir, predominantemente, 
+na configuração das tarefas necessárias, reutilizando a mesma estrutura de criação disponibilizada 
+pela classe.
 
 \begin{figure*}[ht!]
     \centering
@@ -196,18 +202,19 @@ pipeline, podendo realizar ou não a persistência dos dados, conforme a necessi
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-A Figura \ref{fig:base_task} apresenta um exemplo real da utilização da classe \textit{BaseTask} na 
-criação de tasks Airflow. Após sua instanciação, é possível invocar um conjunto de métodos 
-responsáveis por configurar os principais aspectos da tarefa, como seu identificador, a consulta SQL a 
-ser executada, o script Spark submetido para processamento e a tabela de destino na qual os dados 
-resultantes da operação serão armazenados, além de outras configurações disponibilizadas pela classe.
+Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são definidos
+os parâmetros necessários para a execução da task, como seu identificador, a consulta SQL, o
+script Spark responsável pelo processamento, a tabela de destino e demais configurações
+específicas da carga. Após essa configuração, a própria \textit{BaseTask} instancia o operador
+mais adequado para a tarefa, retornando um \textit{PythonOperator} ou um
+\textit{SparkSubmitOperator}, conforme o tipo de processamento solicitado.
 
-Concluido, a utilização da classe \textit{BaseTask} permitiu que a implementação das DAGs fosse 
-realizada de forma padronizada. Dessa forma, a construção dos pipelines passou a consistir, 
-principalmente, na definição da sequência de tarefas e de suas configurações, enquanto a lógica 
-comum de execução permaneceu encapsulada na própria classe. Essa abordagem favoreceu o 
-reaproveitamento de código, reduziu a duplicação de funcionalidades e simplificou a manutenção e a 
-evolução dos fluxos de ETL como um todo.
+Essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
+definição da sequência das tarefas e de seus respectivos parâmetros, enquanto toda a lógica
+comum de criação e configuração dos operadores permaneceu encapsulada na \textit{BaseTask}.
+Como consequência, reduziu-se significativamente a duplicação de código, simplificou-se a
+manutenção dos pipelines e tornou-se possível reutilizar essa abstração em outros projetos de
+ETL desenvolvidos no mesmo contexto.
 
 \subsection{Scripts Spark}
 
@@ -224,10 +231,6 @@ Esses scripts foram implementados como classes abstratas, permitindo sua extens�
 de grande parte da lógica de funcionamento em outros scripts. Essa abordagem foi adotada porque os 
 demais scripts do projeto apresentam um funcionamento bastante semelhante, diferenciando-se apenas em 
 alguns comportamentos específicos.
-
-
-
-
 
 
 visão geral da estrutura da dags
