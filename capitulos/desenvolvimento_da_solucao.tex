@@ -217,43 +217,51 @@ todo o novo sistema ETL do BDMalhas. Alem de que, a utilização da  \textit{Bas
 do projeto bem mais ágil do que seria com uma implementação utilizando apenas os recursos 
 nativos do Airflow.
 
-Parei aqui.....
-
-Outra funcionalidade incorporada às classes base das DAGs foi o suporte à execução paralela das cargas 
-por meio do particionamento do intervalo de datas. Como as consultas utilizadas pelos pipelines 
-normalmente processam dados dentro de um período específico, tornou-se possível dividir um intervalo 
-maior em múltiplos subintervalos independentes.
-
-
-
-
+Outra funcionalidade incorporada \textit{BaseTask} foi o suporte à execução paralela das cargas 
+por meio do particionamento do intervalo de tempo. Dado que grande parte das consultas do pipeline
+original processam dados a partir de um intervalo de tempo. Como isso, tornou-se possível dividir um 
+intervalo maior em múltiplos subintervalos independentes.
 
 Para isso, foi implementado um mecanismo que recebe o período solicitado para a carga e o particiona 
-em uma quantidade configurável de intervalos, definida por meio de variáveis de ambiente. Em seguida, 
-utilizando o recurso de *Dynamic Task Mapping* do Airflow, é criada uma tarefa para cada subintervalo, 
-permitindo que todas sejam executadas em paralelo. Como cada tarefa processa apenas uma fração do período 
-original, obtém-se melhor aproveitamento dos recursos computacionais disponíveis e reduz-se o tempo total 
-de execução das cargas.
+em um numero configurável de intervalos a ser definido pelo usuário do sistema. Em seguida, foi
+utilizando o recurso de \textit{Dynamic Task Mapping} do Airflow para criar um conjunto de tarefas 
+"clone", cada qual referente a um dos intervalos. Desse modo, podemos particionar uma tarefa maior em
+um conjunto de tarefas menores que são executadas em paralelo.
 
-Além de definir o fluxo comum de execução, a classe abstrata também incorpora otimizações compartilhadas por 
-todos os pipelines. No sistema legado, a etapa de validação inicial executava uma consulta à base de origem para 
-obter métricas como quantidade de registros e valores mínimo e máximo das chaves. Em seguida, uma nova consulta 
-era realizada para extrair os dados utilizados na carga.
+\begin{figure*}[ht!]
+    \centering
+    \caption{Exemplo de Task particionada por intervalo de tempo}\label{fig:task_p_by_time}
+    \includegraphics[width=1\textwidth]{imagens/ex_task_loop.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure*}
 
-Na implementação proposta, essa redundância foi eliminada. Os dados são consultados apenas uma vez e reutilizados
-tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários à base de 
-origem e tornando o processo de ETL mais eficiente.
+Dessa forma, cada tarefa processa apenas uma fração do período original, levando a um menor tempo de 
+execução das cargas. No mais, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
+em seis partes que são executadas em paralelo.
 
 \subsection{Scripts Spark}
 
 Os scripts Spark são arquivos Python que contêm a lógica de execução utilizada pelas DAGs. Esses scripts 
-são enviados ao cluster e executados por ele, de modo que o Airflow não fica encarregado de executar as cargas. 
-Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o Spark é responsável pela 
-execução do processamento.
+são enviados ao cluster e em seguida são executados, de modo que o Airflow não fica encarregado de executar 
+as cargas em si. Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o Spark é 
+responsável pela execução do trabalho pesado.
 
-Com isso, foram desenvolvidos dois tipos de scripts para a implementação do ETL do BDMalhas. O primeiro é 
-responsável pela extração, transformação, inserção dos dados e pela validação inicial, enquanto o segundo 
-realiza a validação dos dados já carregados na base de destino.
+estava trabalhando aqui...
+
+Com isso mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das tasks do BDMalhas. 
+O primeiro tipo de script, o \textit{script\_abs.py}, é responsável pela extração, transformação e inserção dos, 
+alem de realizar validação inicial dos dados no banco de origem, enquanto o segundo script, o 
+\textit{log\_script\_abs.py}, realiza a validação dos dados já carregados na base de destino.
+
+Vale resaltar que no sistema legado a etapa de validação inicial dos dados era executada separada da carga dos dados. 
+No mais, essa etapa busca obter métricas como quantidade de registros e valores mínimo e máximo dos sequenciais dos 
+registros para fins a serem carregados para fins de validação. 
+
+Parei aqui....
+
+Na implementação proposta, essa redundância foi eliminada. Os dados são consultados apenas uma vez e reutilizados
+tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários à base de 
+origem e tornando o processo de ETL mais eficiente.
 
 Esses scripts foram implementados como classes abstratas, permitindo sua extensão e o reaproveitamento de 
 grande parte da lógica de funcionamento em outros scripts. Essa abordagem foi adotada porque os demais scripts 
@@ -291,3 +299,4 @@ BDMalhas por meio da adoção de tecnologias voltadas ao processamento distribu�
 orquestração de pipelines, estabelecendo uma base mais escalável e flexível para os 
 processos de ETL. Na sequência, é apresentada uma avaliação dos resultados obtidos com essa 
 reestruturação, por meio da comparação entre o sistema original e o sistema desenvolvido.
+
