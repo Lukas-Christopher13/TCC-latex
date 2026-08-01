@@ -246,33 +246,24 @@ são enviados ao cluster e em seguida são executados, de modo que o Airflow nã
 as cargas em si. Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o Spark é 
 responsável pela execução do trabalho pesado.
 
-estava trabalhando aqui...
-
 Com isso mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das tasks do BDMalhas. 
-O primeiro tipo de script, o \textit{script\_abs.py}, é responsável pela extração, transformação e inserção dos, 
-alem de realizar validação inicial dos dados no banco de origem, enquanto o segundo script, o 
+O primeiro tipo de script, o \textit{script\_abs.py}, é responsável pela extração, transformação e inserção dos
+dados, alem de realizar validação inicial no banco de dados de origem, enquanto o segundo script, o 
 \textit{log\_script\_abs.py}, realiza a validação dos dados já carregados na base de destino.
-
-Vale resaltar que no sistema legado a etapa de validação inicial dos dados era executada separada da carga dos dados. 
-No mais, essa etapa busca obter métricas como quantidade de registros e valores mínimo e máximo dos sequenciais dos 
-registros para fins a serem carregados para fins de validação. 
-
-Parei aqui....
-
-Na implementação proposta, essa redundância foi eliminada. Os dados são consultados apenas uma vez e reutilizados
-tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários à base de 
-origem e tornando o processo de ETL mais eficiente.
 
 Esses scripts foram implementados como classes abstratas, permitindo sua extensão e o reaproveitamento de 
 grande parte da lógica de funcionamento em outros scripts. Essa abordagem foi adotada porque os demais scripts 
 do projeto apresentam um funcionamento bastante semelhante, diferenciando-se apenas em alguns comportamentos 
 específicos.
 
-A classe abstrata define o fluxo comum de execução das cargas, contemplando etapas como extração, transformação, 
-inserção e validação inicial dos dados. Os scripts específicos de cada documento fiscal herdam essa implementação
-e sobrescrevem apenas os métodos responsáveis pelas particularidades de cada pipeline. Dessa forma, a criação de 
-novos pipelines exige apenas a implementação das diferenças específicas de cada documento, mantendo inalterada a 
-estrutura geral de processamento.
+Ademais, os \textit{scripts\_spark} foram utilizadas para elimincar redundancias do projeto original.
+Temos que no sistema legado a etapa de validação inicial dos dados era executada separada da carga dos dados. 
+No mais, essa etapa busca obter métricas como quantidade de registros e valores mínimo e máximo dos sequenciais dos 
+registros para fins a serem carregados para fins de validação. 
+
+Na implementação proposta, essa redundância foi eliminada. Os dados passaram a ser consultados apenas uma vez e 
+reutilizados tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários 
+à base de origem e tornando o processo de ETL mais eficiente.
 
 \section{Benefícios e considerações Arquiteturais}
 
