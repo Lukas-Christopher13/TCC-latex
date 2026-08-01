@@ -121,12 +121,12 @@ de negócio do sistema.
 
 \begin{figure*}[ht!]
     \centering
-    \caption{Estrutura de diretorios do projeto}\label{fig:estrutura_diretorios}
+    \caption{Estrutura de diretórios do projeto}\label{fig:estrutura_diretorios}
     \includegraphics[width=0.3\textwidth]{imagens/estrutura_de_diretorios.png}\\
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-\subsection{Estrutura de diretorios}
+\subsection{Estrutura de diretórios}
 
 Durante a implementação da nova solução, foi definida uma estrutura de diretórios capaz de refletir a 
 separação de responsabilidades entre os diferentes componentes do ETL. Essa organização teve como 
@@ -135,7 +135,7 @@ reutilização de componentes.
 
 Para tal, foi estabelecida a estrutura de diretórios apresentada na Figura 
 \ref{fig:estrutura_diretorios}. Ademais, dentre os diretórios que compõem a solução, 
-podemos destacar os mais relevantes para a implementação como: \textit{/dags}, \textit{/sql} e 
+podemos destacar os mais relevantes para a implementação: \textit{/dags}, \textit{/sql} e 
 \textit{/scripts\_spark}, cada um responsável por uma etapa específica da execução do projeto.
 
 O diretório \textit{/dags} concentra exclusivamente os arquivos responsáveis pela orquestração dos 
@@ -143,18 +143,18 @@ pipelines. Essa separação evita que regras de processamento fiquem acopladas a
 permitindo que alterações na sequência das tarefas possam ser realizadas independentemente da lógica 
 de transformação dos dados.
 
-Alem disso, as consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, 
-em vez de serem incorporadas diretamete ao código Python. Essa abordagem facilita a manutenção das 
+Além disso, as consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, 
+em vez de serem incorporadas diretamente ao código Python. Essa abordagem facilita a manutenção das 
 consultas, permite sua reutilização em diferentes pipelines e simplifica futuras alterações nas regras 
 de extração sem a necessidade de modificar a implementação das DAGs ou dos scripts Spark.
 
-Por suar vez, os scripts responsáveis pelo processamento dos dados foram isolados no diretório 
+Por sua vez, os scripts responsáveis pelo processamento dos dados foram isolados no diretório 
 \textit{/scripts\_spark}, mantendo toda a lógica de processamento desacoplada da camada de orquestração. 
 Dessa forma, cada componente passou a desempenhar uma única responsabilidade, permitindo que modificações 
-na lógica de extração, transformação e inserção dos dados, sejam realizadas sem que haja impacto na 
+na lógica de extração, transformação e inserção dos dados sejam realizadas sem que haja impacto na 
 definição dos pipelines.
 
-Por fim, vale resaltar que cada um desses diretórios foi organizado em quatro subdiretórios correspondentes 
+Por fim, vale ressaltar que cada um desses diretórios foi organizado em quatro subdiretórios correspondentes 
 aos documentos fiscais processados pelo BDMalhas. Essa organização foi adotada para manter relacionados os 
 artefatos pertencentes a um mesmo pipeline, simplificando sua localização e permitindo que novos documentos 
 fiscais sejam incorporados seguindo a mesma estrutura já estabelecida.
@@ -176,23 +176,23 @@ informações na tabela de logs que realiza o controle das cargas.
 \end{figure*}
 
 Nesse contexto, a Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
-original. Ainda nesse contexto, foi verificado que uma migração direta para Apache Airflow acarretaria na 
+original. Além disso, foi verificado que uma migração direta para Apache Airflow acarretaria a 
 criação de diversas tasks com estruturas muito semelhantes, diferenciando-se apenas por parâmetros 
 específicos, como a consulta SQL a ser executada, o script Spark responsável pelo processamento e a tabela de 
-destino. Logo, a escolha da abordate da migração direta implicaria em uma elevada duplicação de código e 
+destino. Logo, a escolha da abordagem de migração direta implicaria uma elevada duplicação de código e 
 dificultaria a manutenção dos pipelines.
 
 Desse modo, para solucionar esse problema, foi desenvolvida uma abstração denominada \textit{BaseTask},
 uma classe abstrata responsável por encapsular a lógica comum de criação das tasks Airflow. Em vez de 
-instanciar diretamente os operadores disponibilizados pelo Airflow e criar seus respectivos metodos de
+instanciar diretamente os operadores disponibilizados pelo Airflow e criar seus respectivos métodos de
 execução, cada tarefa passou a ser definida por meio da configuração de elementos específicos, enquanto 
 a lógica comum de execução ficou centralizada na própria classe.
 
-Devmos destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
+Devemos destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
 no ETL do BDMalhas, incluindo as tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
-do fluxo de ETL. Com isso, a implementação de novos pipelines passou a consistir, predominantemente
+do fluxo de ETL. Com isso, a implementação de novos pipelines passou a consistir, predominantemente,
 na configuração das tarefas necessárias, reutilizando a mesma estrutura de criação disponibilizada 
-por esssa classe.
+por essa classe.
 
 \begin{figure*}[ht!]
     \centering
@@ -201,30 +201,30 @@ por esssa classe.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-Nesse contexto, conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
+Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
 definidos os parâmetros necessários para a criação da task Airflow, como seu identificador, o 
 caminho da consulta SQL, o caminho do script Spark responsável pelo processamento, a tabela de destino dos 
-dados e as demais configurações específicas da carga. Após essa configuração, podemos escolher atravez dos
-metodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de task Airflow que será craida,
+dados e as demais configurações específicas da carga. Após essa configuração, podemos escolher através dos
+métodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de task Airflow que será criada,
 retornando um \textit{PythonOperator} ou um \textit{SparkSubmitOperator}, conforme o tipo de processamento 
 solicitado.
 
-No mais, essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
+Ademais, essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
 definição da sequência das tarefas e de seus respectivos parâmetros de criação, enquanto toda a lógica
 comum de criação e configuração dos operadores Airflow permaneceu encapsulada na \textit{BaseTask}.
-Por consequência, tivemos uma redução significativa na quantidade de código necessária para implementar 
-todo o novo sistema ETL do BDMalhas. Alem de que, a utilização da  \textit{BaseTask} tornou o desenvolvimento 
+Como consequência, tivemos uma redução significativa na quantidade de código necessária para implementar 
+todo o novo sistema ETL do BDMalhas. Além disso, a utilização da \textit{BaseTask} tornou o desenvolvimento 
 do projeto bem mais ágil do que seria com uma implementação utilizando apenas os recursos 
 nativos do Airflow.
 
-Outra funcionalidade incorporada \textit{BaseTask} foi o suporte à execução paralela das cargas 
+Outra funcionalidade incorporada à \textit{BaseTask} foi o suporte à execução paralela das cargas 
 por meio do particionamento do intervalo de tempo. Dado que grande parte das consultas do pipeline
-original processam dados a partir de um intervalo de tempo. Como isso, tornou-se possível dividir um 
+original processa dados a partir de um intervalo de tempo, tornou-se possível dividir um 
 intervalo maior em múltiplos subintervalos independentes.
 
 Para isso, foi implementado um mecanismo que recebe o período solicitado para a carga e o particiona 
-em um numero configurável de intervalos a ser definido pelo usuário do sistema. Em seguida, foi
-utilizando o recurso de \textit{Dynamic Task Mapping} do Airflow para criar um conjunto de tarefas 
+em um número configurável de intervalos a ser definido pelo usuário do sistema. Em seguida, foi
+utilizado o recurso de \textit{Dynamic Task Mapping} do Airflow para criar um conjunto de tarefas 
 "clone", cada qual referente a um dos intervalos. Desse modo, podemos particionar uma tarefa maior em
 um conjunto de tarefas menores que são executadas em paralelo.
 
@@ -236,7 +236,7 @@ um conjunto de tarefas menores que são executadas em paralelo.
 \end{figure*}
 
 Dessa forma, cada tarefa processa apenas uma fração do período original, levando a um menor tempo de 
-execução das cargas. No mais, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
+execução das cargas. Por sua vez, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
 em seis partes que são executadas em paralelo.
 
 \subsection{Scripts Spark}
@@ -246,9 +246,9 @@ são enviados ao cluster e em seguida são executados, de modo que o Airflow nã
 as cargas em si. Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o Spark é 
 responsável pela execução do trabalho pesado.
 
-Com isso mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das tasks do BDMalhas. 
+Com isso em mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das tasks do BDMalhas. 
 O primeiro tipo de script, o \textit{script\_abs.py}, é responsável pela extração, transformação e inserção dos
-dados, alem de realizar validação inicial no banco de dados de origem, enquanto o segundo script, o 
+dados, além de realizar a validação inicial no banco de dados de origem, enquanto o segundo script, o 
 \textit{log\_script\_abs.py}, realiza a validação dos dados já carregados na base de destino.
 
 Esses scripts foram implementados como classes abstratas, permitindo sua extensão e o reaproveitamento de 
@@ -256,10 +256,10 @@ grande parte da lógica de funcionamento em outros scripts. Essa abordagem foi a
 do projeto apresentam um funcionamento bastante semelhante, diferenciando-se apenas em alguns comportamentos 
 específicos.
 
-Ademais, os \textit{scripts\_spark} foram utilizadas para elimincar redundancias do projeto original.
-Temos que no sistema legado a etapa de validação inicial dos dados era executada separada da carga dos dados. 
-No mais, essa etapa busca obter métricas como quantidade de registros e valores mínimo e máximo dos sequenciais dos 
-registros para fins a serem carregados para fins de validação. 
+Ademais, os \textit{scripts\_spark} foram utilizados para eliminar redundâncias do projeto original.
+No sistema legado, a etapa de validação inicial dos dados era executada separadamente da carga. 
+De fato, essa etapa visava obter métricas como a quantidade de registros e os valores mínimo e máximo dos sequenciais 
+para fins de validação dos dados a serem carregados.
 
 Na implementação proposta, essa redundância foi eliminada. Os dados passaram a ser consultados apenas uma vez e 
 reutilizados tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários 
