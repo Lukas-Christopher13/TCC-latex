@@ -265,29 +265,100 @@ Na implementação proposta, essa redundância foi eliminada. Os dados passaram 
 reutilizados tanto na validação inicial quanto nas etapas de transformação e carga, evitando acessos desnecessários 
 à base de origem e tornando o processo de ETL mais eficiente.
 
-\section{Benefícios e considerações Arquiteturais}
+\section{Decisões arquiteturais da implementação}
 
-A adoção de Airflow é justificada por proporcionar um ambiente mais flexível e 
-desacoplado para construção e manutenção dos pipelines de ETL, permitindo que os 
-fluxos sejam desenvolvidos de forma programática, diferentemente da abordagem utilizada 
-pelo SSIS. Além disso, a ferramenta disponibiliza aos administradores recursos nativos de 
-monitoramento das execuções, rastreamento de falhas e gerenciamento operacional dos 
-pipelines, contribuindo para maior controle e confiabilidade do processo.
+Ademais, diversas decisões arquiteturais foram adotadas para tornar o sistema do novo BDMlhas modular, 
+escalável e de fácil manutenção. Essas decisões orientaram tanto a arquitetura quanto a implementação  
+dos pipelines de ETL, influenciando diretamente a organização e os componentes do nova sistema.
 
-Junto a isso, destaca-se a adoção do Apache Spark como mecanismo de processamento 
-distribuído, com o objetivo de viabilizar o processamento eficiente dos dados em tempo 
-hábil, além de permitir escalabilidade horizontal conforme o aumento da demanda 
-computacional. Essa abordagem atende diretamente às necessidades dos fiscais, que 
-dependem do acesso rápido e confiável às informações processadas para execução de suas 
-atividades de fiscalização.
+Uma das primeiras decisões tomadas durante o desenvolvimento do projeto foi a definição da \textit{stack} de
+tecnologias a ser utilizada. Optou-se pelo Apache Airflow como plataforma de orquestração dos pipelines, 
+pelo Apache Spark como mecanismo de processamento distribuído e, posteriormente, pelo ClickHouse como 
+banco de dados analítico de destino. Além disso, a fonte de dados foi alterada dos bancos pertencentes ao 
+sistema ATF para o Data Lake implementado em PostgreSQL.
 
-Dessa forma, a combinação entre Airflow e Spark permite construir uma arquitetura mais 
-robusta, escalável e aderente às demandas operacionais e estratégicas da secretaria e do 
-sistema BDMalhas.
+O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxo por permite que os 
+pipelines sejam definidos de forma programática com a linguagem de programção Python, algo que 
+não ocorria na abordagem utilizada pelo SSIS.
 
-Em síntese, a arquitetura proposta consolida a reestruturação da plataforma de dados do 
-BDMalhas por meio da adoção de tecnologias voltadas ao processamento distribuído e à 
-orquestração de pipelines, estabelecendo uma base mais escalável e flexível para os 
-processos de ETL. Na sequência, é apresentada uma avaliação dos resultados obtidos com essa 
-reestruturação, por meio da comparação entre o sistema original e o sistema desenvolvido.
+Essa abordagem é especiamente vantajosa por favorecendo a reutilização de código e por dar mais liberdade
+aos desenvovedore de poderam criar susas proprias soluções personalizadas. No mais a ferramenta disponibiliza
+recursos nativos para monitoramento das execuções, rastreamento de falhas e gerenciamento operacional dos 
+pipelines, centralizando controle das cargas em uma única plataforma.
 
+Além disso, diferentemente do SSIS, cuja disponibilidade de profissionais qualificados é mais limitada, o 
+Apache Airflow integra o ecossistema moderno de Big Data e Engenharia de Dados, contando com uma comunidade 
+significativamente maior de desenvolvedores. 
+
+Somado a isso, a utilização da linguagem Python na implementação dos pipelines permite que desenvolvedores 
+com experiência nessa linguagem se adaptem rapidamente ao uso do Airflow. Dessa forma, problemas 
+relacionados à manutenção da equipe e à substituição de profissionais tendem a ocorrer com menor frequência,
+em razão da maior disponibilidade de profissionais qualificados para trabalhar com essas tecnologias.
+
+Outro fator que levou a escolha do Apache Airflow foi a sua capacidade de se integrar com ferramentas
+de processamento distribuido como o Apache Spark. Inclusive uma das pricipais decisões arquiteturais
+tomadas para a reestruturação do ETL do BDMalhas foi a utilização do Spark. 
+
+A utilização do Apache Spark foi motivada principalmente pela necessidade de processar grandes volumes de 
+dados de forma rápida e eficiente. Como o Spark utiliza uma arquitetura distribuída, é possível empregar 
+múltiplos \textit{nodes} computacionais trabalhando em conjunto, aumentando a capacidade de processamento 
+da solução e reduzindo o tempo necessário para a execução das cargas de ETL.
+
+Além disso, como o Spark utiliza uma arquitetura distribuída, a solução passou a permitir a execução 
+paralela das cargas e a expansão horizontal da capacidade computacional por meio da adição de novos nós 
+ao \textit{cluster}, característica especialmente importante à medida que o volume de dados processados 
+aumenta.
+
+Por fim, como forma de diminuir ainda mais o tempo de execução das cargas para o novo BDMalhas foi ralizado
+a troca do banco de dados de destino dos dados de uma solução relacional com o  Microsoft SQLServer para um
+banco de dados colunar, mais epecificamente o Clickhouse.
+
+O ClickHouse foi escolhido em detrimento das soluções baseadas em bancos de dados relacionais por apresentar 
+tempos de inserção significativamente inferiores para grandes volumes de dados. A Tabela 
+\ref{tab:comparacao_insercao} evidencia esse comportamento ao comparar os tempos de inserção obtidos para 
+diferentes quantidades de registros em um banco PostgreSQL e em um banco ClickHouse.
+
+%-------------------
+%-----Tabela--------
+
+\begin{table}[htb]
+\centering
+\caption{Comparação do tempo de inserção entre PostgreSQL e ClickHouse.}
+\label{tab:comparacao_insercao}
+
+\footnotesize
+\renewcommand{\arraystretch}{1.2}
+
+\newcolumntype{Y}{>{\centering\arraybackslash}X}
+
+\begin{tabularx}{\textwidth}{|p{5.0cm}|Y|Y|}
+\hline
+\textbf{Quantidade de Registros} & \textbf{PostgreSQL (s)} & \textbf{ClickHouse (s)} \\
+\hline
+100\,000   & 10.6130 & 0.1759 \\
+\hline
+200\,000   & 22.1700 & 0.3773 \\
+\hline
+500\,000   & 53.1294 & 0.9095 \\
+\hline
+1\,000\,000 & 106.7120 & 1.5910 \\
+\hline
+\end{tabularx}
+
+\vspace{0.5em}
+{\small Fonte: Elaborado pelo autor, 2026}
+
+\end{table}
+
+Ademais, esses experimentos foram realizados em um computador equipado com processador AMD Ryzen 5 5600GT, 
+16 GB de memória RAM DDR4 e unidade de armazenamento SSD de 1 TB. 
+
+Diante desse comportamento, e considerando que o BDMalhas processa grandes volumes de dados, a adoção do 
+ClickHouse mostrou-se a alternativa mais adequada. Por se tratar de um banco de dados colunar voltado para 
+cargas de trabalho analíticas, sua arquitetura é otimizada para operações de inserção e leitura em larga 
+escala, proporcionando elevado desempenho no processamento de grandes conjuntos de dados.
+
+Por fim, essas decisões arquiteturais resultaram em uma solução mais modular e flexível, facilitando a 
+manutenção dos pipelines, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
+de processamento do BDMalhas. No capítulo seguinte, os impactos dessas decisões são avaliados por meio da 
+comparação entre a arquitetura legada e a arquitetura proposta, com base nas métricas definidas na metodologia.
