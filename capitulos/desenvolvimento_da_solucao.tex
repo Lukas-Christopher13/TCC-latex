@@ -267,56 +267,52 @@ reutilizados tanto na validação inicial quanto nas etapas de transformação e
 
 \section{Decisões arquiteturais da implementação}
 
-Ademais, diversas decisões arquiteturais foram adotadas para tornar o sistema do novo BDMlhas modular, 
-escalável e de fácil manutenção. Essas decisões orientaram tanto a arquitetura quanto a implementação  
-dos pipelines de ETL, influenciando diretamente a organização e os componentes do nova sistema.
+Diversas decisões arquiteturais foram adotadas para tornar o sistema do novo BDMalhas modular, 
+escalável e de fácil manutenção. Essas decisões orientaram tanto a arquitetura quanto a implementação 
+dos pipelines de ETL, influenciando diretamente a organização e os componentes do novo sistema.
 
-Uma das primeiras decisões tomadas durante o desenvolvimento do projeto foi a definição da \textit{stack} de
+Uma das primeiras decisões tomadas durante o desenvolvimento do projeto foi a definição da \textit{stack} de 
 tecnologias a ser utilizada. Optou-se pelo Apache Airflow como plataforma de orquestração dos pipelines, 
-pelo Apache Spark como mecanismo de processamento distribuído e, posteriormente, pelo ClickHouse como 
-banco de dados analítico de destino. Além disso, a fonte de dados foi alterada dos bancos pertencentes ao 
+pelo Apache Spark como mecanismo de processamento distribuído e pelo ClickHouse como 
+banco de dados analítico de destino. Além disso, a fonte de dados foi migrada dos bancos pertencentes ao 
 sistema ATF para o Data Lake implementado em PostgreSQL.
 
-O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxo por permite que os 
-pipelines sejam definidos de forma programática com a linguagem de programção Python, algo que 
-não ocorria na abordagem utilizada pelo SSIS.
+O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxos por permitir que os 
+pipelines sejam definidos de forma programática utilizando a linguagem de programação Python, algo que 
+não ocorria na abordagem baseada em fluxos gráficos do SSIS.
 
-Essa abordagem é especiamente vantajosa por favorecendo a reutilização de código e por dar mais liberdade
-aos desenvovedore de poderam criar susas proprias soluções personalizadas. No mais a ferramenta disponibiliza
+Essa abordagem é especialmente vantajosa por favorecer a reutilização de código e proporcionar maior flexibilidade 
+aos desenvolvedores na criação de soluções personalizadas. Além disso, a ferramenta disponibiliza 
 recursos nativos para monitoramento das execuções, rastreamento de falhas e gerenciamento operacional dos 
-pipelines, centralizando controle das cargas em uma única plataforma.
+pipelines, centralizando o controle das cargas em uma única plataforma.
 
-Além disso, diferentemente do SSIS, cuja disponibilidade de profissionais qualificados é mais limitada, o 
+Ademais, diferentemente do SSIS, cuja disponibilidade de profissionais qualificados é mais limitada, o 
 Apache Airflow integra o ecossistema moderno de Big Data e Engenharia de Dados, contando com uma comunidade 
 significativamente maior de desenvolvedores. 
 
 Somado a isso, a utilização da linguagem Python na implementação dos pipelines permite que desenvolvedores 
 com experiência nessa linguagem se adaptem rapidamente ao uso do Airflow. Dessa forma, problemas 
-relacionados à manutenção da equipe e à substituição de profissionais tendem a ocorrer com menor frequência,
-em razão da maior disponibilidade de profissionais qualificados para trabalhar com essas tecnologias.
+relacionados à manutenção da equipe e à substituição de profissionais tendem a ocorrer com menor frequência, 
+em razão da maior disponibilidade de profissionais qualificados no mercado.
 
-Outro fator que levou a escolha do Apache Airflow foi a sua capacidade de se integrar com ferramentas
-de processamento distribuido como o Apache Spark. Inclusive uma das pricipais decisões arquiteturais
-tomadas para a reestruturação do ETL do BDMalhas foi a utilização do Spark. 
+Outro fator determinante para a escolha do Apache Airflow foi a sua excelente integração com ferramentas 
+de processamento distribuído, como o Apache Spark. Inclusive, a adoção do Spark constituiu uma das principais 
+decisões arquiteturais para a reestruturação do ETL do BDMalhas.
 
 A utilização do Apache Spark foi motivada principalmente pela necessidade de processar grandes volumes de 
-dados de forma rápida e eficiente. Como o Spark utiliza uma arquitetura distribuída, é possível empregar 
-múltiplos \textit{nodes} computacionais trabalhando em conjunto, aumentando a capacidade de processamento 
-da solução e reduzindo o tempo necessário para a execução das cargas de ETL.
+dados de forma rápida e eficiente. Por adotar uma arquitetura distribuída, o Spark permite empregar 
+múltiplos nós computacionais trabalhando em conjunto, o que viabiliza a execução paralela das cargas e a 
+expansão horizontal da capacidade computacional por meio da adição de novos nós ao \textit{cluster} --- característica 
+crucial para acompanhar o crescimento do volume de dados processados.
 
-Além disso, como o Spark utiliza uma arquitetura distribuída, a solução passou a permitir a execução 
-paralela das cargas e a expansão horizontal da capacidade computacional por meio da adição de novos nós 
-ao \textit{cluster}, característica especialmente importante à medida que o volume de dados processados 
-aumenta.
-
-Por fim, como forma de diminuir ainda mais o tempo de execução das cargas para o novo BDMalhas foi ralizado
-a troca do banco de dados de destino dos dados de uma solução relacional com o  Microsoft SQLServer para um
-banco de dados colunar, mais epecificamente o Clickhouse.
+Por fim, como forma de otimizar ainda mais o tempo de execução das cargas no novo BDMalhas, foi realizada 
+a substituição do banco de dados relacional de destino (Microsoft SQL Server) por um banco de dados colunar, 
+mais especificamente o ClickHouse.
 
 O ClickHouse foi escolhido em detrimento das soluções baseadas em bancos de dados relacionais por apresentar 
 tempos de inserção significativamente inferiores para grandes volumes de dados. A Tabela 
 \ref{tab:comparacao_insercao} evidencia esse comportamento ao comparar os tempos de inserção obtidos para 
-diferentes quantidades de registros em um banco PostgreSQL e em um banco ClickHouse.
+diferentes quantidades de registros entre o PostgreSQL e o ClickHouse.
 
 %-------------------
 %-----Tabela--------
@@ -346,11 +342,11 @@ diferentes quantidades de registros em um banco PostgreSQL e em um banco ClickHo
 \end{tabularx}
 
 \vspace{0.5em}
-{\small Fonte: Elaborado pelo autor, 2026}
+{\small Fonte: Elaborado pelo autor, 2026.}
 
 \end{table}
 
-Ademais, esses experimentos foram realizados em um computador equipado com processador AMD Ryzen 5 5600GT, 
+Esses experimentos foram realizados em uma máquina equipada com processador AMD Ryzen 5 5600GT, 
 16 GB de memória RAM DDR4 e unidade de armazenamento SSD de 1 TB. 
 
 Diante desse comportamento, e considerando que o BDMalhas processa grandes volumes de dados, a adoção do 
