@@ -180,6 +180,11 @@ o tamanho da tabela conforme reportado pelo SQL Server.
 "Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
 pelo SQL Server e consultadas por meio da ferramenta DBeaver."
 
+A novo solução apresenta desenpenho ruim em EFD, por conta da falta da coluna sequencial 
+para EFD no datalake.
+
+A nova solução apresenta desempenho ruim em NFCE por conta da puca quantidade de dados no ambiente
+
 \section{Comparação do Projeto novo x antigo}
 
 \begin{table}[H]
@@ -203,7 +208,10 @@ NFE -- SSIS           &  1.000.420 &  61,27 & 16.328,06 \\
 NFE -- Nova solução   &    651.385 &   8,25 & 78.955,76 \\
 \bottomrule
 \end{tabular}
+
+\caption*{\small Fonte: Elaborado pelo autor, 2026}
 \end{table}
+
 
 \section{Comparação do Espaço de Armazenamento}
 
