@@ -11,18 +11,23 @@ alcançados com a solução desenvolvida.
 
 \section{Avaliação da Manutenibilidade da Arquitetura Proposta}
 
-A reestruturação da arquitetura do ETL promoveu uma redução significativa da complexidade 
-dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
-foi possível devido à adoção de uma abordagem programática devido ao uso do Apache Airflow 
-como plataforma de orquestração e à reorganização dos dados proporcionada pelo Data Lake, 
-permitindo maior reutilização de código e redução da quantidade de componentes dos workflows.
+Para avaliar como a reestruturação do ETL do BDMalhas impactou na manutenabilidade do sistema 
+foi realizado uma contagem de metricas relacionadas à complexidade estrutural e ao esforço de 
+manutenção das implementações original e proposta.
 
-Nesse sentido, temos que os ganhos de manutenabilidade decorreram principallmente 
-do reaproveitamento de código SQL, lógica de processamento e regras de negócio. Adicionalmente, a 
-utilização do Data Lake da UFPB e de seu modelo de dados possibilitou a substituição de diversas 
-consultas SQL por uma única consulta, reduzindo a duplicação de codigo SQL e simplificando a
-manutenção da solução como um todo, conforme evidenciado pela Tabela 
-\ref{tab:comparacao_manutenibilidade}.
+As métricas foram coletadas com base na superfície de design do SSIS e na interface web do Airflow. 
+Foram consideradas o número de nós, a quantidade de dependências entre os nós, o número de consultas
+SQL, a profundidade do grafo gerado pelo fluxo de execução e a largura desse grafo.
+
+Ademais, a escolha dessas métricas se deu pelo fato de representarem os aspectos 
+relacionados à complexidade estrutural e à facilidade de manutenção dos fluxos de ETL. Alem de que,
+em conjunto conjunto, elas permitem avaliar o grau de modularização da solução, o nível de 
+acoplamento entre as etapas, a complexidade do fluxo de execução e o esforço necessário para 
+compreender, modificar e evoluir as pipelines ao longo do tempo.
+
+No mais, as métricas coletadas estão apresentadas na Tabela \ref{tab:comparacao_manutenibilidade}, 
+elaborada a partir da contagem dessas medidas em ambas as implementações.
+
 
 %-------------------
 %-----Tabela--------
@@ -81,17 +86,92 @@ Largura máxima (SSIS $\rightarrow$ Airflow) &
 {\small Fonte: Elaborado pelo autor, 2026}
 
 \end{table}
- 
-No mais, a Tabela \ref{tab:comparacao_manutenibilidade} foi elaborada tanto com base na análise 
-dos workflows presentes na superfície de design do SSIS e na interface web do Airflow, quanto
-atravez da contagem do número das consultas SQL presentes em ambos os projetos. A partir disso, 
-foram obtidas as métricas estruturais utilizadas na avaliação da complexidade das arquiteturas.
+
+A partir da leitura da Tabela \ref{tab:comparacao_manutenibilidade}, ficam evidentes os ganhos de 
+manutenabilidade obtidos com a nova solução. Primeiramente, observa-se uma expressiva redução no 
+número de nós em todos os quatro fluxos referentes aos diferentes documentos fiscais. Entre eles, 
+os fluxos de NFCE e NFE foram os mais beneficiados, apresentando uma redução de aproximadamente 
+85\% em relação à implementação original.
+
+Essa expressiva redução deve-se, principalmente, à forma como o projeto original estava estruturado. 
+Nos fluxos de NFCE e NFE do SSIS, o processo era dividido em dois grandes blocos de tarefas, 
+responsáveis pela extração de notas de emitente e de destinatário. Entretanto, esses blocos eram 
+praticamente idênticos, diferenciando-se apenas pelos prefixos "E" e "D" (emitente e destinatário, 
+respectivamente) nos nomes das tarefas e por uma cláusula `WHERE` nas consultas SQL, utilizada para 
+definir o tipo de nota fiscal a ser processada.
+
+A existência dessa duplicação no projeto original era justificada por limitações do próprio SSIS. 
+Em muitos cenários, a ferramenta não conseguia extrair, em uma única execução, todos os dados das 
+notas fiscais de emitente e de destinatário devido ao elevado volume de dados. Como consequência, 
+a extração frequentemente resultava em erros e perdas de conexão com o banco de dados em razão do 
+longo tempo necessário para a execução das consultas.
+
+Desse modo, com a adoção do Apache Spark e a utilização do Data Lake da UFPB como nova fonte de 
+dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo sistema 
+de ETL. Essa mudança permitiu unificar o processamento em um único fluxo, reduzindo, a priori, em 
+aproximadamente 50\% tanto o número de nós do workflow quanto o número de consultas SQL necessaras.
+
+Ademais, a utilização do Data Lake e de suas consultas unificadas contribuiu significativamente 
+para a redução do número de tarefas do fluxo de ETL. A Figura \ref*{fig:fluxo_ssis_mult} apresenta 
+um trecho do fluxo da carga de NFe, evidenciando a elevada quantidade de consultas executadas na 
+implementação original. Com a adoção do esquema de dados disponibilizado pelo Data Lake, foi possível 
+substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
+significativamente tanto o número de nós da aplicação quanto o de consultas, assim, simplificando o 
+pipeline ETL como um todo.
+
+\begin{figure*}[ht!]
+    \centering
+    \caption{Exemplo de fluxo SSIS que executa multiplas consultas}\label{fig:fluxo_ssis_mult}
+    \includegraphics[width=1\textwidth]{imagens/ap_exe_task_com_multiplas_consultas.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure*}
+
+Já os fluxos referentes à EFD e CTE apresentaram uma redução de aproximadamente 64\% no número de 
+nós. Embora esse resultado também seja expressivo, ele foi inferior ao observado nos fluxos de 
+NFCE e NFE, pois essas cargas não possuíam duplicação de blocos de tarefas destinados ao processamento 
+de documentos de emitente e de destinatário na implementação original.
+
+De modo geral, a redução no número de nós desses fluxos foi resultado da junção de tarefas 
+responsáveis pelas operações de registro de logs na origem e no destino com as tarefas de
+extração e inserção. No projeto SSIS essas tarefas são executadas de forma separada, e 
+após análises, optou-se por unifica-las, reduzindo desse modo a complexidade do workflow.
+
+parei aqui....
+
+devo falar rapidamente das dependecias entre dags
+
+devo falar da profunmdiade que diminuio
+
+devo falar dar largura...
+
 
 Ademais, vale ressaltar que a nova arquitetura permite expandir ou reduzir a largura máxima do 
 workflow de acordo com a quantidade de workers disponíveis no cluster Spark onde a 
 aplicação está sendo executada. Essa flexibilidade decorre tanto da capacidade da escalabilidade 
 horizontal do Apache Spark, quanto pela funcionalidade de particionamento de intevalos de tempo
 e execução paralela propocionada pela classe \textit{BaseTask}. 
+
+
+
+A reestruturação da arquitetura do ETL promoveu uma redução significativa da complexidade 
+dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
+foi possível devido à adoção de uma abordagem programática devido ao uso do Apache Airflow 
+como plataforma de orquestração e à reorganização dos dados proporcionada pelo Data Lake, 
+permitindo maior reutilização de código e redução da quantidade de componentes dos workflows.
+
+Nesse sentido, temos que os ganhos de manutenabilidade decorreram principallmente 
+do reaproveitamento de código SQL, lógica de processamento e regras de negócio. Adicionalmente, a 
+utilização do Data Lake da UFPB e de seu modelo de dados possibilitou a substituição de diversas 
+consultas SQL por uma única consulta, reduzindo a duplicação de codigo SQL e simplificando a
+manutenção da solução como um todo, conforme evidenciado pela Tabela 
+\ref{tab:comparacao_manutenibilidade}.
+
+Observa-se que a carga NFE apresentou redução de 91,2\% na quantidade de consultas SQL, indicando 
+que a centralização da lógica de negócio no Data Lake eliminou redundâncias anteriormente existentes
+no projeto SSIS.
+
+
+
 
 Dessa forma, observa-se que a largura máxima do *workflow* da nova solução varia de acordo com a
 quantidade de recursos computacionais disponíveis, mais especificamente, com o número de workers
