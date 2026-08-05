@@ -37,3 +37,20 @@ contendo apenas dados de 2020, limitando os experimentos ao período de janeiro 
 deste ano. Embora essa infraestrutura tenha sido suficiente para validar a arquitetura 
 proposta, a indisponibilidade da base completa impediu a avaliação do comportamento do 
 sistema em cenários com todo o volume de dados de produção.
+
+\begin{table}[H]
+\centering
+\caption{Comparação entre a solução legada e a nova solução proposta}
+\label{tab:comparacao_ssis_nova_solucao}
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Critério} & \textbf{SSIS} & \textbf{Nova Solução} \\ \hline
+Arquitetura distribuída & Não & Sim \\ \hline
+Escalabilidade horizontal & Não & Sim \\ \hline
+Orquestração & Limitada & Airflow \\ \hline
+Processamento paralelo & Limitado & Spark \\ \hline
+Banco analítico & SQL Server & ClickHouse \\ \hline
+Compressão dos dados & -- & Melhor (experimentalmente comprovada) \\ \hline
+Modularização & Baixa & Alta \\ \hline
+\end{tabular}
+\end{table}

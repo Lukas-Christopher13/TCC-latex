@@ -4,31 +4,25 @@
 \chapter{RESULTADOS}
 \thispagestyle{myheadings}
 
-Adicionar introdução ao capitulo...
-
-\section{Avaliação Comparativa da Reestruturação do ETL}
-
-A seguir, são apresentados e analisados os resultados obtidos com a reestruturação do 
-BDMalhas. Para isso, são comparados indicadores estruturais e de desempenho entre a arquitetura 
-original e a arquitetura proposta, permitindo analisar os ganhos alcançados com a solução 
-desenvolvida.
+Esse capítulo busca apresentar e analisar os resultados obtidos a partir da a reestruturação do 
+ETL do BDMalhas. Para isso, são comparados indicadores estruturais e de desempenho 
+entre o projeto original e a implementação da solução proposta, permitindo assim analisar os ganhos 
+alcançados com a solução desenvolvida.
 
 \section{Avaliação da Manutenibilidade da Arquitetura Proposta}
 
 A reestruturação da arquitetura do ETL promoveu uma redução significativa da complexidade 
 dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
-foi possível devido à adoção de uma abordagem programática baseada em Python, ao uso do 
-Apache Airflow como plataforma de orquestração e à reorganização dos dados proporcionada 
-pelo Data Lake, permitindo maior reutilização de código e redução da quantidade de 
-componentes dos workflows.
+foi possível devido à adoção de uma abordagem programática devido ao uso do Apache Airflow 
+como plataforma de orquestração e à reorganização dos dados proporcionada pelo Data Lake, 
+permitindo maior reutilização de código e redução da quantidade de componentes dos workflows.
 
-Nesse sentido, os ganhos de manutenabilidade decorreram do reaproveitamento de código SQL, 
-lógica de processamento e regras de negócio, bem como da adoção de padrões de projeto que 
-promoveram maior modularização e reduziram a complexidade do ETL. Adicionalmente, a 
-utilização do Data Lake da UFPB e de seu modelo de dados consolidado possibilitou a 
-substituição de diversas consultas SQL por uma única consulta, reduzindo a duplicação de 
-lógica e simplificando a manutenção da solução, conforme evidenciado na 
-Tabela \ref{tab:comparacao_manutenibilidade}.
+Nesse sentido, temos que os ganhos de manutenabilidade decorreram principallmente 
+do reaproveitamento de código SQL, lógica de processamento e regras de negócio. Adicionalmente, a 
+utilização do Data Lake da UFPB e de seu modelo de dados possibilitou a substituição de diversas 
+consultas SQL por uma única consulta, reduzindo a duplicação de codigo SQL e simplificando a
+manutenção da solução como um todo, conforme evidenciado pela Tabela 
+\ref{tab:comparacao_manutenibilidade}.
 
 %-------------------
 %-----Tabela--------
@@ -87,17 +81,22 @@ Largura máxima (SSIS $\rightarrow$ Airflow) &
 {\small Fonte: Elaborado pelo autor, 2026}
 
 \end{table}
+ 
+No mais, a Tabela \ref{tab:comparacao_manutenibilidade} foi elaborada tanto com base na análise 
+dos workflows presentes na superfície de design do SSIS e na interface web do Airflow, quanto
+atravez da contagem do número das consultas SQL presentes em ambos os projetos. A partir disso, 
+foram obtidas as métricas estruturais utilizadas na avaliação da complexidade das arquiteturas.
 
-A Tabela \ref{tab:comparacao_manutenibilidade} foi elaborada com base na análise dos 
-workflows presentes na superfície de design do SSIS e na interface web do Airflow do 
-ambiente atualmente em operação, a partir dos quais foram obtidas as métricas estruturais 
-utilizadas na avaliação da complexidade das arquiteturas.
-
-Vale ressaltar que a nova arquitetura permite expandir ou reduzir a largura máxima do 
+Ademais, vale ressaltar que a nova arquitetura permite expandir ou reduzir a largura máxima do 
 workflow de acordo com a quantidade de workers disponíveis no cluster Spark onde a 
-aplicação está sendo executada. Essa flexibilidade decorre da capacidade de escalabilidade 
-horizontal do Apache Spark, que possibilita a adição ou remoção de recursos computacionais 
-conforme a demanda, aumentando ou reduzindo o grau de paralelismo do processamento.
+aplicação está sendo executada. Essa flexibilidade decorre tanto da capacidade da escalabilidade 
+horizontal do Apache Spark, quanto pela funcionalidade de particionamento de intevalos de tempo
+e execução paralela propocionada pela classe \textit{BaseTask}. 
+
+Dessa forma, observa-se que a largura máxima do *workflow* da nova solução varia de acordo com a
+quantidade de recursos computacionais disponíveis, mais especificamente, com o número de workers
+do Spark que o ambiente de execução oferece, bem como com a forma como as configurações do projeto
+estão definidas para a execução de uma carga.
 
 \section{Análise comparativa de desempenho}
 
@@ -137,18 +136,10 @@ conforme a demanda, aumentando ou reduzindo o grau de paralelismo do processamen
 
 % \end{table}
 
-Vale ressaltar que a quantidade de workers do Spark influencia diretamente a capacidade 
-de processamento paralelo do sistema. No ambiente avaliado, foi possível executar até 
-seis tasks simultaneamente, limite que pode variar conforme a disponibilidade de recursos 
-e as configurações de paralelismo do Airflow.
-
-No mais, para avaliar o desempenho do processo de carga, foram executados experimentos 
-com os quatro tipos de documentos fiscais em três intervalos temporais distintos: 
-7 dias, 1 mês e 3 meses. Em cada execução, foram registrados separadamente os tempos de 
-extração, inserção, overhead de execução e o tempo total de execução, permitindo uma 
-análise detalhada do comportamento de cada etapa. Os resultados são apresentados 
-no Gráfico \ref{graf:tempo_exec}.
-
+Antes de mais nada, devemos reiterar que a quantidade de workers do Spark influencia diretamente a 
+capacidade de processamento paralelo do sistema. No contexto do ambiente avaliado, foi possível
+executar até seis tasks simultaneamente, contudo esse paralelismo pode variar conforme a 
+disponibilidade de recursos computacionais e as configurações do Airflow e Spark.
 
 \begin{grafico}[ht!]
     \centering
@@ -157,9 +148,63 @@ no Gráfico \ref{graf:tempo_exec}.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{grafico}
 
+No mais, para avaliar o desempenho das cargas, foram executados experimentos 
+com os quatro tipos de documentos fiscais em três intervalos temporais distintos: 
+7 dias, 1 mês e 3 meses. Em cada execução, foram registrados separadamente os tempos de 
+extração, inserção, overhead de execução e o tempo total da execução, permitindo uma 
+análise detalhada do comportamento de cada etapa. Os resultados são apresentados 
+no Gráfico \ref{graf:tempo_exec}.
 
-Continua....
+\subsection{Desempenho do projeto original}
+
+\begin{grafico}[ht!]
+    \centering
+    \caption{Tempos de execução das cargas no projeto original.}\label{graf:tempo_ssis}
+    \includegraphics[width=1\textwidth]{imagens/tempos_ssis.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{grafico}
+
+O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução obtidos para a solução legada em 
+ambiente de produção, bem como o volume de dados processados em cada carga. Esses resultados 
+foram disponibilizados pela equipe responsável pelo sistema após a realização dos experimentos 
+da presente pesquisa."
+
+Dada a dificuldade de rodar o sistema e a imposibilidade de medir os tempos de extração e inserção
+para esse caso foi rodado uma carga de janeiro a março de 2020 e foi contabilizado apenas o tempo
+total de execução das cargas
+
+\subsection{Limitações da comparação experimental}
+
+o tamanho da tabela conforme reportado pelo SQL Server.
+
+"Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
+pelo SQL Server e consultadas por meio da ferramenta DBeaver."
+
+\section{Comparação do Projeto novo x antigo}
+
+\begin{table}[H]
+\centering
+\caption{Desempenho das cargas executadas nas implementações avaliadas}
+\label{tab:desempenho_cargas}
+\begin{tabular}{lrrr}
+\toprule
+\textbf{Implementação} & \textbf{Registros} & \textbf{Tempo (min)} & \textbf{Registros/min} \\
+\midrule
+CTE -- SSIS           &    176.749 &   6,95 & 25.431,51 \\
+CTE -- Nova solução   &    113.049 &   3,09 & 36.585,44 \\
+\addlinespace
+EFD -- SSIS           & 16.895.738 & 204,75 & 82.518,87 \\
+EFD -- Nova solução   &      2.440 &   7,55 &    323,18 \\
+\addlinespace
+NFCE -- SSIS          &  4.253.188 & 153,10 & 27.780,46 \\
+NFCE -- Nova solução  &     36.793 &   4,38 &  8.400,23 \\
+\addlinespace
+NFE -- SSIS           &  1.000.420 &  61,27 & 16.328,06 \\
+NFE -- Nova solução   &    651.385 &   8,25 & 78.955,76 \\
+\bottomrule
+\end{tabular}
+\end{table}
 
 \section{Comparação do Espaço de Armazenamento}
 
-Continua....
+Continua....dd
