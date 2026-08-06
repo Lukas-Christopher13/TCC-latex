@@ -228,14 +228,33 @@ relativamente estável, variando entre aproximadamente 0,33 e 1,55 minutos.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{grafico}
 
-O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução obtidos para a solução legada em 
-ambiente de produção, bem como o volume de dados processados em cada carga. Esses resultados 
-foram disponibilizados pela equipe responsável pelo sistema após a realização dos experimentos 
-da presente pesquisa."
+Foi realizada uma execução do sistema original com o objetivo de obter os tempos de execução de cada
+um dos fluxos referentes aos quatro tipos de documentos fiscais. A execução das cargas foi acionada 
+pela equipe do Núcleo de Tecnologia Estratégica em Saúde (Nutes), responsável pelo desenvolvimento 
+e manutenção do BDMalhas.
 
-Dada a dificuldade de rodar o sistema e a imposibilidade de medir os tempos de extração e inserção
-para esse caso foi rodado uma carga de janeiro a março de 2020 e foi contabilizado apenas o tempo
-total de execução das cargas
+Desse modo, devido à dependência da equipe de membros de desenvolvimento para iniciar a execução do 
+sistema baseado em SSIS, tornou-se inviável realizar sucessivas execuções das mesmas cargas para 
+diferentes períodos de tempo. Por esse motivo, foi executada apenas uma carga correspondente ao 
+período de janeiro a março de 2020 (3 messes).
+
+Além disso, como o projeto de ETL original em SSIS não possui mecanismos para obter separadamente 
+os tempos de extração, inserção e \textit{overhead}, foi contabilizado apenas o tempo total de 
+execução.
+
+O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução em minutos para os quatro fluxos
+de ETL, obtidos a partir da execução da solução legada no ambiente de produção. No mais, os 
+dados presente no gráfico evidenciam grandes variação entre as cargas. 
+
+A carga de CTE registrou o menor tempo de processamento, totalizando 6,95 minutos, seguida pela 
+carga de NFE, com 61,27 minutos. Já as cargas de NFCE e EFD demandaram tempos significativamente 
+maiores, alcançando 153,10 e 204,75 minutos, respectivamente.
+
+Por fim, observa-se que a carga de EFD foi a que apresentou o maior tempo de execução, ultrapassando
+três horas de processamento. Em contrapartida, a carga de CTE foi concluída em menos de sete minutos. 
+Essa diferença evidencia que os tempos de execução variam consideravelmente entre os diferentes 
+fluxos, dado que cada carga possui características próprias que influenciam diretamente sua 
+duração.
 
 \subsection{Limitações da comparação experimental}
 
