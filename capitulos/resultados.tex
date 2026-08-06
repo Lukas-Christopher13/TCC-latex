@@ -100,7 +100,7 @@ de ETL. Essa mudança permitiu unificar o processamento em um único fluxo, redu
 aproximadamente 50\% tanto o número de nós do workflow quanto o número de consultas SQL necessaras.
 
 Ademais, a utilização do Data Lake e de suas consultas unificadas contribuiu significativamente 
-para a redução do número de tarefas do fluxo de ETL. A Figura \ref*{fig:fluxo_ssis_mult} apresenta 
+para a redução do número de tarefas do fluxo de ETL. A Figura \ref{fig:fluxo_ssis_mult} apresenta 
 um trecho do fluxo da carga de NFe, evidenciando a elevada quantidade de consultas executadas na 
 implementação original. Com a adoção do esquema de dados disponibilizado pelo Data Lake, foi possível 
 substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
@@ -138,7 +138,7 @@ Como resultado, foram obtidas reduções de cerca de 90\% no número de consulta
 de NFCE e NFE. Grande parte dessa redução se deve à remoção da estratégia de notas de emitente e 
 destinatário. Já os projetos de EFD e CTE também apresentaram reduções expressivas, embora menos 
 acentuadas, da ordem de 80\% e 70\%, respectivamente, conforme apresentado na Tabela 
-\ref*{tab:comparacao_manutenibilidade}.
+\ref{tab:comparacao_manutenibilidade}.
 
 % Por fim temos que, a reestruturação da arquitetura do ETL promoveu uma redução significativa da 
 % complexidade dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
@@ -184,12 +184,12 @@ das cargas ultrapassou dez minutos. Contudo, deve-se lembrar que a execução da
 ambiente experimental, e os dados foram extraídos de uma réplica do Data Lake original. 
 Essa réplica contém um volume de dados significativamente menor que o Data Lake original.
 
-A partir do Gráfico \ref*{graf:tempo_exec}, observa-se que, na maioria dos cenários avaliados, 
+A partir do Gráfico \ref{graf:tempo_exec}, observa-se que, na maioria dos cenários avaliados, 
 a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, destaca-se o 
 \textit{overhead} introduzido pelo Airflow e pelo Spark, enquanto a etapa de inserção dos dados 
 apresentou, de forma consistente, os menores tempos de processamento.
 
-O Gráfico \ref*{graf:tempo_exec} tambem deixa perceptivel que a medida que o intervalo de tempo 
+O Gráfico \ref{graf:tempo_exec} tambem deixa perceptivel que a medida que o intervalo de tempo 
 aumenta, ocorre um crescimento gradual do tempo de execução. Entretanto, esse crescimento 
 mostrou-se aproximadamente proporcional ao volume processado, indicando um comportamento consistente 
 da solução para diferentes quantidades de dados.
@@ -197,22 +197,23 @@ da solução para diferentes quantidades de dados.
 A única carga que não apresenta esse comportamento de crescimento gradual é a carga de EFD. Sua 
 execução para um período de 7 dias resultou em um tempo de execução superior ao observado para os 
 períodos de 1 e 3 meses. Isso provavelmente ocorreu devido à pequena quantidade de dados 
-extraídos por esse fluxo. A Tabela \ref*{tab:desempenho_cargas} evidencia esse comportamento, 
+extraídos por esse fluxo. A Tabela \ref{tab:desempenho_cargas} evidencia esse comportamento, 
 visto que a carga referente ao período de 3 meses extraiu apenas 2.440 registros. Considerando 
 esse baixo volume de dados, é esperado que ocorram pequenas discrepâncias nos tempos de execução.
 
 Também deve ser mencionado que a carga de EFD apresentou o maior tempo de extração, mesmo sendo a 
 que extraiu a menor quantidade de registros entre todas as cargas. Isso ocorre por ela possuir o 
 maior número de tarefas (nós), totalizando 76, conforme evidenciado na Tabela 
-\ref*{tab:comparacao_manutenibilidade}.
+\ref{tab:comparacao_manutenibilidade}.
 
-Outra coisa que podemos relatar a partir dos dados é que o tempo de \textit{overhead}, que se mantem
+Outra coisa que podemos relatar a partir dos dados é que o tempo de \textit{overhead} se mantém
 relativamente constante, variando pouco no contexto dos diferentes intervalos de tempo do mesmo 
-documento fiscal. Isso se deve principalemnte a como o fluxo dos pipelines dos documentos fiscais
-estão organizados, numero de tasks e numero de tasks executadas em paralelo. Tanto é que
-pipelines parecidas como os de NFE e NFCE apresentam temos \textit{overhead} semelhantes.
-No mais essa semelhamças entre NFE e NFCE podem ser observadas ao visualizar as Figuras \ref*{fig:nfe} e
-\ref*{fig:nfce} presentes no \autoref{ap:a}
+documento fiscal. Isso se deve principalmente a como o fluxo dos pipelines dos documentos fiscais
+estão organizados, ao número de tasks e ao número de tasks executadas em paralelo. Tanto é que
+pipelines parecidos, como os de NFE e NFCE, apresentam tempos de \textit{overhead} semelhantes.
+No mais, essas semelhanças entre NFE e NFCE podem ser observadas ao visualizar as Figuras \ref{fig:nfe} e
+\ref{fig:nfce} presentes no Apêndice~\ref{apend:a}.
+
 
 
 Por fim, os tempos de inserção ficaram 
