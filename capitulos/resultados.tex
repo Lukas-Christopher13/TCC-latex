@@ -15,9 +15,10 @@ Para avaliar como a reestruturação do ETL do BDMalhas impactou na manutenabili
 foi realizado uma contagem de metricas relacionadas à complexidade estrutural e ao esforço de 
 manutenção das implementações original e proposta.
 
-As métricas foram coletadas com base na superfície de design do SSIS e na interface web do Airflow. 
-Foram consideradas o número de nós, a quantidade de dependências entre os nós, o número de consultas
-SQL, a profundidade do grafo gerado pelo fluxo de execução e a largura desse grafo.
+As métricas foram coletadas com base na superfície de design do SSIS, na interface web do Airflow 
+e nos arquivos do novo projeto. Para a avaliação, foram considerados o número de nós, a quantidade 
+de dependências entre os nós e o número de consultas SQL.
+
 
 Ademais, a escolha dessas métricas se deu pelo fato de representarem os aspectos 
 relacionados à complexidade estrutural e à facilidade de manutenção dos fluxos de ETL. Alem de que,
@@ -67,19 +68,6 @@ Consultas SQL (SSIS $\rightarrow$ Airflow) &
 30 $\rightarrow$ 6 (80,0\%) \\
 \hline
 
-Profundidade (SSIS $\rightarrow$ Airflow) &
-15 $\rightarrow$ 6 &
-20 $\rightarrow$ 6 &
-20 $\rightarrow$ 16 &
-18 $\rightarrow$ 7 \\
-\hline
-
-Largura máxima (SSIS $\rightarrow$ Airflow) &
-14 $\rightarrow$ 6 &
-12 $\rightarrow$ 6 &
-25 $\rightarrow$ 6 &
-3 $\rightarrow$ 3 \\
-\hline
 \end{tabularx}
 
 \vspace{0.5em}
@@ -133,50 +121,38 @@ de documentos de emitente e de destinatário na implementação original.
 
 De modo geral, a redução no número de nós desses fluxos foi resultado da junção de tarefas 
 responsáveis pelas operações de registro de logs na origem e no destino com as tarefas de
-extração e inserção. No projeto SSIS essas tarefas são executadas de forma separada, e 
+extração e inserção de dados. No projeto SSIS essas tarefas são executadas de forma separada, e 
 após análises, optou-se por unifica-las, reduzindo desse modo a complexidade do workflow.
 
-parei aqui....
+A redução do número de dependecias se deu principalmente pela redução do número de nós do projeto.
+Dado que, a eliminação de etapas redundantes diminuíram a quantidade de relações existentes entre as 
+tarefas. 
 
-devo falar rapidamente das dependecias entre dags
+Já as consultas SQL tiveram uma redução drástica quando comparadas ao projeto original. Como já 
+mencionado anteriormente, grande parte dessa redução decorre da utilização do Data Lake como fonte 
+de dados, eliminando a necessidade da execução de múltiplas consultas. Além disso, a parametrização 
+permitiu o reaproveitamento de consultas comuns a diversos trechos do projeto, contribuindo ainda 
+mais para a diminuição da quantidade de consultas SQL.
 
-devo falar da profunmdiade que diminuio
+Como resultado, foram obtidas reduções de cerca de 90\% no número de consultas SQL dos projetos 
+de NFCE e NFE. Grande parte dessa redução se deve à remoção da estratégia de notas de emitente e 
+destinatário. Já os projetos de EFD e CTE também apresentaram reduções expressivas, embora menos 
+acentuadas, da ordem de 80\% e 70\%, respectivamente, conforme apresentado na Tabela 
+\ref*{tab:comparacao_manutenibilidade}.
 
-devo falar dar largura...
+% Por fim temos que, a reestruturação da arquitetura do ETL promoveu uma redução significativa da 
+% complexidade dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
+% foi possível devido à adoção de uma abordagem programática devido ao uso do Apache Airflow 
+% como plataforma de orquestração e à reorganização dos dados proporcionada pelo Data Lake, 
+% permitindo maior reutilização de código e redução da quantidade de componentes dos workflows.
 
+% Nesse sentido, temos que os ganhos de manutenabilidade decorreram principallmente 
+% do reaproveitamento de código SQL, lógica de processamento e regras de negócio. Adicionalmente, a 
+% utilização do Data Lake da UFPB e de seu modelo de dados possibilitou a substituição de diversas 
+% consultas SQL por uma única consulta, reduzindo a duplicação de codigo SQL e simplificando a
+% manutenção da solução como um todo, conforme evidenciado pela Tabela 
+% \ref{tab:comparacao_manutenibilidade}.
 
-Ademais, vale ressaltar que a nova arquitetura permite expandir ou reduzir a largura máxima do 
-workflow de acordo com a quantidade de workers disponíveis no cluster Spark onde a 
-aplicação está sendo executada. Essa flexibilidade decorre tanto da capacidade da escalabilidade 
-horizontal do Apache Spark, quanto pela funcionalidade de particionamento de intevalos de tempo
-e execução paralela propocionada pela classe \textit{BaseTask}. 
-
-
-
-A reestruturação da arquitetura do ETL promoveu uma redução significativa da complexidade 
-dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
-foi possível devido à adoção de uma abordagem programática devido ao uso do Apache Airflow 
-como plataforma de orquestração e à reorganização dos dados proporcionada pelo Data Lake, 
-permitindo maior reutilização de código e redução da quantidade de componentes dos workflows.
-
-Nesse sentido, temos que os ganhos de manutenabilidade decorreram principallmente 
-do reaproveitamento de código SQL, lógica de processamento e regras de negócio. Adicionalmente, a 
-utilização do Data Lake da UFPB e de seu modelo de dados possibilitou a substituição de diversas 
-consultas SQL por uma única consulta, reduzindo a duplicação de codigo SQL e simplificando a
-manutenção da solução como um todo, conforme evidenciado pela Tabela 
-\ref{tab:comparacao_manutenibilidade}.
-
-Observa-se que a carga NFE apresentou redução de 91,2\% na quantidade de consultas SQL, indicando 
-que a centralização da lógica de negócio no Data Lake eliminou redundâncias anteriormente existentes
-no projeto SSIS.
-
-
-
-
-Dessa forma, observa-se que a largura máxima do *workflow* da nova solução varia de acordo com a
-quantidade de recursos computacionais disponíveis, mais especificamente, com o número de workers
-do Spark que o ambiente de execução oferece, bem como com a forma como as configurações do projeto
-estão definidas para a execução de uma carga.
 
 \section{Análise comparativa de desempenho}
 
