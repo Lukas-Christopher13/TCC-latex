@@ -258,17 +258,46 @@ duração.
 
 \subsection{Limitações da comparação experimental}
 
-o tamanho da tabela conforme reportado pelo SQL Server.
+Antes de mais nada, é importante destacar algumas limitações na comparação dos tempos de execução 
+entre os dois projetos. Primeiramente, deve-se reiterar que ambos os sistemas foram executados em 
+ambientes distintos. Portanto, é esperado que os resultados obtidos sejam influenciados pelas 
+diferenças de infraestrutura.
 
-"Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
-pelo SQL Server e consultadas por meio da ferramenta DBeaver."
+Ademais, o projeto original, desenvolvido em SSIS, possui acesso direto às bases de produção do 
+sistema ATF, armazenadas nos bancos Oracle e Informix, que contêm terabytes de informações fiscais. 
+Em contrapartida, o projeto implementado em Airflow foi executado utilizando uma cópia do Data Lake 
+original com um volume de dados significativamente menor.
+
+Além disso, tanto as consultas SQL quanto o esquema de dados das duas versões do Data Lake ainda não
+estão em sua plenitude. Em outras palavras, o esquema de dados do Data Lake ainda não representa 
+integralmente o que existe nas bases de produção Oracle e Informix. Ainda há tabelas, colunas, campos,
+relacionamentos e registros que precisam ser incorporados ou refinados.
+
+Um exemplo disso é a própria carga de EFD. No projeto original, os dados a serem carregados são 
+filtrados pela coluna \textit{sqcontrib}, responsável por armazenar o sequencial do contribuinte. 
+Entretanto, no contexto da reestruturação, até o momento da redação deste trabalho, essa coluna 
+ainda não havia sido incorporada ao Data Lake, tampouco existia um campo equivalente.
+
+Diante desse cenário, para viabilizar a execução da carga de EFD no novo ambiente, utilizou-se a 
+coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição ao 
+\textit{sqcontrib}. Contudo, essa abordagem não estabelece uma correspondência exata com a 
+implementação original, o que influencia os dados efetivamente carregados e, consequentemente, os 
+resultados obtidos.
+
+Ademais, diante desses fatores, é esperado que algumas das consultas disponibilizadas pela UFPB 
+ainda não reflitam integralmente o comportamento das consultas implementadas no projeto original 
+em SSIS, seja por diferenças no esquema de dados, seja pela ausência de determinados campos ou 
+ajustes ainda pendentes. 
+
+Dessa forma, serão necessárias futuras iterações com a equipe da UFPB para refinar o esquema de 
+dados e as consultas de extração, a fim de se aproximar cada vez mais do ambiente de produção.
+
+\section{Comparação do Projeto novo x antigo}
 
 A novo solução apresenta desenpenho ruim em EFD, por conta da falta da coluna sequencial 
 para EFD no datalake.
 
 A nova solução apresenta desempenho ruim em NFCE por conta da puca quantidade de dados no ambiente
-
-\section{Comparação do Projeto novo x antigo}
 
 \begin{table}[H]
 \centering
@@ -297,5 +326,11 @@ NFE -- Nova solução   &    651.385 &   8,25 & 78.955,76 \\
 
 
 \section{Comparação do Espaço de Armazenamento}
+
+O tamanho da tabela conforme reportado pelo SQL Server.
+
+"Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
+pelo SQL Server e consultadas por meio da ferramenta DBeaver."
+
 
 Continua....dd
