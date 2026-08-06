@@ -5,17 +5,59 @@
 \setcounter{chapter}{0}
 \renewcommand{\thechapter}{\Alph{chapter}}
 
-\chapter*{\normalsize\bfseries\hfill APÊNDICE A -- TÍTULO DO APÊNDICE \hfill}
+\chapter*{\normalsize\bfseries\hfill APÊNDICE A -- DAGS E FLUXOS DE ETL IMPLEMENTADOS NO APACHE AIRFLOW PARA O BDMALHAS \hfill}
+\label{ap:a}
 
 \phantomsection
-\addcontentsline{toc}{chapter}{\protect\numberline{}APÊNDICE A -- TÍTULO DO APÊNDICE}
+\addcontentsline{toc}{chapter}{\protect\numberline{}APÊNDICE A -- DAGS E FLUXOS DE ETL IMPLEMENTADOS NO APACHE AIRFLOW PARA O BDMALHAS}
 
 \stepcounter{chapter}
 
 % Limpa a memória do cabeçalho para não puxar o nome REFERÊNCIAS
 \markboth{}{} 
 
-Se este capítulo não for necessário para o seu trabalho, vá até o arquivo \textbf{documento.tex} e insira \% na linha 
-\begin{verbatim}
-    \input{capitulos/apendices}
-\end{verbatim}
+Este apêndice apresenta a estrutura visual das \textit{Directed Acyclic Graphs} (DAGs) desenvolvidas no Apache Airflow para a orquestração dos fluxos de ETL do BDMalhas, contemplando os quatro documentos fiscais processados pelo sistema. Vale ressaltar que os grafos apresentados nas figuras a seguir exibem as tarefas em formato resumido (contraído), omitindo a expansão das subtasks internas de extração e registro de logs para otimização do espaço visual.
+
+\section*{A.1 Pipeline de Nota Fiscal Eletrônica (NFe)}
+
+A Figura \ref{fig:nfe} exibe a visão geral da DAG responsável pelo fluxo de ETL da NFe, apresentando a sequência das etapas principais de processamento no pipeline.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Grafo de execução da DAG no Apache Airflow para Nota Fiscal Eletrônica (NFe).}\label{fig:nfe}
+    \includegraphics[width=0.85\textwidth]{imagens/nfe.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure}
+
+\section*{A.2 Pipeline de Nota Fiscal de Consumidor Eletrônica (NFCe)}
+
+A Figura \ref{fig:nfce} apresenta a visão geral da DAG referente à NFCe, ilustrando a organização sequencial das tarefas principais que compõem o pipeline.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Grafo de execução da DAG no Apache Airflow para Nota Fiscal de Consumidor Eletrônica (NFCe).}\label{fig:nfce}
+    \includegraphics[width=0.85\textwidth]{imagens/nfce.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure}
+
+\section*{A.3 Pipeline de Conhecimento de Transporte Eletrônico (CTe)}
+
+A Figura \ref{fig:cte} ilustra a visão geral da DAG do CTe, detalhando a disposição e o encadeamento entre as tarefas principais do fluxo de ETL.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Grafo de execução da DAG no Apache Airflow para Conhecimento de Transporte Eletrônico (CTe).}\label{fig:cte}
+    \includegraphics[width=0.85\textwidth]{imagens/CTE.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure}
+
+\section*{A.4 Pipeline de Escrituração Fiscal Digital (EFD)}
+
+A Figura \ref{fig:efd} exibe a visão geral da DAG referente à EFD, evidenciando a estrutura principal de nós e dependências necessários para o processamento do pipeline.
+
+\begin{figure}[ht!]
+    \centering
+    \caption{Grafo de execução da DAG no Apache Airflow para Escrituração Fiscal Digital (EFD).}\label{fig:efd}
+    \includegraphics[width=0.95\textwidth]{imagens/EFD.png}\\
+    {\small Fonte: Elaborado pelo autor, 2026}
+\end{figure}
