@@ -156,10 +156,11 @@ conforme apresentado na Tabela \ref{tab:comparacao_manutenibilidade}.
 
 \section{Análise comparativa de desempenho}
 
-Ressalta-se que a quantidade de \textit{workers} do Spark influencia diretamente a 
-capacidade de processamento paralelo do sistema. No contexto do ambiente avaliado, foi possível
-executar até seis tarefas simultaneamente; contudo, esse paralelismo pode variar conforme o número 
-de \textit{workers} do \textit{cluster} Spark e as configurações do Airflow.
+Para avaliar o desempenho das cargas, foram executados experimentos com os quatro tipos de 
+documentos fiscais em três intervalos temporais distintos: 7 dias, 1 mês e 3 meses,
+no contexto de janeiro a março de 2020. Em cada execução, foram registrados separadamente os 
+tempos de extração, inserção, \textit{overhead} e o tempo total da execução; os resultados 
+são apresentados no Gráfico \ref{graf:tempo_exec}.
 
 \begin{grafico}[ht!]
     \centering
@@ -168,26 +169,23 @@ de \textit{workers} do \textit{cluster} Spark e as configurações do Airflow.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{grafico}
 
-Para avaliar o desempenho das cargas, foram executados experimentos 
-com os quatro tipos de documentos fiscais em três intervalos temporais distintos: 
-7 dias, 1 mês e 3 meses. Em cada execução, foram registrados separadamente os tempos de 
-extração, inserção, \textit{overhead} de execução e o tempo total da execução, permitindo uma 
-análise detalhada do comportamento de cada etapa. Os resultados são apresentados 
-no Gráfico \ref{graf:tempo_exec}.
-
-Esses resultados foram coletados por meio de funcionalidades da biblioteca \textit{datetime} do 
-Python e registrados na tabela \textit{sql\_log\_validacao}, responsável por armazenar os registros 
-que permitem o acompanhamento da execução das cargas.
+Vale resaltar que, os resultados foram coletados por meio de funcionalidades da biblioteca 
+\textit{datetime} do Python e registrados na tabela \textit{sql\_log\_validacao}, responsável 
+por armazenar registros de logs que permitem o acompanhamento da execução das cargas.
 
 No geral, é perceptível que o novo projeto apresentou um bom tempo de execução, uma vez que nenhuma 
-das cargas ultrapassou dez minutos. Contudo, deve-se lembrar que a execução das cargas ocorreu em um 
-ambiente experimental, e os dados foram extraídos de uma réplica do \textit{Data Lake} original. 
-Essa réplica contém um volume de dados significativamente menor que o \textit{Data Lake} original.
+das cargas ultrapassou a marca de dez minutos. Contudo, deve-se lembrar que a execução das cargas 
+ocorreu em um ambiente experimental, e os dados foram extraídos de uma réplica do \textit{Data Lake} 
+original, e que essa réplica contém um volume de dados bem inferior ao do \textit{Data Lake} 
+original.
 
-A partir do Gráfico \ref{graf:tempo_exec}, observa-se que, na maioria dos cenários avaliados, 
-a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, destaca-se o 
-\textit{overhead} introduzido pelo Airflow e pelo Spark, enquanto a etapa de inserção dos dados 
-apresentou, de forma consistente, os menores tempos de processamento.
+Desse modo, a partir do Gráfico \ref{graf:tempo_exec} podemos observar que na maioria dos cenários 
+avaliados a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, 
+destaca-se o \textit{overhead}, decorrente da orquestração do Airflow e da inicialização das tarefas 
+no Spark durante a execução da carga. Por fim, a etapa de inserção dos dados mostrou-se a mais 
+consistente, apresentando os menores tempos de execução em todos os quatro fluxos.
+
+parei aqui ....
 
 O Gráfico \ref{graf:tempo_exec} também deixa perceptível que, à medida que o intervalo de tempo 
 aumenta, ocorre um crescimento gradual do tempo de execução. Entretanto, esse crescimento 
