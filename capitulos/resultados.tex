@@ -227,80 +227,81 @@ a etapa de inserção manteve-se relativamente estável, variando aproximadament
 \end{grafico}
 
 Foi realizada uma execução do sistema original com o objetivo de obter os tempos de execução de cada
-um dos fluxos referentes aos quatro tipos de documentos fiscais. A execução das cargas foi acionada 
+um dos fluxos referentes aos quatro tipos de documentos fiscais. A execução das cargas foi realizada 
 pela equipe do Núcleo de Tecnologia Estratégica em Saúde (Nutes), responsável pelo desenvolvimento 
-e manutenção do BDMalhas.
+e pela manutenção do BDMalhas.
 
-Desse modo, devido à dependência da equipe de membros de desenvolvimento para iniciar a execução do 
-sistema baseado em SSIS, tornou-se inviável realizar sucessivas execuções das mesmas cargas para 
-diferentes períodos de tempo. Por esse motivo, foi executada apenas uma carga correspondente ao 
-período de janeiro a março de 2020 (3 meses).
+Vale ressaltar que, devido à dependência da equipe de desenvolvimento para iniciar a execução do 
+sistema baseado em SSIS, tornou-se inviável a realização de sucessivas execuções da carga 
+para diferentes períodos de tempo. Por esse motivo, a carga no sistema legado foi executada apenas 
+uma vez, para o período de janeiro a março de 2020 (3 meses).
 
 Além disso, como o projeto de ETL original em SSIS não possui mecanismos para obter separadamente 
 os tempos de extração, inserção e \textit{overhead}, foi contabilizado apenas o tempo total de 
 execução.
 
 O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução em minutos para os quatro fluxos
-de ETL, obtidos a partir da execução da solução legada no ambiente de produção. Ademais, os 
-dados presentes no gráfico evidenciam grande variação entre as cargas. 
+do projeto ETL original, que foram obtidos a partir da execução da solução legada no ambiente de 
+produção da mesma.
 
-A carga de CTE registrou o menor tempo de processamento, totalizando 6,95 minutos, seguida pela 
-carga de NFE, com 61,27 minutos. Já as cargas de NFCE e EFD demandaram tempos significativamente 
-maiores, alcançando 153,10 e 204,75 minutos, respectivamente.
+No mais, os dados presentes no gráfico evidenciam grande variação entre as cargas. A carga de CTE 
+registrou o menor tempo de processamento, totalizando 6,95 minutos, seguida pela carga de NFE, com 
+61,27 minutos. Já as cargas de NFCE e EFD demandaram tempos significativamente maiores, alcançando 
+153,10 e 204,75 minutos, respectivamente.
 
-Por fim, observa-se que a carga de EFD foi a que apresentou o maior tempo de execução, ultrapassando
-três horas de processamento. Em contrapartida, a carga de CTE foi concluída em menos de sete minutos. 
-Essa diferença evidencia que os tempos de execução variam consideravelmente entre os diferentes 
-fluxos, dado que cada carga possui características próprias que influenciam diretamente sua 
-duração.
+Por fim, observa-se que a carga de EFD apresentou o maior tempo de execução, levando cerca de três 
+horas para concluir seu processamento. Em contrapartida, a carga de CTE foi concluída no menor 
+tempo, em aproximadamente sete minutos. Essa diferença evidencia uma variação considerável entre os 
+tempos de execução dos fluxos, decorrente das características específicas de cada carga, que 
+influenciam diretamente sua duração.
 
 \subsection{Limitações da comparação experimental}
 
-Inicialmente, é importante destacar algumas limitações na comparação dos tempos de execução 
-entre os dois projetos. Primeiramente, deve-se reiterar que ambos os sistemas foram executados em 
-ambientes distintos. Portanto, é esperado que os resultados obtidos sejam influenciados pelas 
-diferenças de infraestrutura.
+Antes de mais nada, é importante destacar algumas limitações da comparação entre os dois projetos. 
+Primeiramente, devemos reiterar que ambos os sistemas foram executados em ambientes distintos e com
+bases de dados distintas. Portanto, é esperado que os resultados obtidos sejam influenciados pelas 
+condições das diferentes infraestruturas.
 
-Ademais, o projeto original, desenvolvido em SSIS, possui acesso direto às bases de produção do 
-sistema ATF, armazenadas nos bancos Oracle e Informix, que contêm terabytes de informações fiscais. 
-Em contrapartida, o projeto implementado em Airflow foi executado utilizando uma cópia do \textit{Data Lake} 
-original com um volume de dados significativamente menor.
+O projeto original, desenvolvido em SSIS, possui acesso direto às bases de produção do ATF, isto é, aos 
+bancos Oracle e Informix, que armazenam terabytes de informações fiscais. Em contrapartida, o projeto 
+implementado em Airflow foi executado utilizando uma cópia do \textit{Data Lake} original com um volume de 
+dados bem menor.
 
-Além disso, tanto as consultas SQL quanto o esquema de dados das duas versões do \textit{Data Lake} ainda não
-estão em sua plenitude. Em outras palavras, o esquema de dados do \textit{Data Lake} ainda não representa 
-integralmente o que existe nas bases de produção Oracle e Informix. Ainda há tabelas, colunas, campos,
-relacionamentos e registros que precisam ser incorporados ou refinados.
+Além disso, tanto as consultas SQL quanto o esquema de dados de ambas as versões do \textit{Data Lake} 
+ainda não estão em sua plenitude. Em outras palavras, o esquema de dados do \textit{Data Lake}
+não representa integralmente o que existe nas bases de produção do ATF. Existem tabelas, colunas, campos,
+relacionamentos entre tabelas e registros que precisam ser incorporados e refinados.
 
 Um exemplo disso é a própria carga de EFD. No projeto original, os dados a serem carregados são 
-filtrados pela coluna \textit{sqcontrib}, responsável por armazenar o sequencial do contribuinte. 
-Entretanto, no contexto da reestruturação, até o momento da redação deste trabalho, essa coluna 
-ainda não havia sido incorporada ao \textit{Data Lake}, tampouco existia um campo equivalente.
+filtrados a partir da coluna \textit{sqcontrib}, responsável por armazenar a chave primária
+sequencial dos contribuintes. Entretanto, no contexto da reestruturação, até o momento da redação 
+deste trabalho, essa coluna ainda não havia sido incorporada ao \textit{Data Lake}, tampouco existia 
+um campo equivalente a mesma.
 
 Diante desse cenário, para viabilizar a execução da carga de EFD no novo ambiente, utilizou-se a 
-coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição ao 
+coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição a coluna 
 \textit{sqcontrib}. Contudo, essa abordagem não estabelece uma correspondência exata com a 
-implementação original, o que influencia os dados efetivamente carregados e, consequentemente, os 
+implementação original, o que influencia os dados efetivamente carregados, e consequentemente, os 
 resultados obtidos.
 
-Ademais, diante desses fatores, é esperado que algumas das consultas disponibilizadas pela UFPB 
-ainda não reflitam integralmente o comportamento das consultas implementadas no projeto original 
-em SSIS, seja por diferenças no esquema de dados, seja pela ausência de determinados campos ou 
-ajustes ainda pendentes. 
+Dado esse cenário, também é esperado que algumas das consultas disponibilizadas pela UFPB 
+ainda não reflitam integralmente o comportamento das consultas do projeto original, seja pelas 
+diferenças no esquema de dados, pela ausência de determinados campos ou ajustes ainda pendentes. 
 
-Dessa forma, serão necessárias futuras iterações com a equipe da UFPB para refinar o esquema de 
-dados e as consultas de extração, a fim de se aproximar cada vez mais do ambiente de produção.
+Tendo esse contexto em mente, fica evidente que ainda serão necessárias futuras iterações com a equipe 
+da UFPB para refinar o esquema de dados e as consultas de extração, a fim de aproximar cada vez mais os 
+resultados da nova solução daqueles obtidos pelo sistema original
 
 \section{Comparação do Projeto novo x antigo}
 
 Tendo em vista as limitações apresentadas na subseção anterior, pode-se prosseguir com a 
 apresentação dos resultados.
 
-Após a execução das cargas dos quatro tipos de documentos fiscais em ambas as versões do ETL do 
-BDMalhas, considerando o período compreendido entre 1º de janeiro e 31 de março de 2020, foram 
-obtidos os dados referentes aos tempos de execução e às quantidades de registros extraídos e 
-inseridos nos bancos de destino de ambas as aplicações. Esses resultados são apresentados na 
-Tabela \ref{tab:desempenho_cargas}, que relaciona a quantidade de registros processados com o 
-tempo total de execução das cargas.
+Após a execução das cargas em ambas as versões do ETL do BDMalhas, considerando o período compreendido 
+entre 1º de janeiro e 31 de março de 2020, foram obtidos os dados referentes aos tempos 
+de execução e às quantidades de registros extraídos e inseridos nos bancos de destino de ambas as 
+aplicações. Esses resultados são apresentados na Tabela \ref{tab:desempenho_cargas}, que relaciona a 
+quantidade de registros processados com o tempo total de execução das cargas.
 
 
 \begin{table}[H]
@@ -331,7 +332,7 @@ NFE -- Nova solução   &    651.385 &   8,25 & 78.955,76 \\
 A princípio, é evidente que a quantidade de registros obtida para os mesmos documentos fiscais não 
 é a mesma entre as duas implementações. Nos casos da EFD e da NFCE, as diferenças são bastante 
 expressivas, chegando à ordem de milhões de registros. Isso se deve, principalmente, à utilização 
-da réplica do \textit{Data Lake}, que possui um volume de dados significativamente menor que o ambiente 
+da réplica do \textit{Data Lake}, que possui um volume de dados bem menor que o ambiente 
 original.
 
 No caso da carga de CTE, a nova solução reduziu o tempo de execução de 6,95 para 3,09 minutos, 
