@@ -103,7 +103,7 @@ necessárias ao funcionamento do ETL.
 Ademais, a utilização do \textit{Data Lake} e de suas consultas unificadas contribuiu significativamente 
 para a redução do número de tarefas do fluxo de ETL. A Figura \ref{fig:fluxo_ssis_mult} apresenta 
 um trecho do fluxo da carga de NFe, evidenciando a elevada quantidade de consultas executadas na 
-implementação original. Com a adoção do esquema de dados disponibilizado pelo \textit{Data Lake}, foi possível 
+implementação original. Com a adoção do esquema de dados disponibilizado pelo , foi possível 
 substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
 significativamente tanto o número de nós da aplicação quanto o de consultas e, assim, simplificando o 
 \textit{pipeline} ETL como um todo.
@@ -120,28 +120,25 @@ no número de nós. Embora esse resultado também seja expressivo, ele foi infer
 fluxos de NFCE e NFE, pois essas cargas não possuíam duplicação de blocos de tarefas de 
 emitente e de destinatário.
  
-No mais, as redução em EFD e CTE foram resultado da junção de tarefas, como, as tarefas
-responsáveis pelas operações de tanto logs na origem e no destino, com as tarefas de
-extração e inserção de dados. No projeto SSIS, essas tarefas são executadas de forma separada, e 
-após análises, optou-se por unificá-las, reduzindo, a complexidade do \textit{workflow}.
+No mais, as reduções no número de nós em EFD e CTE são explicadas pelas junções de tarefas
+realizadas no novo projeto e pela utilização das consultas unificadas do \textit{Data Lake}.
 
-parei aqui ......
-
-A redução do número de dependências deu-se principalmente pela redução do número de nós do projeto, 
-dado que a eliminação de etapas redundantes diminuiu a quantidade de relações existentes entre as 
-tarefas. 
+Ademais, temos que redução do número de dependências deu-se principalmente em consequencia da redução 
+do número de nós do projeto, dado que a eliminação de etapas redundantes diminuiu a quantidade de relações 
+existentes entre as tarefas. 
 
 Já as consultas SQL tiveram uma redução drástica quando comparadas ao projeto original. Como 
 mencionado anteriormente, grande parte dessa redução decorre da utilização do \textit{Data Lake} como fonte 
-de dados, eliminando a necessidade de execução de múltiplas consultas. Além disso, a parametrização 
-permitiu o reaproveitamento de consultas comuns a diversos trechos do projeto, contribuindo ainda 
-mais para a diminuição da quantidade de consultas SQL.
+de dados, eliminando a necessidade de execução de múltiplas consultas para a inserção de dados em 
+uma mesma tabela do projeto. Além disso, a parametrização permitiu o reaproveitamento de consultas 
+comuns a diversos trechos do projeto, contribuindo ainda mais para a diminuição da quantidade de 
+consultas SQL.
 
-Como resultado, foram obtidas reduções de cerca de 90\% no número de consultas SQL dos projetos 
-de NFCE e NFE. Grande parte dessa redução se deve à remoção da estratégia de notas de emitente e 
-destinatário. Já os projetos de EFD e CTE também apresentaram reduções expressivas, embora menos 
-acentuadas, da ordem de 80\% e 70\%, respectivamente, conforme apresentado na Tabela 
-\ref{tab:comparacao_manutenibilidade}.
+Como resultado, foram obtidas reduções de mais de 90\% no número de consultas SQL nos fluxos 
+de NFCE e NFE. Grande parte dessa redução também se deve à remoção da estratégia de notas de 
+emitente e destinatário. Já os projetos de EFD e CTE também apresentaram reduções expressivas, 
+embora menos acentuadas, na ordem dos 80\% a 70\% no número de consultas, 
+conforme apresentado na Tabela \ref{tab:comparacao_manutenibilidade}.
 
 % Por fim temos que, a reestruturação da arquitetura do ETL promoveu uma redução significativa da 
 % complexidade dos pipelines em relação à solução originalmente implementada em SSIS. Essa simplificação 
