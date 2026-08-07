@@ -176,8 +176,7 @@ por armazenar registros de logs que permitem o acompanhamento da execução das 
 No geral, é perceptível que o novo projeto apresentou um bom tempo de execução, uma vez que nenhuma 
 das cargas ultrapassou a marca de dez minutos. Contudo, deve-se lembrar que a execução das cargas 
 ocorreu em um ambiente experimental, e os dados foram extraídos de uma réplica do \textit{Data Lake} 
-original, e que essa réplica contém um volume de dados bem inferior ao do \textit{Data Lake} 
-original.
+original, e que essa réplica contém um volume de dados bem inferior ao do banco original.
 
 Desse modo, a partir do Gráfico \ref{graf:tempo_exec} podemos observar que na maioria dos cenários 
 avaliados a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, 
@@ -185,37 +184,38 @@ destaca-se o \textit{overhead}, decorrente da orquestração do Airflow e da ini
 no Spark durante a execução da carga. Por fim, a etapa de inserção dos dados mostrou-se a mais 
 consistente, apresentando os menores tempos de execução em todos os quatro fluxos.
 
-parei aqui ....
-
 O Gráfico \ref{graf:tempo_exec} também deixa perceptível que, à medida que o intervalo de tempo 
-aumenta, ocorre um crescimento gradual do tempo de execução. Entretanto, esse crescimento 
-mostrou-se aproximadamente proporcional ao volume processado, indicando um comportamento consistente 
-da solução para diferentes quantidades de dados.
+aumenta, ocorre um crescimento gradual do tempo de execução. Além disso, observou-se que esse 
+crescimento ocorreu de forma aproximadamente proporcional ao volume processado, indicando um 
+comportamento consistente da solução para diferentes intervalos de tempo e, consequentemente, 
+diferentes volumes de dados.
 
-A única carga que não apresenta esse comportamento de crescimento gradual é a carga de EFD. Sua 
-execução para um período de 7 dias resultou em um tempo de execução superior ao observado para os 
+Contudo, a única carga que não apresenta esse comportamento de crescimento gradual é a carga de EFD. 
+Sua execução para um período de 7 dias resultou em um tempo de execução superior ao observado para os 
 períodos de 1 e 3 meses. Isso provavelmente ocorreu devido à pequena quantidade de dados 
-extraídos por esse fluxo. A Tabela \ref{tab:desempenho_cargas} evidencia esse comportamento, 
-visto que a carga referente ao período de 3 meses extraiu apenas 2.440 registros. Considerando 
-esse baixo volume de dados, é esperado que ocorram pequenas discrepâncias nos tempos de execução.
+extraídos por esse fluxo. A Tabela \ref{tab:desempenho_cargas} evidencia isso, visto que a carga 
+referente ao período de 3 meses extraiu apenas 2.440 registros. Considerando esse baixo volume de 
+dados, é esperado que ocorram discrepâncias dessa natureza nos tempos de execução.
 
 Também deve ser mencionado que a carga de EFD apresentou o maior tempo de extração, mesmo sendo a 
 que extraiu a menor quantidade de registros entre todas as cargas. Isso ocorre pelo fato de ela possuir o 
 maior número de tarefas (nós), totalizando 76, conforme evidenciado na Tabela 
 \ref{tab:comparacao_manutenibilidade}.
 
-Outra observação relevante a partir dos dados é que o tempo de \textit{overhead} se mantém
-relativamente constante, variando pouco no contexto dos diferentes intervalos de tempo do mesmo 
-documento fiscal. Isso se deve principalmente à forma como os fluxos dos \textit{pipelines} dos documentos fiscais
-estão organizados, ao número de tarefas e à quantidade de tarefas executadas em paralelo. Dessa forma,
-\textit{pipelines} semelhantes, como os de NFE e NFCE, apresentam tempos de \textit{overhead}
-também semelhantes. Essas semelhanças entre NFE e NFCE podem ser observadas ao 
-visualizar as Figuras \ref{fig:nfe} e \ref{fig:nfce} presentes no Apêndice~\ref{apend:a}.
+Outra observação relevante é que o tempo de \textit{overhead} se mantém relativamente constante, 
+apresentando pouca variação entre os diferentes intervalos de tempo de um mesmo documento fiscal. 
+Isso se deve principalmente à forma como os \textit{pipelines} dos documentos fiscais estão 
+organizados, juntamente ao número de tarefas e à quantidade de tarefas executadas em paralelo. 
+Por issso, \textit{pipelines} de estruturas semelhantes, como os de NFE e NFCE, apresentam 
+tempos de \textit{overhead} relativamente semelhantes. Essas semelhanças entre NFE e NFCE podem ser 
+observadas ao visualizar as Figuras \ref{fig:nfe} e \ref{fig:nfce} presentes no 
+Apêndice~\ref{apend:a}.
 
 Por fim, observa-se que os tempos de inserção permaneceram baixos em todos os fluxos avaliados, 
-apresentando pouca variação mesmo com o aumento do período de dados processados. Enquanto o tempo 
-de extração tende a crescer conforme o volume de registros, a etapa de inserção manteve-se 
-relativamente estável, variando entre aproximadamente 0,33 e 1,55 minutos.
+apresentando pouca variação mesmo com o aumento do período e, consequentemente, do volume de 
+dados processado. Enquanto o tempo de extração tende a crescer conforme o volume de registros, 
+a etapa de inserção manteve-se relativamente estável, variando aproximadamente entre 0,33 e 
+1,55 minutos.
 
 \subsection{Desempenho do projeto original}
 
