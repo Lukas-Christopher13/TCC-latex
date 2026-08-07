@@ -4,30 +4,30 @@
 \chapter{RESULTADOS}
 \thispagestyle{myheadings}
 
-Esse capítulo busca apresentar e analisar os resultados obtidos a partir da a reestruturação do 
-ETL do BDMalhas. Para isso, são comparados indicadores estruturais e de desempenho 
-entre o projeto original e a implementação da solução proposta, permitindo assim analisar os ganhos 
-alcançados com a solução desenvolvida.
+Este capítulo busca apresentar os resultados obtidos a partir da reestruturação do 
+ETL do BDMalhas através da comparação entre o sistema original e o sistema desenvolvido.
+Para isso, são comparados indicadores estruturais e de desempenho entre o projeto original e 
+a implementação da solução proposta, permitindo, assim, analisar os ganhos alcançados com a solução 
+desenvolvida.
 
 \section{Avaliação da Manutenibilidade da Arquitetura Proposta}
 
-Para avaliar como a reestruturação do ETL do BDMalhas impactou na manutenabilidade do sistema 
-foi realizado uma contagem de metricas relacionadas à complexidade estrutural e ao esforço de 
-manutenção das implementações original e proposta.
+Para avaliar como a reestruturação do ETL do BDMalhas impactou a manutenibilidade do sistema, 
+foi realizada uma contagem de métricas relacionadas à complexidade estrutural e ao esforço de 
+manutenção de ambas as implementações.
 
 As métricas foram coletadas com base na superfície de design do SSIS, na interface web do Airflow 
 e nos arquivos do novo projeto. Para a avaliação, foram considerados o número de nós, a quantidade 
 de dependências entre os nós e o número de consultas SQL.
 
+Ademais, a escolha dessas métricas se deu pelo fato de que elas representam aspectos
+relacionados à complexidade estrutural e à facilidade de manutenção dos fluxos de ETL. Além disso,
+em conjunto, elas permitem avaliar o nível de acoplamento entre as etapas, a complexidade do fluxo 
+de execução e o esforço necessário para compreender, modificar e evoluir os \textit{pipelines} 
+ao longo do tempo.
 
-Ademais, a escolha dessas métricas se deu pelo fato de representarem os aspectos 
-relacionados à complexidade estrutural e à facilidade de manutenção dos fluxos de ETL. Alem de que,
-em conjunto conjunto, elas permitem avaliar o grau de modularização da solução, o nível de 
-acoplamento entre as etapas, a complexidade do fluxo de execução e o esforço necessário para 
-compreender, modificar e evoluir as pipelines ao longo do tempo.
-
-No mais, as métricas coletadas estão apresentadas na Tabela \ref{tab:comparacao_manutenibilidade}, 
-elaborada a partir da contagem dessas medidas em ambas as implementações.
+No mais, as métricas coletadas estão apresentadas na Tabela \ref{tab:comparacao_manutenibilidade},
+que foi elaborada a partir da contagem dos elementos presentes em ambas as implementações.
 
 
 %-------------------
@@ -76,61 +76,64 @@ Consultas SQL (SSIS $\rightarrow$ Airflow) &
 \end{table}
 
 A partir da leitura da Tabela \ref{tab:comparacao_manutenibilidade}, ficam evidentes os ganhos de 
-manutenabilidade obtidos com a nova solução. Primeiramente, observa-se uma expressiva redução no 
-número de nós em todos os quatro fluxos referentes aos diferentes documentos fiscais. Entre eles, 
-os fluxos de NFCE e NFE foram os mais beneficiados, apresentando uma redução de aproximadamente 
-85\% em relação à implementação original.
+manutenibilidade obtidos com a nova solução. Primeiramente, observa-se uma expressiva redução no 
+número de nós em todos os fluxos referentes aos documentos fiscais. Entre eles, 
+os fluxos de NFCE e NFE foram os mais beneficiados, apresentando respectivamente uma redução de 
+86,2\% e 85,2\% no número de nós em relação à implementação original.
 
 Essa expressiva redução deve-se, principalmente, à forma como o projeto original estava estruturado. 
-Nos fluxos de NFCE e NFE do SSIS, o processo era dividido em dois grandes blocos de tarefas, 
-responsáveis pela extração de notas de emitente e de destinatário. Entretanto, esses blocos eram 
-praticamente idênticos, diferenciando-se apenas pelos prefixos "E" e "D" (emitente e destinatário, 
-respectivamente) nos nomes das tarefas e por uma cláusula `WHERE` nas consultas SQL, utilizada para 
+Nos fluxos de NFCE e NFE do SSIS, o \textit{pipeline} está dividido em dois grandes blocos de tarefas, 
+os blocos de notas de emitente e destinatário. Esses blocos são
+praticamente idênticos, diferenciando-se apenas pelos prefixos ``E'' e ``D'' (emitente e destinatário, 
+respectivamente) nos nomes das tarefas e por uma cláusula \texttt{WHERE} nas consultas SQL, utilizada para 
 definir o tipo de nota fiscal a ser processada.
 
 A existência dessa duplicação no projeto original era justificada por limitações do próprio SSIS. 
 Em muitos cenários, a ferramenta não conseguia extrair, em uma única execução, todos os dados das 
-notas fiscais de emitente e de destinatário devido ao elevado volume de dados. Como consequência, 
-a extração frequentemente resultava em erros e perdas de conexão com o banco de dados em razão do 
-longo tempo necessário para a execução das consultas.
+notas fiscais de emitente e de destinatário, devido ao elevado volume de dados. Como consequência
+disso, essas cargas frequentemente eram interrompidas por erros e perdas de conexão com o banco,
+devido ao grande volume de dados a serem processados.
 
-Desse modo, com a adoção do Apache Spark e a utilização do Data Lake da UFPB como nova fonte de 
-dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo sistema 
-de ETL. Essa mudança permitiu unificar o processamento em um único fluxo, reduzindo, a priori, em 
-aproximadamente 50\% tanto o número de nós do workflow quanto o número de consultas SQL necessaras.
+Desse modo, tendo em vista a adoção do Apache Spark e a utilização do \textit{Data Lake} da UFPB como 
+nova fonte de dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo 
+sistema ETL. Essa mudança permitiu unificar o processamento em um único fluxo, reduzindo em 
+aproximadamente 50\% tanto o número de nós do \textit{workflow} quanto o número de consultas SQL 
+necessárias ao funcionamento do ETL.
 
-Ademais, a utilização do Data Lake e de suas consultas unificadas contribuiu significativamente 
+Ademais, a utilização do \textit{Data Lake} e de suas consultas unificadas contribuiu significativamente 
 para a redução do número de tarefas do fluxo de ETL. A Figura \ref{fig:fluxo_ssis_mult} apresenta 
 um trecho do fluxo da carga de NFe, evidenciando a elevada quantidade de consultas executadas na 
-implementação original. Com a adoção do esquema de dados disponibilizado pelo Data Lake, foi possível 
+implementação original. Com a adoção do esquema de dados disponibilizado pelo \textit{Data Lake}, foi possível 
 substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
-significativamente tanto o número de nós da aplicação quanto o de consultas, assim, simplificando o 
-pipeline ETL como um todo.
+significativamente tanto o número de nós da aplicação quanto o de consultas e, assim, simplificando o 
+\textit{pipeline} ETL como um todo.
 
 \begin{figure*}[ht!]
     \centering
-    \caption{Exemplo de fluxo SSIS que executa multiplas consultas}\label{fig:fluxo_ssis_mult}
+    \caption{Exemplo de fluxo SSIS que executa múltiplas consultas}\label{fig:fluxo_ssis_mult}
     \includegraphics[width=1\textwidth]{imagens/ap_exe_task_com_multiplas_consultas.png}\\
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-Já os fluxos referentes à EFD e CTE apresentaram uma redução de aproximadamente 64\% no número de 
-nós. Embora esse resultado também seja expressivo, ele foi inferior ao observado nos fluxos de 
-NFCE e NFE, pois essas cargas não possuíam duplicação de blocos de tarefas destinados ao processamento 
-de documentos de emitente e de destinatário na implementação original.
+Já os fluxos referentes à EFD e CTE apresentaram uma redução de respectivamente 65,7\% e 63,3\%
+no número de nós. Embora esse resultado também seja expressivo, ele foi inferior ao observado nos 
+fluxos de NFCE e NFE, pois essas cargas não possuíam duplicação de blocos de tarefas de 
+emitente e de destinatário.
+ 
+No mais, as redução em EFD e CTE foram resultado da junção de tarefas, como, as tarefas
+responsáveis pelas operações de tanto logs na origem e no destino, com as tarefas de
+extração e inserção de dados. No projeto SSIS, essas tarefas são executadas de forma separada, e 
+após análises, optou-se por unificá-las, reduzindo, a complexidade do \textit{workflow}.
 
-De modo geral, a redução no número de nós desses fluxos foi resultado da junção de tarefas 
-responsáveis pelas operações de registro de logs na origem e no destino com as tarefas de
-extração e inserção de dados. No projeto SSIS essas tarefas são executadas de forma separada, e 
-após análises, optou-se por unifica-las, reduzindo desse modo a complexidade do workflow.
+parei aqui ......
 
-A redução do número de dependecias se deu principalmente pela redução do número de nós do projeto.
-Dado que, a eliminação de etapas redundantes diminuíram a quantidade de relações existentes entre as 
+A redução do número de dependências deu-se principalmente pela redução do número de nós do projeto, 
+dado que a eliminação de etapas redundantes diminuiu a quantidade de relações existentes entre as 
 tarefas. 
 
-Já as consultas SQL tiveram uma redução drástica quando comparadas ao projeto original. Como já 
-mencionado anteriormente, grande parte dessa redução decorre da utilização do Data Lake como fonte 
-de dados, eliminando a necessidade da execução de múltiplas consultas. Além disso, a parametrização 
+Já as consultas SQL tiveram uma redução drástica quando comparadas ao projeto original. Como 
+mencionado anteriormente, grande parte dessa redução decorre da utilização do \textit{Data Lake} como fonte 
+de dados, eliminando a necessidade de execução de múltiplas consultas. Além disso, a parametrização 
 permitiu o reaproveitamento de consultas comuns a diversos trechos do projeto, contribuindo ainda 
 mais para a diminuição da quantidade de consultas SQL.
 
@@ -156,10 +159,10 @@ acentuadas, da ordem de 80\% e 70\%, respectivamente, conforme apresentado na Ta
 
 \section{Análise comparativa de desempenho}
 
-Antes de mais nada, devemos reiterar que a quantidade de workers do Spark influencia diretamente a 
+Ressalta-se que a quantidade de \textit{workers} do Spark influencia diretamente a 
 capacidade de processamento paralelo do sistema. No contexto do ambiente avaliado, foi possível
-executar até seis tasks simultaneamente, contudo esse paralelismo pode variar conforme o número 
-de workers do cluster Spark e as configurações do Airflow.
+executar até seis tarefas simultaneamente; contudo, esse paralelismo pode variar conforme o número 
+de \textit{workers} do \textit{cluster} Spark e as configurações do Airflow.
 
 \begin{grafico}[ht!]
     \centering
@@ -168,10 +171,10 @@ de workers do cluster Spark e as configurações do Airflow.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{grafico}
 
-No mais, para avaliar o desempenho das cargas, foram executados experimentos 
+Para avaliar o desempenho das cargas, foram executados experimentos 
 com os quatro tipos de documentos fiscais em três intervalos temporais distintos: 
 7 dias, 1 mês e 3 meses. Em cada execução, foram registrados separadamente os tempos de 
-extração, inserção, overhead de execução e o tempo total da execução, permitindo uma 
+extração, inserção, \textit{overhead} de execução e o tempo total da execução, permitindo uma 
 análise detalhada do comportamento de cada etapa. Os resultados são apresentados 
 no Gráfico \ref{graf:tempo_exec}.
 
@@ -181,15 +184,15 @@ que permitem o acompanhamento da execução das cargas.
 
 No geral, é perceptível que o novo projeto apresentou um bom tempo de execução, uma vez que nenhuma 
 das cargas ultrapassou dez minutos. Contudo, deve-se lembrar que a execução das cargas ocorreu em um 
-ambiente experimental, e os dados foram extraídos de uma réplica do Data Lake original. 
-Essa réplica contém um volume de dados significativamente menor que o Data Lake original.
+ambiente experimental, e os dados foram extraídos de uma réplica do \textit{Data Lake} original. 
+Essa réplica contém um volume de dados significativamente menor que o \textit{Data Lake} original.
 
 A partir do Gráfico \ref{graf:tempo_exec}, observa-se que, na maioria dos cenários avaliados, 
 a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, destaca-se o 
 \textit{overhead} introduzido pelo Airflow e pelo Spark, enquanto a etapa de inserção dos dados 
 apresentou, de forma consistente, os menores tempos de processamento.
 
-O Gráfico \ref{graf:tempo_exec} tambem deixa perceptivel que a medida que o intervalo de tempo 
+O Gráfico \ref{graf:tempo_exec} também deixa perceptível que, à medida que o intervalo de tempo 
 aumenta, ocorre um crescimento gradual do tempo de execução. Entretanto, esse crescimento 
 mostrou-se aproximadamente proporcional ao volume processado, indicando um comportamento consistente 
 da solução para diferentes quantidades de dados.
@@ -202,16 +205,16 @@ visto que a carga referente ao período de 3 meses extraiu apenas 2.440 registro
 esse baixo volume de dados, é esperado que ocorram pequenas discrepâncias nos tempos de execução.
 
 Também deve ser mencionado que a carga de EFD apresentou o maior tempo de extração, mesmo sendo a 
-que extraiu a menor quantidade de registros entre todas as cargas. Isso ocorre por ela possuir o 
+que extraiu a menor quantidade de registros entre todas as cargas. Isso ocorre pelo fato de ela possuir o 
 maior número de tarefas (nós), totalizando 76, conforme evidenciado na Tabela 
 \ref{tab:comparacao_manutenibilidade}.
 
-Outra coisa que podemos relatar a partir dos dados é que o tempo de \textit{overhead} se mantém
+Outra observação relevante a partir dos dados é que o tempo de \textit{overhead} se mantém
 relativamente constante, variando pouco no contexto dos diferentes intervalos de tempo do mesmo 
-documento fiscal. Isso se deve principalmente a como o fluxo dos pipelines dos documentos fiscais
-estão organizados, ao número de tasks e ao número de tasks executadas em paralelo. Tanto é que
-pipelines semelhantes, como os de NFE e NFCE, apresentam tempos de \textit{overhead}
-tambem semelhantes. No mais, essas semelhanças entre NFE e NFCE podem ser observadas ao 
+documento fiscal. Isso se deve principalmente à forma como os fluxos dos \textit{pipelines} dos documentos fiscais
+estão organizados, ao número de tarefas e à quantidade de tarefas executadas em paralelo. Dessa forma,
+\textit{pipelines} semelhantes, como os de NFE e NFCE, apresentam tempos de \textit{overhead}
+também semelhantes. Essas semelhanças entre NFE e NFCE podem ser observadas ao 
 visualizar as Figuras \ref{fig:nfe} e \ref{fig:nfce} presentes no Apêndice~\ref{apend:a}.
 
 Por fim, observa-se que os tempos de inserção permaneceram baixos em todos os fluxos avaliados, 
@@ -236,15 +239,15 @@ e manutenção do BDMalhas.
 Desse modo, devido à dependência da equipe de membros de desenvolvimento para iniciar a execução do 
 sistema baseado em SSIS, tornou-se inviável realizar sucessivas execuções das mesmas cargas para 
 diferentes períodos de tempo. Por esse motivo, foi executada apenas uma carga correspondente ao 
-período de janeiro a março de 2020 (3 messes).
+período de janeiro a março de 2020 (3 meses).
 
 Além disso, como o projeto de ETL original em SSIS não possui mecanismos para obter separadamente 
 os tempos de extração, inserção e \textit{overhead}, foi contabilizado apenas o tempo total de 
 execução.
 
 O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução em minutos para os quatro fluxos
-de ETL, obtidos a partir da execução da solução legada no ambiente de produção. No mais, os 
-dados presente no gráfico evidenciam grandes variação entre as cargas. 
+de ETL, obtidos a partir da execução da solução legada no ambiente de produção. Ademais, os 
+dados presentes no gráfico evidenciam grande variação entre as cargas. 
 
 A carga de CTE registrou o menor tempo de processamento, totalizando 6,95 minutos, seguida pela 
 carga de NFE, com 61,27 minutos. Já as cargas de NFCE e EFD demandaram tempos significativamente 
@@ -258,25 +261,25 @@ duração.
 
 \subsection{Limitações da comparação experimental}
 
-Antes de mais nada, é importante destacar algumas limitações na comparação dos tempos de execução 
+Inicialmente, é importante destacar algumas limitações na comparação dos tempos de execução 
 entre os dois projetos. Primeiramente, deve-se reiterar que ambos os sistemas foram executados em 
 ambientes distintos. Portanto, é esperado que os resultados obtidos sejam influenciados pelas 
 diferenças de infraestrutura.
 
 Ademais, o projeto original, desenvolvido em SSIS, possui acesso direto às bases de produção do 
 sistema ATF, armazenadas nos bancos Oracle e Informix, que contêm terabytes de informações fiscais. 
-Em contrapartida, o projeto implementado em Airflow foi executado utilizando uma cópia do Data Lake 
+Em contrapartida, o projeto implementado em Airflow foi executado utilizando uma cópia do \textit{Data Lake} 
 original com um volume de dados significativamente menor.
 
-Além disso, tanto as consultas SQL quanto o esquema de dados das duas versões do Data Lake ainda não
-estão em sua plenitude. Em outras palavras, o esquema de dados do Data Lake ainda não representa 
+Além disso, tanto as consultas SQL quanto o esquema de dados das duas versões do \textit{Data Lake} ainda não
+estão em sua plenitude. Em outras palavras, o esquema de dados do \textit{Data Lake} ainda não representa 
 integralmente o que existe nas bases de produção Oracle e Informix. Ainda há tabelas, colunas, campos,
 relacionamentos e registros que precisam ser incorporados ou refinados.
 
 Um exemplo disso é a própria carga de EFD. No projeto original, os dados a serem carregados são 
 filtrados pela coluna \textit{sqcontrib}, responsável por armazenar o sequencial do contribuinte. 
 Entretanto, no contexto da reestruturação, até o momento da redação deste trabalho, essa coluna 
-ainda não havia sido incorporada ao Data Lake, tampouco existia um campo equivalente.
+ainda não havia sido incorporada ao \textit{Data Lake}, tampouco existia um campo equivalente.
 
 Diante desse cenário, para viabilizar a execução da carga de EFD no novo ambiente, utilizou-se a 
 coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição ao 
@@ -294,14 +297,14 @@ dados e as consultas de extração, a fim de se aproximar cada vez mais do ambie
 
 \section{Comparação do Projeto novo x antigo}
 
-Tendo em vista as limitações apresentadas na subsseção anterior, podemos seguir com a 
+Tendo em vista as limitações apresentadas na subseção anterior, pode-se prosseguir com a 
 apresentação dos resultados.
 
 Após a execução das cargas dos quatro tipos de documentos fiscais em ambas as versões do ETL do 
 BDMalhas, considerando o período compreendido entre 1º de janeiro e 31 de março de 2020, foram 
 obtidos os dados referentes aos tempos de execução e às quantidades de registros extraídos e 
 inseridos nos bancos de destino de ambas as aplicações. Esses resultados são apresentados na 
-Tabela \ref*{tab:desempenho_cargas}, que relaciona a quantidade de registros processados com o 
+Tabela \ref{tab:desempenho_cargas}, que relaciona a quantidade de registros processados com o 
 tempo total de execução das cargas.
 
 
@@ -333,12 +336,12 @@ NFE -- Nova solução   &    651.385 &   8,25 & 78.955,76 \\
 A princípio, é evidente que a quantidade de registros obtida para os mesmos documentos fiscais não 
 é a mesma entre as duas implementações. Nos casos da EFD e da NFCE, as diferenças são bastante 
 expressivas, chegando à ordem de milhões de registros. Isso se deve, principalmente, à utilização 
-da réplica do Data Lake, que possui um volume de dados significativamente menor que o ambiente 
+da réplica do \textit{Data Lake}, que possui um volume de dados significativamente menor que o ambiente 
 original.
 
 No caso da carga de CTE, a nova solução reduziu o tempo de execução de 6,95 para 3,09 minutos, 
 representando uma diminuição de 55,54\% no tempo de execução. 
-Embora que, a nova solução tenha processado uma quantidade menor de registros. Contudo sua taxa 
+Embora a nova solução tenha processado uma quantidade menor de registros, sua taxa 
 média de processamento foi superior, passando de 25.431,51 para 36.585,44 registros por minuto, 
 o que representa um aumento de 43,86\% em relação à solução baseada em SSIS.
 
@@ -353,7 +356,7 @@ quantidade de registros processados, impossibilitando uma comparação direta da
 entre as duas implementações.
 
 Por fim, na carga de NFE, a nova solução reduziu o tempo de execução de 61,27 para 8,25 minutos, 
-correspondendo a uma redução de 86.54\% no tempo de execução. Mesmo processando uma quantidade 
+correspondendo a uma redução de 86,54\% no tempo de execução. Mesmo processando uma quantidade 
 menor de registros, essa carga apresentou um desempenho bem superior, atingindo
 78.955,76 registros por minuto, frente aos 16.328,06 registros por minuto da solução em SSIS.
 Desse modo, a taxa de registros por minuto da nova solução é aproximadamente 383,56\% 
@@ -364,8 +367,5 @@ superior à obtida pela implementação original.
 
 O tamanho da tabela conforme reportado pelo SQL Server.
 
-"Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
-pelo SQL Server e consultadas por meio da ferramenta DBeaver."
-
-
-Continua....dd
+``Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
+pelo SQL Server e consultadas por meio da ferramenta DBeaver.''
