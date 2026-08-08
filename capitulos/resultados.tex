@@ -361,7 +361,11 @@ superior à obtida pela implementação original.
 
 \section{Comparação do Espaço de Armazenamento}
 
-Adicionar algo para o leitor não confudir as tabelas com uma carga completa!!!
+Antes de mais nada, deve-se mencionar que, devido às discrepâncias entre as bases de origem 
+de ambas as versões do ETL, bem como às diferenças nos volumes de dados carregados por cada 
+solução, não foi possível realizar uma comparação direta entre os tamanhos das bases de dados 
+dos dois projetos.
+
 
 \begin{table}[H]
 \centering
@@ -369,7 +373,7 @@ Adicionar algo para o leitor não confudir as tabelas com uma carga completa!!!
 \label{tab:comparacao_armazenamento}
 \begin{tabular}{lcc}
 \toprule
-\textbf{Tabela} & \textbf{SQL Server} & \textbf{ClickHouse} \\
+\textbf{Nome da Tabela} & \textbf{SQL Server} & \textbf{ClickHouse} \\
 \midrule
 CTE          & 19 MB   & 2,1 MB \\
 NFE          & 69 MB   & 10 MB \\
@@ -382,7 +386,47 @@ EFD\_C100    & 1,6 GB  & 167 MB \\
 \caption*{\small Fonte: Elaborado pelo autor, 2026.}
 \end{table}
 
-O tamanho da tabela conforme reportado pelo SQL Server.
+Desse modo, com o intuito de realizar uma comparação justa, foram selecionadas cinco tabelas 
+carregadas pelo sistema original no SQL Server, cada uma com diferentes tamanhos e volumes de
+dados. Essa seleção teve como objetivo avaliar o comportamento do ClickHouse diante de distintas 
+quantidades de dados. Em seguida, todos os registros dessas tabelas foram extraídos e inseridos 
+no banco ClickHouse do ambiente cedido pela SEFAZ.
 
-``Os tamanhos das tabelas foram obtidos a partir das estatísticas de armazenamento disponibilizadas 
-pelo SQL Server e consultadas por meio da ferramenta DBeaver.''
+No mais, essa transferência de dados foi realizada por meio do \textit{DBeaver}, uma ferramenta de 
+gerenciamento de bancos de dados que permite a execução de consultas e a transferência de dados entre 
+diferentes sistemas gerenciadores de bancos de dados. Após a transferência dos dados do SQL Server para
+o ClickHouse, a Tabela \ref{tab:comparacao_armazenamento} foi elaborada com base nas estatísticas de 
+armazenamento obtidas em ambos os bancos de dados.
+
+Atravez da analise da Tabela \ref{tab:comparacao_armazenamento}, fica evidente a redução do espaço 
+ocupado pelos dados após a sua migração para o ClickHouse. Vale destacar que esse comportamento é 
+de redução é observado independentemente do volume, todas as tabelas tiveram uma
+drastica redução em seu tamanho em coparação com as tabelas no SQL Server.
+
+A tabela CTE apresentou uma redução de 88,95\% no espaço ocupado, passando de 19 MB no SQL Server 
+para 2,1 MB no ClickHouse. A tabela NFE apresentou redução de 85,51\%, passando de 69 MB para 10 MB. 
+Já a tabela NFCE\_TPPAGA passou de 355 MB para 76 MB, correspondendo a uma redução de 78,59\%.
+
+Entre as tabelas de maior volume, a redução também foi expressiva. A tabela ITEM\_NFE passou de 
+647 MB para 70 MB, representando uma redução de 89,18\%. A tabela EFD\_C100 apresentou a maior 
+diferença absoluta, passando de 1,6 GB para 167 MB, o que corresponde a uma redução de 89,81\%.
+
+Essa diferença expressiva no espaço ocupado pelo SQL Server e pelo ClickHouse pode ser explicada 
+pelo armazenamento colunar adotado pelo ClickHouse, no qual os valores de cada coluna são agrupados 
+e comprimidos individualmente. Essa abordagem favorece a compressão ao agrupar dados com padrões 
+e valores repetitivos, reduzindo o espaço necessário para seu armazenamento.
+
+Esse comportamento é evidenciado nas tabelas NFCE\_TPPAGA e ITEM\_NFE. Embora a ITEM\_NFE ocupe quase 
+o dobro do espaço de NFCE\_TPPAGA no SQL Server, após a transferência para o ClickHouse, a mesma 
+passou a ocupar menos espaço que a NFCE\_TPPAGA. Isso ocorre devido à distribuição dos dados em um maior 
+número de colunas, favorecendo o agrupamento e, consequentemente, a compressão dos dados.
+
+Além disso, o ClickHouse utiliza diferentes algoritmos de compressão e descompressão de acordo com 
+o tipo de dado armazenado. Essa abordagem contribui para reduzir ainda mais o espaço ocupado pelos 
+dados.
+
+De forma geral, os resultados indicam que o ClickHouse utilizou significativamente menos espaço para 
+armazenar os mesmos dados, com reduções na faixa dos 85\% para as tabelas analisadas. Por fim, embora 
+a comparação esteja limitada às cinco tabelas selecionadas, os resultados evidenciam uma redução
+significativa no espaço de armazenamento no ClickHouse.
+
