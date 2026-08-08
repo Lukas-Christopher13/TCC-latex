@@ -5,10 +5,9 @@
 \thispagestyle{myheadings}
 
 Este capítulo busca apresentar os resultados obtidos a partir da reestruturação do 
-ETL do BDMalhas através da comparação entre o sistema original e o sistema desenvolvido.
+ETL do BDMalhas por meio da comparação entre o sistema original e a solução desenvolvida.
 Para isso, são comparados indicadores estruturais e de desempenho entre o projeto original e 
-a implementação da solução proposta, permitindo, assim, analisar os ganhos alcançados com a solução 
-desenvolvida.
+a implementação proposta, permitindo, assim, analisar os ganhos alcançados.
 
 \section{Avaliação da Manutenibilidade da Arquitetura Proposta}
 
@@ -20,13 +19,13 @@ As métricas foram coletadas com base na superfície de design do SSIS, na inter
 e nos arquivos do novo projeto. Para a avaliação, foram considerados o número de nós, a quantidade 
 de dependências entre os nós e o número de consultas SQL.
 
-Ademais, a escolha dessas métricas se deu pelo fato de que elas representam aspectos
+A escolha dessas métricas se deu pelo fato de que elas representam aspectos
 relacionados à complexidade estrutural e à facilidade de manutenção dos fluxos de ETL. Além disso,
 em conjunto, elas permitem avaliar o nível de acoplamento entre as etapas, a complexidade do fluxo 
 de execução e o esforço necessário para compreender, modificar e evoluir os \textit{pipelines} 
 ao longo do tempo.
 
-No mais, as métricas coletadas estão apresentadas na Tabela \ref{tab:comparacao_manutenibilidade},
+As métricas coletadas estão apresentadas na Tabela \ref{tab:comparacao_manutenibilidade},
 que foi elaborada a partir da contagem dos elementos presentes em ambas as implementações.
 
 
@@ -78,21 +77,20 @@ Consultas SQL (SSIS $\rightarrow$ Airflow) &
 A partir da leitura da Tabela \ref{tab:comparacao_manutenibilidade}, ficam evidentes os ganhos de 
 manutenibilidade obtidos com a nova solução. Primeiramente, observa-se uma expressiva redução no 
 número de nós em todos os fluxos referentes aos documentos fiscais. Entre eles, 
-os fluxos de NFCE e NFE foram os mais beneficiados, apresentando respectivamente uma redução de 
-86,2\% e 85,2\% no número de nós em relação à implementação original.
+os fluxos de NFCE e NFE foram os mais beneficiados, apresentando, respectivamente, uma redução de 
+86,2\% e 85,8\% no número de nós em relação à implementação original.
 
 Essa expressiva redução deve-se, principalmente, à forma como o projeto original estava estruturado. 
 Nos fluxos de NFCE e NFE do SSIS, o \textit{pipeline} está dividido em dois grandes blocos de tarefas, 
-os blocos de notas de emitente e destinatário. Esses blocos são
+os blocos de notas de emitente e de destinatário. Esses blocos são
 praticamente idênticos, diferenciando-se apenas pelos prefixos ``E'' e ``D'' (emitente e destinatário, 
 respectivamente) nos nomes das tarefas e por uma cláusula \texttt{WHERE} nas consultas SQL, utilizada para 
 definir o tipo de nota fiscal a ser processada.
 
 A existência dessa duplicação no projeto original era justificada por limitações do próprio SSIS. 
 Em muitos cenários, a ferramenta não conseguia extrair, em uma única execução, todos os dados das 
-notas fiscais de emitente e de destinatário, devido ao elevado volume de dados. Como consequência
-disso, essas cargas frequentemente eram interrompidas por erros e perdas de conexão com o banco,
-devido ao grande volume de dados a serem processados.
+notas fiscais de emitente e de destinatário, devido ao elevado volume de dados. Como consequência, 
+essas cargas frequentemente eram interrompidas por erros e perdas de conexão com o banco de dados.
 
 Desse modo, tendo em vista a adoção do Apache Spark e a utilização do \textit{Data Lake} da UFPB como 
 nova fonte de dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo 
@@ -100,10 +98,10 @@ sistema ETL. Essa mudança permitiu unificar o processamento em um único fluxo,
 aproximadamente 50\% tanto o número de nós do \textit{workflow} quanto o número de consultas SQL 
 necessárias ao funcionamento do ETL.
 
-Ademais, a utilização do \textit{Data Lake} e de suas consultas unificadas contribuiu significativamente 
+Além disso, a utilização do \textit{Data Lake} e de suas consultas unificadas contribuiu significativamente 
 para a redução do número de tarefas do fluxo de ETL. A Figura \ref{fig:fluxo_ssis_mult} apresenta 
-um trecho do fluxo da carga de NFe, evidenciando a elevada quantidade de consultas executadas na 
-implementação original. Com a adoção do esquema de dados disponibilizado pelo , foi possível 
+um trecho do fluxo da carga de NFE, evidenciando a elevada quantidade de consultas executadas na 
+implementação original. Com a adoção do esquema de dados disponibilizado pelo \textit{Data Lake}, foi possível 
 substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
 significativamente tanto o número de nós da aplicação quanto o de consultas e, assim, simplificando o 
 \textit{pipeline} ETL como um todo.
@@ -115,15 +113,15 @@ significativamente tanto o número de nós da aplicação quanto o de consultas 
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-Já os fluxos referentes à EFD e CTE apresentaram uma redução de respectivamente 65,7\% e 63,3\%
+Já os fluxos referentes à EFD e ao CTE apresentaram uma redução de, respectivamente, 65,7\% e 63,3\%
 no número de nós. Embora esse resultado também seja expressivo, ele foi inferior ao observado nos 
 fluxos de NFCE e NFE, pois essas cargas não possuíam duplicação de blocos de tarefas de 
 emitente e de destinatário.
  
-No mais, as reduções no número de nós em EFD e CTE são explicadas pelas junções de tarefas
+Por sua vez, as reduções no número de nós em EFD e CTE são explicadas pelas junções de tarefas
 realizadas no novo projeto e pela utilização das consultas unificadas do \textit{Data Lake}.
 
-Ademais, temos que redução do número de dependências deu-se principalmente em consequencia da redução 
+Adicionalmente, a redução do número de dependências ocorreu principalmente em consequência da redução 
 do número de nós do projeto, dado que a eliminação de etapas redundantes diminuiu a quantidade de relações 
 existentes entre as tarefas. 
 
@@ -136,7 +134,7 @@ consultas SQL.
 
 Como resultado, foram obtidas reduções de mais de 90\% no número de consultas SQL nos fluxos 
 de NFCE e NFE. Grande parte dessa redução também se deve à remoção da estratégia de notas de 
-emitente e destinatário. Já os projetos de EFD e CTE também apresentaram reduções expressivas, 
+emitente e de destinatário. Por sua vez, as cargas de EFD e CTE também apresentaram reduções expressivas, 
 embora menos acentuadas, na ordem dos 80\% a 70\% no número de consultas, 
 conforme apresentado na Tabela \ref{tab:comparacao_manutenibilidade}.
 
@@ -169,22 +167,22 @@ são apresentados no Gráfico \ref{graf:tempo_exec}.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{grafico}
 
-Vale resaltar que, os resultados foram coletados por meio de funcionalidades da biblioteca 
+Vale ressaltar que os resultados foram coletados por meio de funcionalidades da biblioteca 
 \textit{datetime} do Python e registrados na tabela \textit{sql\_log\_validacao}, responsável 
 por armazenar registros de logs que permitem o acompanhamento da execução das cargas.
 
 No geral, é perceptível que o novo projeto apresentou um bom tempo de execução, uma vez que nenhuma 
 das cargas ultrapassou a marca de dez minutos. Contudo, deve-se lembrar que a execução das cargas 
-ocorreu em um ambiente experimental, e os dados foram extraídos de uma réplica do \textit{Data Lake} 
-original, e que essa réplica contém um volume de dados bem inferior ao do banco original.
+ocorreu em um ambiente experimental e que os dados foram extraídos de uma réplica do \textit{Data Lake} 
+original, a qual contém um volume de dados bem inferior ao do banco de produção.
 
-Desse modo, a partir do Gráfico \ref{graf:tempo_exec} podemos observar que na maioria dos cenários 
-avaliados a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, 
+Desse modo, a partir do Gráfico \ref{graf:tempo_exec}, observa-se que, na maioria dos cenários 
+avaliados, a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, 
 destaca-se o \textit{overhead}, decorrente da orquestração do Airflow e da inicialização das tarefas 
 no Spark durante a execução da carga. Por fim, a etapa de inserção dos dados mostrou-se a mais 
 consistente, apresentando os menores tempos de execução em todos os quatro fluxos.
 
-O Gráfico \ref{graf:tempo_exec} também deixa perceptível que, à medida que o intervalo de tempo 
+O Gráfico \ref{graf:tempo_exec} também evidencia que, à medida que o intervalo de tempo 
 aumenta, ocorre um crescimento gradual do tempo de execução. Além disso, observou-se que esse 
 crescimento ocorreu de forma aproximadamente proporcional ao volume processado, indicando um 
 comportamento consistente da solução para diferentes intervalos de tempo e, consequentemente, 
@@ -206,7 +204,7 @@ Outra observação relevante é que o tempo de \textit{overhead} se mantém rela
 apresentando pouca variação entre os diferentes intervalos de tempo de um mesmo documento fiscal. 
 Isso se deve principalmente à forma como os \textit{pipelines} dos documentos fiscais estão 
 organizados, juntamente ao número de tarefas e à quantidade de tarefas executadas em paralelo. 
-Por issso, \textit{pipelines} de estruturas semelhantes, como os de NFE e NFCE, apresentam 
+Por isso, \textit{pipelines} de estruturas semelhantes, como os de NFE e NFCE, apresentam 
 tempos de \textit{overhead} relativamente semelhantes. Essas semelhanças entre NFE e NFCE podem ser 
 observadas ao visualizar as Figuras \ref{fig:nfe} e \ref{fig:nfce} presentes no 
 Apêndice~\ref{apend:a}.
@@ -241,10 +239,10 @@ os tempos de extração, inserção e \textit{overhead}, foi contabilizado apena
 execução.
 
 O Gráfico \ref{graf:tempo_ssis} apresenta os tempos de execução em minutos para os quatro fluxos
-do projeto ETL original, que foram obtidos a partir da execução da solução legada no ambiente de 
-produção da mesma.
+do projeto ETL original, que foram obtidos a partir da execução da solução legada no seu ambiente de 
+produção.
 
-No mais, os dados presentes no gráfico evidenciam grande variação entre as cargas. A carga de CTE 
+Ademais, os dados presentes no gráfico evidenciam grande variação entre as cargas. A carga de CTE 
 registrou o menor tempo de processamento, totalizando 6,95 minutos, seguida pela carga de NFE, com 
 61,27 minutos. Já as cargas de NFCE e EFD demandaram tempos significativamente maiores, alcançando 
 153,10 e 204,75 minutos, respectivamente.
@@ -276,23 +274,23 @@ Um exemplo disso é a própria carga de EFD. No projeto original, os dados a ser
 filtrados a partir da coluna \textit{sqcontrib}, responsável por armazenar a chave primária
 sequencial dos contribuintes. Entretanto, no contexto da reestruturação, até o momento da redação 
 deste trabalho, essa coluna ainda não havia sido incorporada ao \textit{Data Lake}, tampouco existia 
-um campo equivalente a mesma.
+um campo equivalente a ela.
 
 Diante desse cenário, para viabilizar a execução da carga de EFD no novo ambiente, utilizou-se a 
-coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição a coluna 
+coluna de CNPJ do contribuinte como critério de filtragem dos dados em substituição à coluna 
 \textit{sqcontrib}. Contudo, essa abordagem não estabelece uma correspondência exata com a 
-implementação original, o que influencia os dados efetivamente carregados, e consequentemente, os 
+implementação original, o que influencia os dados efetivamente carregados e, consequentemente, os 
 resultados obtidos.
 
 Dado esse cenário, também é esperado que algumas das consultas disponibilizadas pela UFPB 
 ainda não reflitam integralmente o comportamento das consultas do projeto original, seja pelas 
-diferenças no esquema de dados, pela ausência de determinados campos ou ajustes ainda pendentes. 
+diferenças no esquema de dados, pela ausência de determinados campos ou por ajustes ainda pendentes. 
 
 Tendo esse contexto em mente, fica evidente que ainda serão necessárias futuras iterações com a equipe 
 da UFPB para refinar o esquema de dados e as consultas de extração, a fim de aproximar cada vez mais os 
-resultados da nova solução daqueles obtidos pelo sistema original
+resultados da nova solução daqueles obtidos pelo sistema original.
 
-\section{Comparação do Projeto novo x antigo}
+\section{Comparação entre o Projeto Legado e a Nova Solução}
 
 Tendo em vista as limitações apresentadas na subseção anterior, pode-se prosseguir com a 
 apresentação dos resultados.
@@ -383,7 +381,7 @@ EFD\_C100    & 1,6 GB  & 167 MB \\
 \bottomrule
 \end{tabular}
 
-\caption*{\small Fonte: Elaborado pelo autor, 2026.}
+\caption*{\small Fonte: Elaborado pelo autor, 2026}
 \end{table}
 
 Desse modo, com o intuito de realizar uma comparação justa, foram selecionadas cinco tabelas 
@@ -392,16 +390,16 @@ dados. Essa seleção teve como objetivo avaliar o comportamento do ClickHouse d
 quantidades de dados. Em seguida, todos os registros dessas tabelas foram extraídos e inseridos 
 no banco ClickHouse do ambiente cedido pela SEFAZ.
 
-No mais, essa transferência de dados foi realizada por meio do \textit{DBeaver}, uma ferramenta de 
+Além disso, essa transferência de dados foi realizada por meio do \textit{DBeaver}, uma ferramenta de 
 gerenciamento de bancos de dados que permite a execução de consultas e a transferência de dados entre 
 diferentes sistemas gerenciadores de bancos de dados. Após a transferência dos dados do SQL Server para
 o ClickHouse, a Tabela \ref{tab:comparacao_armazenamento} foi elaborada com base nas estatísticas de 
 armazenamento obtidas em ambos os bancos de dados.
 
-Atravez da analise da Tabela \ref{tab:comparacao_armazenamento}, fica evidente a redução no espaço 
+Através da análise da Tabela \ref{tab:comparacao_armazenamento}, fica evidente a redução no espaço 
 de armazenamento ocupado pelos dados após a migração para o ClickHouse. Vale destacar que esse 
-comportamento de redução é observado independentemente do volume, todas as tabelas tiveram uma
-drastica redução em seu tamanho em coparação com as tabelas no SQL Server.
+comportamento de redução é observado independentemente do volume, pois todas as tabelas tiveram uma
+drástica redução em seu tamanho em comparação com as tabelas no SQL Server.
 
 A tabela CTE apresentou uma redução de 88,95\% no espaço ocupado, passando de 19 MB no SQL Server 
 para 2,1 MB no ClickHouse. A tabela NFE apresentou redução de 85,51\%, passando de 69 MB para 10 MB. 
@@ -411,20 +409,20 @@ Entre as tabelas de maior volume, a redução também foi expressiva. A tabela I
 647 MB para 70 MB, representando uma redução de 89,18\%. A tabela EFD\_C100 apresentou a maior 
 diferença absoluta, passando de 1,6 GB para 167 MB, o que corresponde a uma redução de 89,81\%.
 
-Ademais, essa diferença no espaço ocupado pelo SQL Server e ClickHouse é explicada pelo modelo de
-armazenamento colunar adotado no ClickHouse, no qual os valores das coluna são agrupados 
+Ademais, essa diferença no espaço ocupado pelo SQL Server e pelo ClickHouse é explicada pelo modelo de
+armazenamento colunar adotado no ClickHouse, no qual os valores das colunas são agrupados 
 e comprimidos individualmente. Essa abordagem favorece a compressão ao agrupar dados com padrões 
 e valores repetitivos, reduzindo o espaço necessário para seu armazenamento.
 
-Essa caracteristica dos bancos colunares é evidenciada ao observarmos os resultados das tabelas 
+Essa característica dos bancos colunares é evidenciada ao observarmos os resultados das tabelas 
 NFCE\_TPPAGA e ITEM\_NFE. Embora a ITEM\_NFE ocupe quase o dobro do espaço de NFCE\_TPPAGA no SQL 
-Server, após a transferência para o ClickHouse, a mesma passou a ocupar menos espaço que a NFCE\_TPPAGA. 
+Server, após a transferência para o ClickHouse, esta passou a ocupar menos espaço do que a NFCE\_TPPAGA. 
 Isso ocorre devido à distribuição dos dados em um maior número de colunas, favorecendo o agrupamento e, 
 consequentemente, a compressão dos dados.
 
-Além disso, é bom mencionar que o ClickHouse utiliza diferentes algoritmos de compressão e descompressão
-de acordo com o tipo de dado armazenado. Essa abordagem contribui para reduzir ainda mais o espaço o
-cupado pelos dados.
+Além disso, cabe mencionar que o ClickHouse utiliza diferentes algoritmos de compressão e descompressão
+de acordo com o tipo de dado armazenado. Essa abordagem contribui para reduzir ainda mais o espaço 
+ocupado pelos dados.
 
 De forma geral, os resultados indicam que o ClickHouse utilizou significativamente menos espaço para 
 armazenar os mesmos dados, com reduções na faixa dos 85\% para as tabelas analisadas. Por fim, embora 
