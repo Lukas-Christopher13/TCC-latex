@@ -12,87 +12,81 @@ proposta e identificar os fatores que podem influenciar sua adoção e evoluçã
 De modo geral, os resultados indicam que a reestruturação proporcionou melhorias relevantes
 na estrutura dos \textit{pipelines} e no armazenamento dos dados. Em relação à manutenibilidade,
 a redução do número de nós, dependências e consultas SQL evidencia uma simplificação
-estrutural dos fluxos de ETL. Ademais, a utilização do Apache Airflow, associada à parametrização das
+estrutural dos fluxos de ETL. 
+
+Ademais, a utilização do Apache Airflow, associada à parametrização das
 consultas e à centralização de parte da lógica de processamento em código, também contribuiu
-para reduzir a quantidade de componentes necessários à execução dos fluxos.
+para reduzir a quantidade de componentes necessários à execução dos fluxos de ETL.
 
-Devemos destacara que, embora essas métricas não representem uma medida direta da manutenibilidade, 
-elas fornecem indicadores objetivos de redução da complexidade estrutural dos \textit{workflows}. 
-A menor quantidade de nós, dependências e consultas pode favorecer a compreensão dos fluxos e reduzir
-o número de elementos que precisam ser modificados durante futuras alterações. Além disso,
-a utilização de consultas parametrizadas e o reaproveitamento de lógica diminuem a duplicação
-de código, contribuindo para uma estrutura mais modular em comparação à implementação
-original em SSIS.
+Contudo, devemos destacara que, embora essas métricas não representem uma medida direta da 
+manutenibilidade, elas fornecem indicadores objetivos de redução da complexidade estrutural 
+dos \textit{workflows}. Visto que, uma menor quantidade de nós, dependências e consultas favorecem
+a compreensão dos fluxos, além  de reduzir o número de elementos a serem modificados em futuras 
+alterações. 
 
-Em relação ao desempenho, os resultados obtidos indicam um comportamento favorável da nova
-solução nas condições experimentais avaliadas. Para as cargas de CTE e NFE, por exemplo,
-foram observadas reduções nos tempos totais de execução e aumento das taxas de processamento.
-Entretanto, esses resultados não permitem afirmar uma superioridade absoluta da nova solução em 
-relação ao sistema legado, uma vez que as execuções ocorreram em ambientes distintos e processaram
-volumes diferentes de dados.
+Quanto ao desempenho, os resultados obtidos indicam um comportamento favorável da nova solução. 
+Entretanto, devido às limitações apresentadas ao longo do trabalho, não é possível afirmar de 
+forma conclusiva que o novo sistema apresenta desempenho superior ao antigo.
+ 
+Via de exemplo, para as cargas de CTE e NFE tivemos uma reduções nos tempos execução
+junto ao aumento das taxas de processamento. Entretanto, mesmo com esse parecer positivo
+por parte da nova solução, não podemos afirmar a superioridade absoluta da nova solução, 
+dado as discrepancias tanto de ambiente de execução quando de volume de dados carregados
+por ambas as soluções.
 
-Essa limitação é particularmente relevante nas cargas de EFD e NFCE, nas quais a diferença
-entre os volumes processados pelas duas implementações foi bem expressiva.  
+Essas limitações se tornam particulairamente evidentes nas cargas de EFD e NFCE, em que as 
+diferença entre os volumes de dados processados pelas duas implementações foram bem expressivas. 
+Reiterando, embora que o tempo observado na nova implementação do BDMalhas tenha sido bem menor, 
+essa diferença não pode ser utilizada isoladamente como evidência de superioridade do sistema
+novo em detrimento ao antigo.
 
-(completar) Dessa forma, embora o tempo observado na nova solução tenha sido
-consideravelmente menor, essa diferença não pode ser utilizada isoladamente como evidência
-de superioridade de desempenho.
+Desse modo, esses resultados devem ser interpretados mais como indicativos do que como uma 
+certeza absoluta de superioridade. Se, por um lado, as cargas de CTE e NFE apresentaram taxas 
+de processamento maiores no novo ETL, com tempos de execução inferiores aos do ETL antigo, 
+por outro, os fluxos de EFD e NFCE apresentaram volumes de dados tão discrepantes que 
+impossibilitaram uma análise efetiva.
 
-Desse modo, os resultados devem ser interpretados como evidências do comportamento da solução no
-ambiente experimental utilizado, sendo necessária uma avaliação com volumes equivalentes e 
-infraestrutura comparável para uma conclusão mais abrangente.
+Portanto, para uma comparação mais justa, seria necessário executar o novo projeto em um 
+ambiente com acesso direto ao Data Lake real, considerando também o refinamento do próprio 
+Data Lake e das consultas SQL utilizadas na extração das cargas. Dessa forma, ambas as soluções 
+poderiam processar volumes equivalentes de dados, permitindo uma comparação mais consistente 
+entre seus desempenhos.
 
-Outro aspecto relevante é que a nova arquitetura reúne diferentes tecnologias, como Apache
-Airflow, Apache Spark e ClickHouse. Os ganhos
-identificados devem ser compreendidos como decorrentes da combinação dos componentes da
-arquitetura proposta, juntamente com as alterações realizadas nos fluxos de processamento e
-no modelo de dados utilizado como fonte.
+Ademais, no que se refere ao armazenamento, os resultados obtidos nas cinco tabelas analisadas 
+demonstraram uma redução expressiva do espaço ocupado após a migração dos dados para o ClickHouse.
+As reduções observadas variaram entre 78,59\% e 89,81\%, indicando um comportamento consistente 
+na redução do espaço ocupado nos diferentes volumes avaliados.
 
-No que se refere ao armazenamento, os resultados obtidos nas cinco tabelas analisadas
-demonstraram uma redução expressiva do espaço ocupado após a migração dos dados para o
-ClickHouse. As reduções observadas ficaram entre 78,59\% e 89,81\%, indicando um
-comportamento consistente de redução do espaço para os diferentes volumes avaliados.
-Esse resultado está relacionado às características do armazenamento colunar e aos mecanismos
-de compressão utilizados pelo ClickHouse, que permitem agrupar valores de uma mesma coluna
-e explorar padrões e repetições presentes nos dados. Contudo, os resultados são limitados às
-cinco tabelas selecionadas e, portanto, não permitem generalizar diretamente a mesma taxa de
-redução para todo o banco de dados.
+Esse resultado está diretamente relacionado às características do armazenamento colunar e aos 
+mecanismos de compressão utilizados pelo ClickHouse. Contudo, é importante ressaltar que a 
+análise foi limitada às cinco tabelas selecionadas para a comparação. Embora esses resultados 
+não possam ser generalizados para todas as tabelas das cargas, observa-se uma redução expressiva 
+no espaço de armazenamento, uma vez que todas as amostras apresentaram economia superior a 75\%.
 
-Além dos resultados quantitativos, a reestruturação também apresentou desafios relacionados
-à migração da solução baseada em SSIS para uma arquitetura composta por Airflow e Spark.
-Embora o Airflow ofereça maior flexibilidade para a implementação programática dos fluxos,
-determinadas funcionalidades disponíveis por meio de componentes do SSIS precisaram ser
-reimplementadas utilizando código Python. Essa mudança aumenta a flexibilidade da solução, 
-mas também transfere parte da responsabilidade de implementação e manutenção para o código
-desenvolvido pela equipe.
+Além dos resultados quantitativos, a reestruturação apresentou desafios relacionados
+à migração da solução baseada em SSIS para a arquitetura composta por Airflow e Spark.
+Embora o Airflow ofereça maior flexibilidade para a implementação dos fluxos,
+determinadas funcionalidades disponíveis atravez de componentes do SSIS precisaram ser
+reimplementadas utilizando código Python e Airflow. 
 
-Outro desafio esteve relacionado à utilização do \textit{Data Lake} como nova fonte de dados.
-A diferença entre o esquema disponível no \textit{Data Lake} e as estruturas existentes nas
-bases de produção exigiu adaptações nas consultas de extração. A ausência da coluna
-\textit{sqcontrib}, utilizada originalmente na carga de EFD, é um exemplo dessa limitação.
-Nesse caso, foi necessário utilizar o CNPJ como critério alternativo de filtragem, o que
-impediu uma correspondência exata entre os dados processados pelas duas implementações.
+Outro desafio encontrado durante o desenvolvimento da nova solução foi a utilização do 
+\textit{Data Lake} como nova fonte de dados. Devido à ausência de equivalência completa 
+entre o \textit{Data Lake}, suas consultas e as bases originais do ATF, foi necessário 
+realizar algumas adaptações durante o processo de desenvolvimento. 
 
-As limitações do ambiente experimental também restringem a generalização dos resultados.
-A nova solução foi executada sobre uma réplica do \textit{Data Lake} contendo um volume de
-dados inferior ao disponível nas bases de produção. Além disso, as execuções das duas
-implementações ocorreram em infraestruturas distintas e a solução legada foi executada apenas
-uma vez. Consequentemente, os resultados de desempenho representam as condições observadas
-nos experimentos realizados e não uma avaliação estatística da variabilidade das execuções.
+Um exemplo dessas limitações é a inexistência da coluna \textit{sqcontrib} no \textit{Data Lake}. 
+Essa coluna é utilizada para selecionar os dados a serem carregados na carga de EFD. Nesse caso, 
+foi necessário utilizar o CNPJ como critério alternativo de filtragem, o que impediu uma 
+correspondência exata entre os dados processados pelas duas implementações.
 
-Diante dessas limitações, a evolução da solução depende de futuras iterações com a equipe
-responsável pelo \textit{Data Lake}, especialmente para completar o esquema de dados e
-adequar as consultas de extração às estruturas existentes nas bases de produção. A
-disponibilização de um conjunto de dados mais completo também permitirá realizar experimentos
-com volumes mais próximos dos encontrados no ambiente produtivo, tornando futuras comparações
-de desempenho mais representativas.
+Por fim, apesar dos desafios decorrentes da reestruturação, foi possível observar, por meio dos 
+resultados obtidos, que a nova solução trouxe benefícios, principalmente na simplificação 
+estrutural dos fluxos e na redução do espaço de armazenamento. Embora os resultados de desempenho
+tenham sido favoráveis em determinados cenários, eles devem ser interpretados com cautela, 
+considerando as diferenças entre os ambientes de execução e os volumes de dados processados.
 
-De forma geral, os resultados indicam que a reestruturação trouxe benefícios principalmente
-na simplificação estrutural dos fluxos e na redução do espaço de armazenamento. Os resultados
-de desempenho também foram favoráveis em determinados cenários, especialmente para CTE e NFE,
-mas devem ser interpretados considerando as diferenças entre os ambientes e os volumes
-processados. Assim, a arquitetura proposta demonstra potencial para substituir e evoluir o
-processo de ETL existente, embora sua avaliação definitiva em ambiente produtivo dependa da
-conclusão das adequações do \textit{Data Lake} e da realização de novos experimentos sob
-condições mais equivalentes.
+Assim, a arquitetura proposta demonstra potencial para substituir e evoluir o processo de ETL 
+do BDMalhas, embora sua avaliação definitiva ainda não possa ser realizada devido à ausência 
+de um ambiente de produção adequado, à necessidade de conclusão das adequações do 
+\textit{Data Lake} e à realização de novos experimentos sob condições mais equivalentes.
 
