@@ -171,10 +171,10 @@ Vale ressaltar que os resultados foram coletados por meio de funcionalidades da 
 \textit{datetime} do Python e registrados na tabela \textit{sql\_log\_validacao}, responsável 
 por armazenar registros de logs que permitem o acompanhamento da execução das cargas.
 
-No geral, é perceptível que o novo projeto apresentou um bom tempo de execução, uma vez que nenhuma 
-das cargas ultrapassou a marca de dez minutos. Contudo, deve-se lembrar que a execução das cargas 
-ocorreu em um ambiente experimental e que os dados foram extraídos de uma réplica do \textit{Data Lake} 
-original, a qual contém um volume de dados bem inferior ao do banco de produção.
+No geral, nenhuma das cargas ultrapassou dez minutos de execução. Contudo, deve-se lembrar que a 
+execução das cargas ocorreu em um ambiente experimental e que os dados foram extraídos de uma 
+réplica do \textit{Data Lake} original, a qual contém um volume de dados bem inferior ao do banco 
+de produção.
 
 Desse modo, a partir do Gráfico \ref{graf:tempo_exec}, observa-se que, na maioria dos cenários 
 avaliados, a etapa de extração dos dados foi a que demandou o maior tempo de execução. Em seguida, 
@@ -183,8 +183,8 @@ no Spark durante a execução da carga. Por fim, a etapa de inserção dos dados
 consistente, apresentando os menores tempos de execução em todos os quatro fluxos.
 
 O Gráfico \ref{graf:tempo_exec} também evidencia que, à medida que o intervalo de tempo 
-aumenta, ocorre um crescimento gradual do tempo de execução. Além disso, observou-se que esse 
-crescimento ocorreu de forma aproximadamente proporcional ao volume processado, indicando um 
+aumenta, ocorre um crescimento gradual do tempo de execução. Além disso, observou-se uma tendência 
+de crescimento conforme o aumento do intervalo e do volume de dados, indicando um 
 comportamento consistente da solução para diferentes intervalos de tempo e, consequentemente, 
 diferentes volumes de dados.
 
@@ -298,8 +298,13 @@ apresentação dos resultados.
 Após a execução das cargas em ambas as versões do ETL do BDMalhas, considerando o período compreendido 
 entre 1º de janeiro e 31 de março de 2020, foram obtidos os dados referentes aos tempos 
 de execução e às quantidades de registros extraídos e inseridos nos bancos de destino de ambas as 
-aplicações. Esses resultados são apresentados na Tabela \ref{tab:desempenho_cargas}, que relaciona a 
-quantidade de registros processados com o tempo total de execução das cargas.
+aplicações. 
+
+Esses resultados são apresentados na Tabela \ref{tab:desempenho_cargas}, que relaciona a 
+quantidade de registros processados com o tempo total de execução das cargas. Vale resaltar que os 
+valores apresentados na Tabela \ref{tab:desempenho_cargas} não representam uma comparação direta de 
+desempenho, uma vez que os volumes processados e as condições de execução diferem entre as 
+implementações.
 
 
 \begin{table}[H]
@@ -334,10 +339,9 @@ da réplica do \textit{Data Lake}, que possui um volume de dados bem menor que o
 original.
 
 No caso da carga de CTE, a nova solução reduziu o tempo de execução de 6,95 para 3,09 minutos, 
-representando uma diminuição de 55,54\% no tempo de execução. 
-Embora a nova solução tenha processado uma quantidade menor de registros, sua taxa 
-média de processamento foi superior, passando de 25.431,51 para 36.585,44 registros por minuto, 
-o que representa um aumento de 43,86\% em relação à solução baseada em SSIS.
+representando uma diminuição de 55,54\%. Embora tenha processado uma quantidade menor de registros, 
+apresentou uma taxa média de processamento superior, passando de 25.431,51 para 36.585,44 registros 
+por minuto, um aumento de 43,86\% em relação ao SSIS.
 
 Para a carga de EFD, a nova solução executou a carga em apenas 7,55 minutos, frente aos 204,75 
 minutos da implementação em SSIS. Entretanto, essa comparação deve ser interpretada com cautela, 
@@ -350,11 +354,9 @@ quantidade de registros processados, impossibilitando uma comparação direta da
 entre as duas implementações.
 
 Por fim, na carga de NFE, a nova solução reduziu o tempo de execução de 61,27 para 8,25 minutos, 
-correspondendo a uma redução de 86,54\% no tempo de execução. Mesmo processando uma quantidade 
-menor de registros, essa carga apresentou um desempenho bem superior, atingindo
-78.955,76 registros por minuto, frente aos 16.328,06 registros por minuto da solução em SSIS.
-Desse modo, a taxa de registros por minuto da nova solução é aproximadamente 383,56\% 
-superior à obtida pela implementação original.
+correspondendo a uma redução de 86,54\%. Mesmo processando uma quantidade menor de registros, 
+apresentou uma taxa média de processamento superior, passando de 16.328,06 para 78.955,76 registros 
+por minuto, um aumento de 383,56\% em relação ao SSIS.
 
 
 \section{Comparação do Espaço de Armazenamento}
