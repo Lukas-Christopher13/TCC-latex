@@ -235,8 +235,9 @@ um conjunto de tarefas menores que são executadas em paralelo.
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
 
-Dessa forma, cada tarefa processa apenas uma fração do período original, levando a um menor tempo de 
-execução das cargas. Por sua vez, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
+Dessa forma, cada tarefa processa apenas uma fração do período original, permitindo distribuir o processamento 
+do período entre múltiplas tarefas e, potencialmente, reduzir o tempo de execução das cargas. 
+Por sua vez, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
 em seis partes que são executadas em paralelo.
 
 \subsection{Scripts Spark}
@@ -349,10 +350,11 @@ diferentes quantidades de registros entre o PostgreSQL e o ClickHouse.
 Esses experimentos foram realizados em uma máquina equipada com processador AMD Ryzen 5 5600GT, 
 16 GB de memória RAM DDR4 e unidade de armazenamento SSD de 1 TB. 
 
-Diante desse comportamento, e considerando que o BDMalhas processa grandes volumes de dados, a adoção do 
-ClickHouse mostrou-se a alternativa mais adequada. Por se tratar de um banco de dados colunar voltado para 
-cargas de trabalho analíticas, sua arquitetura é otimizada para operações de inserção e leitura em larga 
-escala, proporcionando elevado desempenho no processamento de grandes conjuntos de dados.
+Diante dos resultados obtidos no experimento, observou-se que o ClickHouse apresentou comportamento mais 
+adequado às necessidades de inserção da solução proposta. Por se tratar de um banco de 
+dados colunar voltado para cargas de trabalho analíticas, sua arquitetura é otimizada para operações de
+inserção e leitura em larga escala, proporcionando elevado desempenho no processamento de grandes conjuntos 
+de dados.
 
 Por fim, essas decisões arquiteturais resultaram em uma solução mais modular e flexível, facilitando a 
 manutenção dos pipelines, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
