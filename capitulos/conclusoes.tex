@@ -10,50 +10,59 @@ a esse cenário, investigou-se a viabilidade de uma reestruturação do ETL base
 tecnologias de Big Data, visando ampliar a escalabilidade, a flexibilidade e a facilidade 
 de manutenção.
 
-Desse modo, o objetivo geral desta pesquisa, de reestruturar a estratégia de ETL com base 
-no projeto BDMalhas, foi alcançado. Os resultados obtidos evidenciaram melhorias no 
-desempenho do sistema, refletidas na redução do tempo de execução, da complexidade do 
-fluxo de ETL e do espaço em disco utilizado.
+Desse modo, o objetivo geral desta pesquisa, de reestruturar a estratégia de ETL com base no 
+projeto BDMalhas, foi alcançado. Os resultados obtidos evidenciaram melhorias na estrutura dos 
+fluxos e no espaço em disco utilizado, além de resultados favoráveis de desempenho em determinados
+cenários, embora sua avaliação comparativa tenha sido limitada pelas diferenças entre os ambientes
+e volumes de dados processados.
 
 Quanto ao primeiro objetivo específico, este foi alcançado por meio do desenvolvimento de 
 um sistema de ETL que materializou a proposta de reestruturação, utilizando Airflow para 
 orquestração, Spark para processamento distribuído e ClickHouse como banco de dados 
 analítico.
 
-Em seguida, a avaliação da solução desenvolvida permitiu atender ao segundo objetivo 
-específico. Este foi alcançado por meio da comparação entre o sistema original e a 
-solução desenvolvida, utilizando métricas de manutenibilidade, desempenho e ocupação 
-de disco. Os resultados demonstraram que a reestruturação proporcionou ganhos 
-estruturais e operacionais, simplificando os pipelines de ETL, reduzindo o uso de 
-armazenamento e preservando o desempenho do sistema.
+Em seguida, a avaliação da solução desenvolvida permitiu atender ao segundo objetivo específico.
+Este foi alcançado por meio da comparação entre o sistema original e a solução desenvolvida, 
+utilizando métricas de manutenibilidade, desempenho e ocupação de disco. Os resultados 
+demonstraram que a reestruturação proporcionou ganhos estruturais e operacionais, simplificando 
+os \textit{pipelines} de ETL e reduzindo o uso de armazenamento, além de apresentar resultados 
+favoráveis de desempenho em determinados cenários.
 
-Por fim, a análise dos resultados permitiu alcançar o terceiro objetivo específico, 
-ao identificar os principais desafios enfrentados durante a reestruturação, bem como 
-os ganhos obtidos em termos de manutenibilidade, flexibilidade e escalabilidade.
+Por fim, a discussão dos resultados permitiu alcançar o terceiro objetivo específico, 
+ao identificar os principais desafios enfrentados durante a reestruturação, bem como os 
+ganhos obtidos em termos de manutenibilidade e flexibilidade, além de fornecer indicativos 
+dos possíveis ganhos de escalabilidade proporcionados pela nova arquitetura.
 
-Com isso, a hipótese de que a reestruturação das pipelines de ETL traria impactos 
-positivos para os processos de Big Data da SEFAZ-PB foi confirmada, corroborando a 
-viabilidade da abordagem proposta.
+Com isso, os resultados obtidos fornecem evidências favoráveis à hipótese de que a 
+reestruturação das \textit{pipelines} de ETL pode trazer impactos positivos para os 
+processos de Big Data da SEFAZ-PB, indicando a viabilidade da abordagem proposta.
 
-Diante dos resultados obtidos, conclui-se que o problema de pesquisa foi respondido 
-de forma satisfatória. A pesquisa demonstrou que a reestruturação da estratégia de 
-ETL baseada em tecnologias de Big Data constitui uma alternativa viável para 
-modernizar os processos da SEFAZ-PB, atendendo aos requisitos estabelecidos para o 
-projeto.
+Diante dos resultados obtidos, conclui-se que o problema de pesquisa foi respondido de forma 
+satisfatória. A pesquisa demonstrou que a reestruturação da estratégia de ETL baseada em 
+tecnologias de Big Data constitui uma alternativa viável para modernizar os processos da 
+SEFAZ-PB, apresentando ganhos estruturais e de armazenamento, além de resultados favoráveis 
+de desempenho em determinados cenários.
 
-Metodologicamente, esta pesquisa foi conduzida como um estudo de caso no projeto 
-BDMalhas, adotando uma abordagem quantitativa para desenvolver e avaliar a proposta 
-de reestruturação do ETL. A validação da solução baseou-se em experimentos 
-comparativos realizados no ambiente disponibilizado pela SEFAZ-PB.
+Metodologicamente, esta pesquisa foi conduzida como um estudo de caso no projeto BDMalhas, 
+adotando uma abordagem quantitativa para desenvolver e avaliar a proposta de reestruturação 
+o ETL. A avaliação da solução baseou-se em experimentos comparativos realizados no ambiente 
+disponibilizado pela SEFAZ-PB.
 
-Entretanto, por tratar-se de um estudo de caso, os resultados obtidos estão limitados
-ao contexto do projeto BDMalhas e ao ambiente experimental utilizado. Além disso, as
-avaliações foram realizadas sobre uma cópia do Data Lake contendo apenas dados 
-compreendidos entre janeiro e março de 2020, restringindo os experimentos a esse 
-período e limitando a generalização dos resultados para outros cenários.
+Entretanto, por tratar-se de um estudo de caso, os resultados obtidos estão limitados ao contexto
+do projeto BDMalhas e ao ambiente experimental utilizado. Além disso, as avaliações foram 
+realizadas sobre uma cópia do \textit{Data Lake} contendo apenas dados compreendidos entre 
+janeiro e março de 2020, com volume inferior ao disponível no ambiente de produção. Dessa forma, 
+os experimentos ficaram restritos a esse período e contexto, limitando a generalização dos 
+resultados para outros cenários.
 
-Por fim, como recomendação para trabalhos futuros, sugere-se a validação da proposta 
-em um ambiente de produção, utilizando um volume mais abrangente de dados e períodos 
-de processamento mais extensos. Recomenda-se, ainda, a avaliação da arquitetura em 
-outros processos de ETL da SEFAZ-PB, bem como a investigação de novas estratégias de 
+Por fim, como recomendação para trabalhos futuros, sugere-se a avaliação da proposta em um 
+ambiente adequado, com infraestrutura e volumes de dados mais próximos aos encontrados em 
+produção, de modo a permitir comparações mais conclusivas de desempenho entre as duas 
+soluções. Recomenda-se também a realização de novos experimentos com diferentes períodos e 
+volumes de dados.
+
+Além disso, sugere-se a utilização de um ambiente com maior capacidade computacional e um 
+número maior de \textit{workers} no cluster Spark, permitindo avaliar de forma mais abrangente 
+os benefícios do processamento distribuído e sua escalabilidade. Recomenda-se, ainda, a avaliação 
+da arquitetura em outros processos de ETL da SEFAZ-PB e a investigação de estratégias de 
 otimização que possam ampliar sua escalabilidade, desempenho e manutenibilidade.
