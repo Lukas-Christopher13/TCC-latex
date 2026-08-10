@@ -5,13 +5,13 @@ Este capítulo apresenta o desenvolvimento da solução proposta para a reestrut
 processos de ETL do BDMalhas. Inicialmente, descreve-se a arquitetura da solução legada, 
 evidenciando suas principais características e limitações. Em seguida, é apresentada a 
 arquitetura proposta e sua implementação, detalhando os componentes adotados e a forma 
-como foram estruturados os novos pipelines de ETL.
+como foram estruturados os novos \textit{pipelines} de ETL.
 
 \section{Proposta de reestruturação}
 
 A proposta de reestruturação da plataforma de dados da SEFAZ-PB foi materializada por meio 
 do desenvolvimento de um novo sistema de ETL para o projeto BDMalhas. A solução contempla a 
-reestruturação dos pipelines de ETL e a adoção de uma arquitetura baseada em tecnologias do 
+reestruturação dos \textit{pipelines} de ETL e a adoção de uma arquitetura baseada em tecnologias do 
 ecossistema de Big Data, com o objetivo de atender às demandas de processamento e análise de 
 grandes volumes de dados. As seções seguintes descrevem os componentes que compõem essa 
 arquitetura e os principais aspectos de sua implementação.
@@ -45,11 +45,11 @@ camadas:
     bancos de dados transacionais do sistema ATF, implementados nas plataformas Informix e Oracle.
 
     \item \textbf{Data Extraction:} camada responsável pela extração dos dados. Por meio de processos de 
-    ETL (Extract, Transform and Load), os dados são extraídos do SOR, submetidos às transformações 
+    ETL (\textit{Extract, Transform and Load}), os dados são extraídos do SOR, submetidos às transformações 
     necessárias e carregados em uma área intermediária de armazenamento.
 
     \item \textbf{Analytical Databases:} camada responsável pela consolidação e disponibilização analítica 
-    das informações. A partir dos dados armazenados na área de staging, são executados processos 
+    das informações. A partir dos dados armazenados na área de \textit{staging}, são executados processos 
     de transformação e enriquecimento que resultam na construção de bases analíticas e malhas 
     fiscais destinadas ao consumo pelo SCAMF.
 
@@ -72,11 +72,11 @@ de Big Data, simplificando as consultas e aumentando a eficiência das etapas de
 processamento dos dados.
 
 Ademais, houve a substituição do SQL Server Integration Services (SSIS) pelo Apache Airflow como 
-plataforma de orquestração dos pipelines de dados, juntamente com a adoção do Apache Spark como 
+plataforma de orquestração dos \textit{pipelines} de dados, juntamente com a adoção do Apache Spark como 
 mecanismo de processamento distribuído. Essa mudança  visa proporcionar maior escalabilidade, 
 flexibilidade e capacidade de processamento.
 
-Por fim, o banco de dados da camada de staging foi substituído por um banco de dados de tipo 
+Por fim, o banco de dados da camada de \textit{staging} foi substituído por um banco de dados de tipo 
 colunar, o Clickhouse, mais adequado a cenários de Big Data. Esse modelo de armazenamento 
 proporciona maior eficiência no processamento de grandes volumes de dados e melhor desempenho em consultas analíticas, 
 características essenciais para a nova arquitetura proposta.
@@ -93,17 +93,17 @@ seguintes camadas:
 
 \begin{itemize}
     \item \textbf{Data Extraction:} passa a ter mais uma camada, um Data Lake implementado em 
-    Postgres e gerido pela UFPB, de onde os dados são extraídos, alimentado a base de staging.
+    Postgres e gerido pela UFPB, de onde os dados são extraídos, alimentado a base de \textit{staging}.
 
     \item \textbf{Analytical Databases:} no \textit{staging}, são executados processos de transformação e 
     enriquecimento que resultam na construção de bases analíticas e malhas fiscais destinadas
     ao consumo pelo SCAMF.
 \end{itemize}
 
-Dado o contexto da nova stack tecnológica adotada na reestruturação, o processo de ETL 
+Dado o contexto da nova \textit{stack} tecnológica adotada na reestruturação, o processo de ETL 
 inicia-se com a extração dos dados a partir do Data Lake PostgreSQL da SEFAZ-PB. 
 O Apache Airflow é responsável pela orquestração dos fluxos de execução, estruturados em 
-DAGs (Directed Acyclic Graphs) compostas por tasks executadas de forma sequencial ou 
+DAGs (\textit{Directed Acyclic Graphs}) compostas por \textit{tasks} executadas de forma sequencial ou 
 paralela, mantendo a mesma lógica operacional anteriormente implementada em Microsoft SSIS.
 
 Contudo, diferentemente da arquitetura anterior, o Airflow não realiza diretamente o 
@@ -139,34 +139,34 @@ podemos destacar os mais relevantes para a implementação: \textit{/dags}, \tex
 \textit{/scripts\_spark}, cada um responsável por uma etapa específica da execução do projeto.
 
 O diretório \textit{/dags} concentra exclusivamente os arquivos responsáveis pela orquestração dos 
-pipelines. Essa separação evita que regras de processamento fiquem acopladas ao fluxo de execução, 
+\textit{pipelines}. Essa separação evita que regras de processamento fiquem acopladas ao fluxo de execução, 
 permitindo que alterações na sequência das tarefas possam ser realizadas independentemente da lógica 
 de transformação dos dados.
 
 Além disso, as consultas SQL foram mantidas em arquivos independentes no diretório \textit{/sql}, 
 em vez de serem incorporadas diretamente ao código Python. Essa abordagem facilita a manutenção das 
-consultas, permite sua reutilização em diferentes pipelines e simplifica futuras alterações nas regras 
+consultas, permite sua reutilização em diferentes \textit{pipelines} e simplifica futuras alterações nas regras 
 de extração sem a necessidade de modificar a implementação das DAGs ou dos scripts Spark.
 
 Por sua vez, os scripts responsáveis pelo processamento dos dados foram isolados no diretório 
 \textit{/scripts\_spark}, mantendo toda a lógica de processamento desacoplada da camada de orquestração. 
 Dessa forma, cada componente passou a desempenhar uma única responsabilidade, permitindo que modificações 
 na lógica de extração, transformação e inserção dos dados sejam realizadas sem que haja impacto na 
-definição dos pipelines.
+definição dos \textit{pipelines}.
 
 Por fim, vale ressaltar que cada um desses diretórios foi organizado em quatro subdiretórios correspondentes 
 aos documentos fiscais processados pelo BDMalhas. Essa organização foi adotada para manter relacionados os 
-artefatos pertencentes a um mesmo pipeline, simplificando sua localização e permitindo que novos documentos 
+artefatos pertencentes a um mesmo \textit{pipeline}, simplificando sua localização e permitindo que novos documentos 
 fiscais sejam incorporados seguindo a mesma estrutura já estabelecida.
 
 \subsection{Estrutura das DAGs}
 
 Durante as análises iniciais do projeto original, observou-se a existência de um padrão
-recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os pipelines
+recorrente na estrutura dos fluxos implementados em SSIS. De modo geral, os \textit{pipelines}
 seguiam uma sequência bem definida de etapas, repetida ao longo de grande parte do projeto:
 validação inicial dos dados, carga efetiva das informações referentes ao documento fiscal em
 processamento, contabilização dos registros inseridos no banco de dados e atualização das
-informações na tabela de logs que realiza o controle das cargas.
+informações na tabela de \textit{logs} que realiza o controle das cargas.
 
 \begin{figure*}[ht!]
     \centering
@@ -177,20 +177,20 @@ informações na tabela de logs que realiza o controle das cargas.
 
 Nesse contexto, a Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
 original. Além disso, foi verificado que uma migração direta para Apache Airflow acarretaria a 
-criação de diversas tasks com estruturas muito semelhantes, diferenciando-se apenas por parâmetros 
+criação de diversas \textit{tasks} com estruturas muito semelhantes, diferenciando-se apenas por parâmetros 
 específicos, como a consulta SQL a ser executada, o script Spark responsável pelo processamento e a tabela de 
 destino. Logo, a escolha da abordagem de migração direta implicaria uma elevada duplicação de código e 
-dificultaria a manutenção dos pipelines.
+dificultaria a manutenção dos \textit{pipelines}.
 
 Desse modo, para solucionar esse problema, foi desenvolvida uma abstração denominada \textit{BaseTask},
-uma classe abstrata responsável por encapsular a lógica comum de criação das tasks Airflow. Em vez de 
+uma classe abstrata responsável por encapsular a lógica comum de criação das \textit{tasks} Airflow. Em vez de 
 instanciar diretamente os operadores disponibilizados pelo Airflow e criar seus respectivos métodos de
 execução, cada tarefa passou a ser definida por meio da configuração de elementos específicos, enquanto 
 a lógica comum de execução ficou centralizada na própria classe.
 
 Devemos destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
 no ETL do BDMalhas, incluindo as tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
-do fluxo de ETL. Com isso, a implementação de novos pipelines passou a consistir, predominantemente,
+do fluxo de ETL. Com isso, a implementação de novos \textit{pipelines} passou a consistir, predominantemente,
 na configuração das tarefas necessárias, reutilizando a mesma estrutura de criação disponibilizada 
 por essa classe.
 
@@ -202,10 +202,10 @@ por essa classe.
 \end{figure*}
 
 Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
-definidos os parâmetros necessários para a criação da task Airflow, como seu identificador, o 
+definidos os parâmetros necessários para a criação da \textit{task} Airflow, como seu identificador, o 
 caminho da consulta SQL, o caminho do script Spark responsável pelo processamento, a tabela de destino dos 
 dados e as demais configurações específicas da carga. Após essa configuração, podemos escolher através dos
-métodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de task Airflow que será criada,
+métodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de \textit{task} Airflow que será criada,
 retornando um \textit{PythonOperator} ou um \textit{SparkSubmitOperator}, conforme o tipo de processamento 
 solicitado.
 
@@ -218,7 +218,7 @@ do projeto bem mais ágil do que seria com uma implementação utilizando apenas
 nativos do Airflow.
 
 Outra funcionalidade incorporada à \textit{BaseTask} foi o suporte à execução paralela das cargas 
-por meio do particionamento do intervalo de tempo. Dado que grande parte das consultas do pipeline
+por meio do particionamento do intervalo de tempo. Dado que grande parte das consultas do \textit{pipeline}
 original processa dados a partir de um intervalo de tempo, tornou-se possível dividir um 
 intervalo maior em múltiplos subintervalos independentes.
 
@@ -237,7 +237,7 @@ um conjunto de tarefas menores que são executadas em paralelo.
 
 Dessa forma, cada tarefa processa apenas uma fração do período original, permitindo distribuir o processamento 
 do período entre múltiplas tarefas e, potencialmente, reduzir o tempo de execução das cargas. 
-Por sua vez, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de task que foi dividida
+Por sua vez, a Figura \ref{fig:task_p_by_time} apresenta um exemplo de \textit{task} que foi dividida
 em seis partes que são executadas em paralelo.
 
 \subsection{Scripts Spark}
@@ -247,7 +247,7 @@ são enviados ao cluster e em seguida são executados, de modo que o Airflow nã
 as cargas em si. Em vez disso, ele atua apenas como gerenciador do fluxo das atividades, enquanto o Spark é 
 responsável pela execução do trabalho pesado.
 
-Com isso em mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das tasks do BDMalhas. 
+Com isso em mente, foram desenvolvidos dois tipos de \textit{scripts} para a implementação das \textit{tasks} do BDMalhas. 
 O primeiro tipo de script, o \textit{script\_abs.py}, é responsável pela extração, transformação e inserção dos
 dados, além de realizar a validação inicial no banco de dados de origem, enquanto o segundo script, o 
 \textit{log\_script\_abs.py}, realiza a validação dos dados já carregados na base de destino.
@@ -270,28 +270,28 @@ reutilizados tanto na validação inicial quanto nas etapas de transformação e
 
 Diversas decisões arquiteturais foram adotadas para tornar o sistema do novo BDMalhas modular, 
 escalável e de fácil manutenção. Essas decisões orientaram tanto a arquitetura quanto a implementação 
-dos pipelines de ETL, influenciando diretamente a organização e os componentes do novo sistema.
+dos \textit{pipelines} de ETL, influenciando diretamente a organização e os componentes do novo sistema.
 
 Uma das primeiras decisões tomadas durante o desenvolvimento do projeto foi a definição da \textit{stack} de 
-tecnologias a ser utilizada. Optou-se pelo Apache Airflow como plataforma de orquestração dos pipelines, 
+tecnologias a ser utilizada. Optou-se pelo Apache Airflow como plataforma de orquestração dos \textit{pipelines}, 
 pelo Apache Spark como mecanismo de processamento distribuído e pelo ClickHouse como 
 banco de dados analítico de destino. Além disso, a fonte de dados foi migrada dos bancos pertencentes ao 
 sistema ATF para o Data Lake implementado em PostgreSQL.
 
 O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxos por permitir que os 
-pipelines sejam definidos de forma programática utilizando a linguagem de programação Python, algo que 
+\textit{pipelines} sejam definidos de forma programática utilizando a linguagem de programação Python, algo que 
 não ocorria na abordagem baseada em fluxos gráficos do SSIS.
 
 Essa abordagem é especialmente vantajosa por favorecer a reutilização de código e proporcionar maior flexibilidade 
 aos desenvolvedores na criação de soluções personalizadas. Além disso, a ferramenta disponibiliza 
 recursos nativos para monitoramento das execuções, rastreamento de falhas e gerenciamento operacional dos 
-pipelines, centralizando o controle das cargas em uma única plataforma.
+\textit{pipelines}, centralizando o controle das cargas em uma única plataforma.
 
 Ademais, diferentemente do SSIS, cuja disponibilidade de profissionais qualificados é mais limitada, o 
 Apache Airflow integra o ecossistema moderno de Big Data e Engenharia de Dados, contando com uma comunidade 
 significativamente maior de desenvolvedores. 
 
-Somado a isso, a utilização da linguagem Python na implementação dos pipelines permite que desenvolvedores 
+Somado a isso, a utilização da linguagem Python na implementação dos \textit{pipelines} permite que desenvolvedores 
 com experiência nessa linguagem se adaptem rapidamente ao uso do Airflow. Dessa forma, problemas 
 relacionados à manutenção da equipe e à substituição de profissionais tendem a ocorrer com menor frequência, 
 em razão da maior disponibilidade de profissionais qualificados no mercado.
@@ -357,6 +357,6 @@ inserção e leitura em larga escala, proporcionando elevado desempenho no proce
 de dados.
 
 Por fim, essas decisões arquiteturais resultaram em uma solução mais modular e flexível, facilitando a 
-manutenção dos pipelines, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
+manutenção dos \textit{pipelines}, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
 de processamento do BDMalhas. No capítulo seguinte, os impactos dessas decisões são avaliados por meio da 
 comparação entre a arquitetura legada e a arquitetura proposta, com base nas métricas definidas na metodologia.

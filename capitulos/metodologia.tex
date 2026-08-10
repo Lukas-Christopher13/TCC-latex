@@ -44,15 +44,15 @@ adotando o Apache Airflow como ferramenta responsável pela orquestração dos p
 Spark como mecanismo de processamento distribuído, um Data Lake em PostgreSQL como fonte dos dados e o 
 ClickHouse como banco de dados analítico para a persistência das informações processadas.
 
-Com a arquitetura definida, iniciou-se a implementação dos pipelines de ETL para o projeto BDMalhas. 
-Durante essa etapa, buscou-se estruturar os pipelines de forma modular, favorecendo a reutilização 
+Com a arquitetura definida, iniciou-se a implementação dos \textit{pipelines} de ETL para o projeto BDMalhas. 
+Durante essa etapa, buscou-se estruturar os \textit{pipelines} de forma modular, favorecendo a reutilização 
 de componentes e facilitando sua manutenção e evolução.
 
 \section{Procedimentos experimentais}
 
-Após a implementação dos novos pipelines de ETL para o BDMalhas, foram coletadas métricas de número de 
+Após a implementação dos novos \textit{pipelines} de ETL para o BDMalhas, foram coletadas métricas de número de 
 nós, dependências e número de consultas SQL, por representarem indicadores da complexidade estrutural e 
-do esforço necessário para manutenção dos pipelines.
+do esforço necessário para manutenção dos \textit{pipelines}.
 
 Essa coleta foi realizada por meio da contagem individual dos elementos presentes nos fluxos correspondentes
 a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solução baseada em SSIS quanto 
@@ -78,7 +78,7 @@ arquitetura proposta em relação à solução legada baseada em SSIS.
 Todos os testes de desempenho foram realizados em um ambiente dedicado disponibilizado pela 
 SEFAZ-PB. Esse ambiente é composto por uma réplica do Data Lake da UFPB contendo dados 
 referentes ao ano de 2020, um banco de dados ClickHouse, um servidor Apache Airflow e um 
-cluster Apache Spark formado por um nó master e dois nós workers. A Tabela \ref{tab:ambiente_execucao} 
+cluster Apache Spark formado por um nó \textit{master} e dois nós \textit{workers}. A Tabela \ref{tab:ambiente_execucao} 
 apresenta a configuração dos recursos computacionais utilizados em cada componente da 
 infraestrutura empregada nos experimentos.
 

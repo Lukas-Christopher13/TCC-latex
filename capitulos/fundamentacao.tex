@@ -10,7 +10,7 @@ conceitos essenciais de Big Data e de integração de dados via ETL
 Big Data, suas dimensões fundamentais (os 5 Vs) e os elementos de sua arquitetura. 
 Em seguida, detalham-se as etapas e aplicações dos processos de ETL, suas variações 
 (como o paradigma ELT), as principais ferramentas utilizadas pelo mercado e os aspectos 
-decisivos para o projeto de pipelines eficientes de dados.
+decisivos para o projeto de \textit{pipelines} eficientes de dados.
 
 \section{Big Data}
 
@@ -49,7 +49,7 @@ Ademais, a definição de Big Data em termos dos 3 Vs evoluiu, ganhando dois Vs 
 de veracidade e valor, formando os 5 Vs do Big Data. A veracidade, se refere à confiabilidade
 e à qualidade dos dados, considerando aspectos como inconsistências, ruídos e possíveis 
 incertezas presentes nas informações. Já o valor diz respeito à capacidade de extrair 
-insights úteis e relevantes a partir dos dados, transformando-os em informação estratégica 
+\textit{insights} úteis e relevantes a partir dos dados, transformando-os em informação estratégica 
 que possa apoiar a tomada de decisão e gerar benefícios para as organizações.
 
 No mais, as características intrínsecas representadas pelos Vs do Big Data permitem 
@@ -89,13 +89,13 @@ plataformas e soluções para o cenário de Big Data \cite{khamaru2022dynamics}.
 Essas novas soluções, se mostraram essenciais para o novo cenário global. Instituições que 
 já dependiam de dados viram-se cada vez mais inundadas pelos grandes contingentes de 
 informações. Em contrapartida, muitas empresas passaram a enxergar no cenário de Big Data 
-uma oportunidade de extrair insights relevantes dos dados, com o objetivo de apoiar a tomada 
+uma oportunidade de extrair \textit{insights} relevantes dos dados, com o objetivo de apoiar a tomada 
 de decisões estratégicas, e assim, obter vantagens competitivas.
 
 Nesse sentido, o Big Data passou a atuar de forma integrada às práticas de Business 
 Intelligence (BI), ampliando a capacidade analítica e o uso estratégico das informações 
 nas organizações. Sob essa ótica, \citeonline{narulita2025bigdata} concluem que o Big 
-Data e o Business Intelligence constituem pilares estratégicos na contabilidade gerencial, 
+Data e o \textit{Business Intelligence} constituem pilares estratégicos na contabilidade gerencial, 
 permitindo às organizações obter vantagem competitiva por meio de decisões mais rápidas e 
 precisas baseadas em dados.
 
@@ -115,7 +115,7 @@ NoSQL, NewSQL e outros sistemas de gerenciamento de dados \cite{wang2020architec
 
 No mais, não basta apenas armazenar dados, sendo necessário processar grandes volumes a 
 fim de extrair informações relevantes. Segundo \citeonline{albarznji2022big}, o processamento de Big Data 
-é essencial para transformar dados em informação útil, classificando os frameworks em cinco 
+é essencial para transformar dados em informação útil, classificando os \textit{frameworks} em cinco 
 categorias principais: \textit{batch processing, streaming processing, real-time processing, 
 interactive processing e hybrid processing.}
 
@@ -131,18 +131,18 @@ sistemas de ingestão de dados são responsáveis pela coleta e integração des
 Assim, ferramentas de ETL são amplamente utilizadas nesse processo, permitindo a extração, 
 transformação e carregamento de diferentes tipos de dados \cite{wang2020architecture}.
 
-Por fim, as ferramentas de Business Intelligence permitem que os usuários interajam com 
-a infraestrutura de dados por meio de recursos como visualização, consultas, dashboards 
+Por fim, as ferramentas de \textit{Business Intelligence} permitem que os usuários interajam com 
+a infraestrutura de dados por meio de recursos como visualização, consultas, \textit{dashboards} 
 e análises preditivas \cite{sherman2015business}. Essas ferramentas são essenciais para a extração 
-de insights relevantes a partir dos dados. Elas são o destino final no que tange a 
+de \textit{insights} relevantes a partir dos dados. Elas são o destino final no que tange a 
 utilidade dos dados.
 
 \subsection{Processos do Big Data}
 
 Os processos da arquitetura de dados abrangem a preparação dos dados, o data 
-franchising, as atividades de Business Intelligence (BI), bem como o gerenciamento 
+franchising, as atividades de \textit{Business Intelligence} (BI), bem como o gerenciamento 
 de dados e de metadados. A preparação envolve atividades como coleta, transformação, 
-limpeza e armazenamento. Já o data franchising refere-se à reorganização dos dados para fins analíticos. 
+limpeza e armazenamento. Já o \textit{data franchising} refere-se à reorganização dos dados para fins analíticos. 
 Por sua vez, as soluções de BI possibilitam o acesso e a análise desses dados por meio de 
 ferramentas específicas. Além disso, o gerenciamento de dados e de metadados estabelece 
 padrões, governança e controle sobre os ativos informacionais da organização 
@@ -150,19 +150,19 @@ padrões, governança e controle sobre os ativos informacionais da organização
 
 \section{ETL}
 
-No âmbito dos processos de integração de dados, o ETL (Extract, Transform, Load) 
+No âmbito dos processos de integração de dados, o ETL (\textit{Extract, Transform, Load}) 
 desempenha papel fundamental no cenário de Big Data. Segundo \citeonline{singh2022etl}, "os 
 processos de ETL podem consumir até 80\% do esforço em projetos de BI [...] envolvendo a 
 extração de dados de fontes externas, sua transformação para atender às necessidades de 
 negócios e, por fim, seu armazenamento em um repositório de informações".
 
-Nesse contexto, a sigla ETL refere-se às etapas de extração (Extract), transformação 
-(Transform) e carregamento (Load), que, se executadas de forma estruturada, garantem a 
+Nesse contexto, a sigla ETL refere-se às etapas de extração (\textit{Extract}), transformação 
+(\textit{Transform}) e carregamento (\textit{Load}), que, se executadas de forma estruturada, garantem a 
 qualidade, consistência e integridade dos dados. Assim, para uma melhor compreensão de 
 sua aplicação, torna-se necessário detalhar cada uma dessas etapas, evidenciando suas 
 características, técnicas e desafios no processo de integração de dados.
 
-A primeira etapa do processo de ETL é denominada Extract. Seu principal objetivo consiste
+A primeira etapa do processo de ETL é denominada \textit{Extract}. Seu principal objetivo consiste
 em capturar os dados de interesse a partir de diferentes fontes de dados 
 \cite{assisvilela2021realtime}. Nessa fase, realiza-se a identificação, seleção e 
 coleta dos dados provenientes de das mais diversas fontes, como bancos de dados 
@@ -171,12 +171,12 @@ relevantes sejam disponibilizadas para as etapas subsequentes.
 
 Após a etapa de extração, os dados passam por um processo de transformação antes de 
 serem carregados no destino final. Essa etapa é necessária devido à heterogeneidade 
-das fontes e dos formatos de origem. Na fase de Transform, os dados são transformados 
-ara corresponder ao esquema de dados de destino, geralmente um data warehouse 
+das fontes e dos formatos de origem. Na fase de \textit{Transform}, os dados são transformados 
+ara corresponder ao esquema de dados de destino, geralmente um \textit{data warehouse} 
 \cite{venkateswarlu2023cloud}.
 
 Por fim, os dados extraídos e transformados precisam ser carregados no repositório de 
-destino para que possam ser efetivamente utilizados. Essa etapa, denominada Load, 
+destino para que possam ser efetivamente utilizados. Essa etapa, denominada \textit{Load}, 
 consiste na inserção dos dados no banco de dados final \cite{singh2022etl}. Trata-se da 
 última fase do processo de ETL, sendo responsável por disponibilizar as informações 
 de forma estruturada para diversas atividades no cenário de Big Data e BI.
@@ -194,12 +194,12 @@ ETL como a combinação de técnicas de engenharia e de BI usadas para combinar 
 diferentes fontes em informações significativas e valiosas.
 
 Ademais, outra atividade na qual processos de ETL são comumente empregados é no data 
-warehousing. O data warehouse é um banco de dados em que dados de várias origens são 
+warehousing. O \textit{data warehouse} é um banco de dados em que dados de várias origens são 
 combinados para que possam ser analisados coletivamente. O ETL é geralmente usado para 
-mover os dados para um data warehouse \cite{googlecloudetl}.
+mover os dados para um \textit{data warehouse} \cite{googlecloudetl}.
 
 Outra atividade que se beneficia das etapas de um ETL, principalmente no que diz respeito
-a etapa de Transform, é a limpeza e qualidade de dados. A limpeza de dados remove erros 
+a etapa de \textit{Transform}, é a limpeza e qualidade de dados. A limpeza de dados remove erros 
 e mapeia os dados de origem para o formato de dados de destino
 \cite{aws2026etl}.
 
@@ -207,7 +207,7 @@ Ademais, as ferramentas de ETL são amplamente utilizadas para migração de dad
 para a replicação de bancos de dados. Segundo \citeonline{googlecloudetl}, as 
 empresas estão movendo seus dados e aplicativos locais para a nuvem, a fim de 
 economizar dinheiro, nesse contexto, o ETL é muito usado para executar essas 
-migrações. No mais, a \citeonline{ibm2026etl} reforça que, o processo de data replication 
+migrações. No mais, a \citeonline{ibm2026etl} reforça que, o processo de \textit{data replication} 
 (Replicação de Dados) é frequentemente listada como um método de integração de dados que envolve ETL.
 
 \subsection{Variações ETL e ELT}
@@ -229,10 +229,10 @@ estão em constante evolução.
 \subsection{Ferramentas de ETL}
 
 Dado o amplo uso do ETL e de seus derivados, é natural que empresas e instituições tenham 
-desenvolvido ferramentas e frameworks voltados para esse tipo de processo. Nesse contexto, 
+desenvolvido ferramentas e \textit{frameworks} voltados para esse tipo de processo. Nesse contexto, 
 destacam-se soluções como o Apache Airflow, o SQL Server Integration Services (SSIS), o 
 Apache NiFi e o Pentaho Data Integration, amplamente utilizadas na construção e gerenciamento 
-de pipelines de dados.
+de \textit{pipelines} de dados.
 
 \begin{itemize}
     \item \textbf{Apache Airflow:} é uma ferramenta de código aberto voltada à automação de fluxos de 
@@ -255,9 +255,9 @@ de pipelines de dados.
     adequado para tarefas de fluxo de dados, processamento e interação com sistemas, tudo isso 
     apresentado por meio de um sofisticado fluxograma gráfico \cite{singu2022automation}. 
 
-    \item \textbf{Pentaho:} é uma plataforma de Business Intelligence amplamente utilizada para 
+    \item \textbf{Pentaho:} é uma plataforma de \textit{Business Intelligence} amplamente utilizada para 
     integração, transformação e análise de dados. A ferramenta possibilita a execução de 
-    processos de ETL, além de oferecer suporte à criação de relatórios, dashboards e outros 
+    processos de ETL, além de oferecer suporte à criação de relatórios, \textit{dashboards} e outros 
     mecanismos de visualização. Segundo \citeonline{demussa2018business}, o Pentaho dispõe de uma 
     infraestrutura completa para a realização de operações de BI, abrangendo desde ferramentas 
     de ETL até mecanismos de acesso, controle e suporte à elaboração de relatórios e painéis 
@@ -274,7 +274,7 @@ desempenho, escalabilidade e governança, assegurando que as informações estej
 forma confiável para apoio à tomada de decisão.
 
 \begin{itemize}
-    \item \textbf{Data Extraction:} a etapa de extração de dados (Data Extraction) é responsável por 
+    \item \textbf{Data Extraction:} a etapa de extração de dados (\textit{Data Extraction}) é responsável por 
     coletar dados de diferentes fontes, como bancos de dados relacionais, arquivos, APIs e 
     sistemas, planilhas etc. Essa fase é crítica, pois impacta diretamente a qualidade e a 
     integridade das etapas subsequentes do processo de ETL. A extração pode ocorrer de forma 
@@ -283,12 +283,12 @@ forma confiável para apoio à tomada de decisão.
     Além disso, é importante que o processo de extração minimize impactos nos sistemas de 
     origem, garantindo a continuidade das operações.
 
-    \item \textbf{Data Franchising:} o data franchising refere-se ao processo de disponibilização dos 
+    \item \textbf{Data Franchising:} o \textit{data franchising} refere-se ao processo de disponibilização dos 
     dados já tratados em repositórios voltados ao consumo pelos usuários. Essa abordagem 
-    consiste em empacotar os dados em estruturas como data marts (subconjuntos de dados 
+    consiste em empacotar os dados em estruturas como \textit{data marts} (subconjuntos de dados 
     orientados a áreas específicas) ou cubos analíticos, facilitando o acesso, a compreensão 
     e a utilização das informações por analistas e gestores. Embora essa prática gera 
-    redundância em relação ao data warehouse, trata-se de uma redundância controlada e 
+    redundância em relação ao \textit{data warehouse}, trata-se de uma redundância controlada e 
     intencional, que visa melhorar o desempenho e a usabilidade dos dados. Ademais, o data 
     franchising ocorre após as etapas de preparação e transformação, garantindo que apenas 
     dados consistentes e estruturados sejam disponibilizados \cite{sherman2015business}.
