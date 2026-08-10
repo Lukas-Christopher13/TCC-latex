@@ -2,7 +2,7 @@
 \thispagestyle{myheadings}
 
 Este capítulo apresenta o desenvolvimento da solução proposta para a reestruturação dos 
-processos de ETL do BDMalhas. Inicialmente, descreve-se a arquitetura da solução legada, 
+processos de ETL do BDMalhas. Inicialmente, descreve-se a arquitetura do sistema legado, 
 evidenciando suas principais características e limitações. Em seguida, é apresentada a 
 arquitetura proposta e sua implementação, detalhando os componentes adotados e a forma 
 como foram estruturados os novos \textit{pipelines} de ETL.
@@ -114,7 +114,7 @@ processamento distribuído dos dados e posterior inserção no ambiente de \text
 
 \section{Implementação dos pipelines de ETL}
 
-Antes de apresentar a implementação, é importante destacar que a solução desenvolvida buscou 
+Antes de apresentar a implementação, é importante destacar que a nova implementação buscou 
 preservar a lógica de negócio já existente no BDMalhas. Assim, as modificações concentraram-se 
 principalmente na reestruturação da arquitetura e nas tecnologias empregadas, sem alterar as regras 
 de negócio do sistema.
@@ -134,7 +134,7 @@ objetivo facilitar a manutenção do sistema, reduzir o acoplamento entre seus m
 reutilização de componentes.
 
 Para tal, foi estabelecida a estrutura de diretórios apresentada na Figura 
-\ref{fig:estrutura_diretorios}. Ademais, dentre os diretórios que compõem a solução, 
+\ref{fig:estrutura_diretorios}. Ademais, dentre os diretórios que compõem o projeto, 
 podemos destacar os mais relevantes para a implementação: \textit{/dags}, \textit{/sql} e 
 \textit{/scripts\_spark}, cada um responsável por uma etapa específica da execução do projeto.
 
@@ -356,7 +356,7 @@ dados colunar voltado para cargas de trabalho analíticas, sua arquitetura é ot
 inserção e leitura em larga escala, proporcionando elevado desempenho no processamento de grandes conjuntos 
 de dados.
 
-Por fim, essas decisões arquiteturais resultaram em uma solução mais modular e flexível, facilitando a 
+Por fim, essas decisões arquiteturais resultaram em um sistema mais modular e flexível, facilitando a 
 manutenção dos \textit{pipelines}, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
 de processamento do BDMalhas. No capítulo seguinte, os impactos dessas decisões são avaliados por meio da 
 comparação entre a arquitetura legada e a arquitetura proposta, com base nas métricas definidas na metodologia.

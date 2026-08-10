@@ -5,7 +5,7 @@
 \thispagestyle{myheadings}
 
 Este capítulo busca apresentar os resultados obtidos a partir da reestruturação do 
-ETL do BDMalhas por meio da comparação entre o sistema original e a solução desenvolvida.
+ETL do BDMalhas por meio da comparação entre o sistema original e a nova implementação.
 Para isso, são comparados indicadores estruturais e de desempenho entre o projeto original e 
 a implementação proposta, permitindo, assim, analisar os ganhos alcançados.
 
@@ -75,7 +75,7 @@ Consultas SQL (SSIS $\rightarrow$ Airflow) &
 \end{table}
 
 A partir da leitura da Tabela \ref{tab:comparacao_manutenibilidade}, ficam evidentes os ganhos de 
-manutenibilidade obtidos com a nova solução. Primeiramente, observa-se uma expressiva redução no 
+manutenibilidade obtidos com a nova implementação. Primeiramente, observa-se uma expressiva redução no 
 número de nós em todos os fluxos referentes aos documentos fiscais. Entre eles, 
 os fluxos de NFCE e NFE foram os mais beneficiados, apresentando, respectivamente, uma redução de 
 86,2\% e 85,8\% no número de nós em relação à implementação original.
@@ -185,7 +185,7 @@ consistente, apresentando os menores tempos de execução em todos os quatro flu
 O Gráfico \ref{graf:tempo_exec} também evidencia que, à medida que o intervalo de tempo 
 aumenta, ocorre um crescimento gradual do tempo de execução. Além disso, observou-se uma tendência 
 de crescimento conforme o aumento do intervalo e do volume de dados, indicando um 
-comportamento consistente da solução para diferentes intervalos de tempo e, consequentemente, 
+comportamento consistente do novo sistema para diferentes intervalos de tempo e, consequentemente, 
 diferentes volumes de dados.
 
 Contudo, a única carga que não apresenta esse comportamento de crescimento gradual é a carga de EFD. 
@@ -288,7 +288,7 @@ diferenças no esquema de dados, pela ausência de determinados campos ou por aj
 
 Tendo esse contexto em mente, fica evidente que ainda serão necessárias futuras iterações com a equipe 
 da UFPB para refinar o esquema de dados e as consultas de extração, a fim de aproximar cada vez mais os 
-resultados da nova solução daqueles obtidos pelo sistema original.
+resultados do novo sistema daqueles obtidos pelo sistema original.
 
 \section{Comparação entre o Projeto Legado e a Nova Solução}
 
@@ -343,7 +343,7 @@ representando uma diminuição de 55,54\%. Embora tenha processado uma quantidad
 apresentou uma taxa média de processamento superior, passando de 25.431,51 para 36.585,44 registros 
 por minuto, um aumento de 43,86\% em relação ao SSIS.
 
-Para a carga de EFD, a nova solução executou a carga em apenas 7,55 minutos, frente aos 204,75 
+Para a carga de EFD, o novo sistema executou a carga em apenas 7,55 minutos, frente aos 204,75 
 minutos da implementação em SSIS. Entretanto, essa comparação deve ser interpretada com cautela, 
 pois a nova solução processou apenas 2.440 registros, enquanto a versão original carregou 16.895.738 
 registros.
@@ -353,7 +353,7 @@ implementação em SSIS. Contudo, assim como no caso da EFD, houve uma diferenç
 quantidade de registros processados, impossibilitando uma comparação direta da taxa de processamento 
 entre as duas implementações.
 
-Por fim, na carga de NFE, a nova solução reduziu o tempo de execução de 61,27 para 8,25 minutos, 
+Por fim, na carga de NFE, o novo sistema reduziu o tempo de execução de 61,27 para 8,25 minutos, 
 correspondendo a uma redução de 86,54\%. Mesmo processando uma quantidade menor de registros, 
 apresentou uma taxa média de processamento superior, passando de 16.328,06 para 78.955,76 registros 
 por minuto, um aumento de 383,56\% em relação ao SSIS.
@@ -363,7 +363,7 @@ por minuto, um aumento de 383,56\% em relação ao SSIS.
 
 Antes de mais nada, deve-se mencionar que, devido às discrepâncias entre as bases de origem 
 de ambas as versões do ETL, bem como às diferenças nos volumes de dados carregados por cada 
-solução, não foi possível realizar uma comparação direta entre os tamanhos das bases de dados 
+sistema, não foi possível realizar uma comparação direta entre os tamanhos das bases de dados 
 dos dois projetos.
 
 

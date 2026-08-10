@@ -30,9 +30,9 @@ forma conclusiva que o novo sistema apresenta desempenho superior ao antigo.
  
 Via de exemplo, para as cargas de CTE e NFE tivemos uma redução nos tempos de execução
 junto ao aumento das taxas de processamento. Entretanto, mesmo com esse parecer positivo
-por parte da nova solução, não podemos afirmar a superioridade absoluta da nova solução, 
+por parte do sistema desenvolvido, não podemos afirmar a superioridade absoluta do novo sistema, 
 dadas as discrepâncias tanto de ambiente de execução quanto de volume de dados carregados
-por ambas as soluções.
+por ambas as implementações.
 
 Essas limitações se tornam particularmente evidentes nas cargas de EFD e NFCE, em que as 
 diferenças entre os volumes de dados processados pelas duas implementações foram bem expressivas. 
@@ -64,7 +64,7 @@ não possam ser generalizados para todas as tabelas das cargas, observa-se uma r
 no espaço de armazenamento, uma vez que todas as amostras apresentaram economia superior a 75\%.
 
 Além dos resultados quantitativos, a reestruturação apresentou desafios relacionados
-à migração da solução baseada em SSIS para a arquitetura composta por Airflow e Spark.
+à migração do sistema baseado em SSIS para a arquitetura composta por Airflow e Spark.
 Embora o Airflow ofereça maior flexibilidade para a implementação dos fluxos,
 determinadas funcionalidades disponíveis através de componentes do SSIS precisaram ser
 reimplementadas utilizando código Python e Airflow. 
@@ -80,7 +80,7 @@ foi necessário utilizar o CNPJ como critério alternativo de filtragem, o que i
 correspondência exata entre os dados processados pelas duas implementações.
 
 Por fim, apesar dos desafios decorrentes da reestruturação, foi possível observar, por meio dos 
-resultados obtidos, que a nova solução trouxe benefícios, principalmente na simplificação 
+resultados obtidos, que a abordagem proposta trouxe benefícios, principalmente na simplificação 
 estrutural dos fluxos e na redução do espaço de armazenamento. Embora os resultados de desempenho
 tenham sido favoráveis em determinados cenários, eles devem ser interpretados com cautela, 
 considerando as diferenças entre os ambientes de execução e os volumes de dados processados.
