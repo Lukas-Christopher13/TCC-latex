@@ -61,9 +61,9 @@ camadas:
 
 \section{Arquitetura Reestruturada do BDMalhas}
 
-A nova arquitetura implementada para o BDMalhas incorpora um Data Lake, desenvolvido pela 
+A nova arquitetura implementada para o BDMalhas incorpora um \textit{Data Lake}, desenvolvido pela 
 Universidade Federal da Paraíba (UFPB) em parceria com a SEFAZ-PB, como principal fonte de 
-dados para a etapa de extração. O Data Lake consiste em um repositório centralizado que atua 
+dados para a etapa de extração. O \textit{Data Lake} consiste em um repositório centralizado que atua 
 no armazenamento e integração de grandes volumes de dados provenientes das diferentes fontes 
 da secretaria.
 
@@ -92,7 +92,7 @@ A Figura \ref{fig:arq_nova_bdmalha} apresenta a nova arquitetura de dados do BDM
 seguintes camadas:
 
 \begin{itemize}
-    \item \textbf{Data Extraction:} passa a ter mais uma camada, um Data Lake implementado em 
+    \item \textbf{Data Extraction:} passa a ter mais uma camada, um \textit{Data Lake} implementado em 
     Postgres e gerido pela UFPB, de onde os dados são extraídos, alimentado a base de \textit{staging}.
 
     \item \textbf{Analytical Databases:} no \textit{staging}, são executados processos de transformação e 
@@ -101,7 +101,7 @@ seguintes camadas:
 \end{itemize}
 
 Dado o contexto da nova \textit{stack} tecnológica adotada na reestruturação, o processo de ETL 
-inicia-se com a extração dos dados a partir do Data Lake PostgreSQL da SEFAZ-PB. 
+inicia-se com a extração dos dados a partir do \textit{Data Lake} PostgreSQL da SEFAZ-PB. 
 O Apache Airflow é responsável pela orquestração dos fluxos de execução, estruturados em 
 DAGs (\textit{Directed Acyclic Graphs}) compostas por \textit{tasks} executadas de forma sequencial ou 
 paralela, mantendo a mesma lógica operacional anteriormente implementada em Microsoft SSIS.
@@ -276,7 +276,7 @@ Uma das primeiras decisões tomadas durante o desenvolvimento do projeto foi a d
 tecnologias a ser utilizada. Optou-se pelo Apache Airflow como plataforma de orquestração dos \textit{pipelines}, 
 pelo Apache Spark como mecanismo de processamento distribuído e pelo ClickHouse como 
 banco de dados analítico de destino. Além disso, a fonte de dados foi migrada dos bancos pertencentes ao 
-sistema ATF para o Data Lake implementado em PostgreSQL.
+sistema ATF para o \textit{Data Lake} implementado em PostgreSQL.
 
 O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxos por permitir que os 
 \textit{pipelines} sejam definidos de forma programática utilizando a linguagem de programação Python, algo que 
