@@ -18,27 +18,27 @@ Ademais, a utilização do Apache Airflow, associada à parametrização das
 consultas e à centralização de parte da lógica de processamento em código, também contribuiu
 para reduzir a quantidade de componentes necessários à execução dos fluxos de ETL.
 
-Contudo, devemos destacara que, embora essas métricas não representem uma medida direta da 
+Contudo, devemos destacar que, embora essas métricas não representem uma medida direta da 
 manutenibilidade, elas fornecem indicadores objetivos de redução da complexidade estrutural 
-dos \textit{workflows}. Visto que, uma menor quantidade de nós, dependências e consultas favorecem
-a compreensão dos fluxos, além  de reduzir o número de elementos a serem modificados em futuras 
+dos \textit{workflows}. Visto que, uma menor quantidade de nós, dependências e consultas favorece
+a compreensão dos fluxos, além de reduzir o número de elementos a serem modificados em futuras 
 alterações. 
 
 Quanto ao desempenho, os resultados obtidos indicam um comportamento favorável da nova solução. 
 Entretanto, devido às limitações apresentadas ao longo do trabalho, não é possível afirmar de 
 forma conclusiva que o novo sistema apresenta desempenho superior ao antigo.
  
-Via de exemplo, para as cargas de CTE e NFE tivemos uma reduções nos tempos execução
+Via de exemplo, para as cargas de CTE e NFE tivemos uma redução nos tempos de execução
 junto ao aumento das taxas de processamento. Entretanto, mesmo com esse parecer positivo
 por parte da nova solução, não podemos afirmar a superioridade absoluta da nova solução, 
-dado as discrepancias tanto de ambiente de execução quando de volume de dados carregados
+dadas as discrepâncias tanto de ambiente de execução quanto de volume de dados carregados
 por ambas as soluções.
 
-Essas limitações se tornam particulairamente evidentes nas cargas de EFD e NFCE, em que as 
-diferença entre os volumes de dados processados pelas duas implementações foram bem expressivas. 
-Reiterando, embora que o tempo observado na nova implementação do BDMalhas tenha sido bem menor, 
+Essas limitações se tornam particularmente evidentes nas cargas de EFD e NFCE, em que as 
+diferenças entre os volumes de dados processados pelas duas implementações foram bem expressivas. 
+Reiterando, embora o tempo observado na nova implementação do BDMalhas tenha sido bem menor, 
 essa diferença não pode ser utilizada isoladamente como evidência de superioridade do sistema
-novo em detrimento ao antigo.
+novo em detrimento do antigo.
 
 Desse modo, esses resultados devem ser interpretados mais como indicativos do que como uma 
 certeza absoluta de superioridade. Se, por um lado, as cargas de CTE e NFE apresentaram taxas 
@@ -66,7 +66,7 @@ no espaço de armazenamento, uma vez que todas as amostras apresentaram economia
 Além dos resultados quantitativos, a reestruturação apresentou desafios relacionados
 à migração da solução baseada em SSIS para a arquitetura composta por Airflow e Spark.
 Embora o Airflow ofereça maior flexibilidade para a implementação dos fluxos,
-determinadas funcionalidades disponíveis atravez de componentes do SSIS precisaram ser
+determinadas funcionalidades disponíveis através de componentes do SSIS precisaram ser
 reimplementadas utilizando código Python e Airflow. 
 
 Outro desafio encontrado durante o desenvolvimento da nova solução foi a utilização do 
@@ -89,5 +89,3 @@ Assim, a arquitetura proposta demonstra potencial para substituir e evoluir o pr
 do BDMalhas, embora sua avaliação definitiva ainda não possa ser realizada devido à ausência 
 de um ambiente de produção adequado, à necessidade de conclusão das adequações do 
 \textit{Data Lake} e à realização de novos experimentos sob condições mais equivalentes.
-
-falta corrigir a ortografia...

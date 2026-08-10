@@ -23,7 +23,7 @@ fiscalização tributária da SEFAZ-PB por meio da análise de documentos fiscai
 NFCe e EFD. Nesse cenário, os dados oriundos do Sistema de Administração Tributária e 
 Financeira (ATF), que atua como System of Record (SOR), ou seja, o sistema considerado fonte 
 oficial e autorizada das informações tributárias e financeiras da Secretaria. Essas informações 
-são coletadas por meio de um processo de ETL implementado em SSIS, e em seguida, armazenados 
+são coletadas por meio de um processo de ETL implementado em SSIS, e em seguida, armazenadas 
 em uma área \textit{staging} (área de preparação dos dados). 
 
 Em seguida, a área de \textit{staging} é utilizada para a geração de bases de dados analíticas no 
@@ -32,7 +32,7 @@ do Sistema de Controle e Análise das Malhas Fiscais (SCAMF).
 
 \begin{figure*}[ht!]
     \centering
-    \caption{Visao Geral da Arquitetura Antiga do BDMalhas}\label{fig:arq_ant_bdmalha}
+    \caption{Visão Geral da Arquitetura Antiga do BDMalhas}\label{fig:arq_ant_bdmalha}
     \includegraphics[width=0.8\textwidth]{imagens/ArquiteturaAntiga_bdmalhas}\\
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
@@ -73,7 +73,7 @@ processamento dos dados.
 
 Ademais, houve a substituição do SQL Server Integration Services (SSIS) pelo Apache Airflow como 
 plataforma de orquestração dos \textit{pipelines} de dados, juntamente com a adoção do Apache Spark como 
-mecanismo de processamento distribuído. Essa mudança  visa proporcionar maior escalabilidade, 
+mecanismo de processamento distribuído. Essa mudança visa proporcionar maior escalabilidade, 
 flexibilidade e capacidade de processamento.
 
 Por fim, o banco de dados da camada de \textit{staging} foi substituído por um banco de dados de tipo 
@@ -83,7 +83,7 @@ características essenciais para a nova arquitetura proposta.
 
 \begin{figure*}[ht!]
     \centering
-    \caption{Visao Geral da Arquitetura Nova do BDMalhas}\label{fig:arq_nova_bdmalha}
+    \caption{Visão Geral da Arquitetura Nova do BDMalhas}\label{fig:arq_nova_bdmalha}
     \includegraphics[width=0.8\textwidth]{imagens/ArquiteturaNova_bdmalhas}\\
     {\small Fonte: Elaborado pelo autor, 2026}
 \end{figure*}
@@ -93,7 +93,7 @@ seguintes camadas:
 
 \begin{itemize}
     \item \textbf{Data Extraction:} passa a ter mais uma camada, um \textit{Data Lake} implementado em 
-    Postgres e gerido pela UFPB, de onde os dados são extraídos, alimentado a base de \textit{staging}.
+    Postgres e gerido pela UFPB, de onde os dados são extraídos, alimentando a base de \textit{staging}.
 
     \item \textbf{Analytical Databases:} no \textit{staging}, são executados processos de transformação e 
     enriquecimento que resultam na construção de bases analíticas e malhas fiscais destinadas
