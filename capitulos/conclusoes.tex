@@ -44,7 +44,19 @@ permitem uma comparação definitiva entre as duas implementações. Ainda assim
 que a reestruturação da estratégia de ETL baseada em tecnologias de Big Data constitui uma
 alternativa viável para modernizar os processos da SEFAZ-PB.
 
-Metodologicamente, esta pesquisa foi conduzida como um estudo de caso no projeto BDMalhas, 
+Quanto às contribuições desta pesquisa, destacam-se três frentes. No âmbito prático, entrega-se à
+SEFAZ-PB um sistema de ETL funcional para os quatro fluxos avaliados, que demonstra potencial para
+substituir a solução legada baseada em SSIS, ainda que sua adoção em produção dependa da conclusão
+das adequações do \textit{Data Lake} discutidas ao longo deste trabalho.
+
+No âmbito técnico, destaca-se a abstração \textit{BaseTask}, desenvolvida para padronizar a criação e a configuração
+dos operadores do Airflow, que se consolidou como um padrão reaproveitável para a construção de
+\textit{pipelines} com estrutura repetitiva, constituindo uma das principais contribuições de
+engenharia deste trabalho. Por fim, no âmbito do conhecimento, esta pesquisa documenta um caso real
+de migração de um sistema de ETL de SSIS para Airflow e Spark em um órgão público, cenário pouco
+explorado na literatura sobre reestruturação de processos de ETL.
+
+Metodologicamente, esta pesquisa foi conduzida como um estudo de caso no projeto BDMalhas,
 adotando uma abordagem quantitativa para desenvolver e avaliar a proposta de reestruturação do ETL. A avaliação 
 da implementação baseou-se em experimentos comparativos realizados no ambiente 
 disponibilizado pela SEFAZ-PB.
