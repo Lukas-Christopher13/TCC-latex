@@ -264,7 +264,7 @@ influenciam diretamente sua duração.
 \label{sec:limitacoes_comparacao}
 
 Antes de mais nada, é importante destacar algumas limitações da comparação entre os dois projetos. 
-Primeiramente, devemos reiterar que ambos os sistemas foram executados em ambientes distintos e com
+Primeiramente, cabe reiterar que ambos os sistemas foram executados em ambientes distintos e com
 bases de dados distintas. Portanto, é esperado que os resultados obtidos sejam influenciados pelas 
 condições das diferentes infraestruturas.
 
@@ -416,7 +416,7 @@ armazenamento colunar adotado no ClickHouse, no qual os valores das colunas são
 e comprimidos individualmente. Essa abordagem favorece a compressão ao agrupar dados com padrões 
 e valores repetitivos, reduzindo o espaço necessário para seu armazenamento.
 
-Essa característica dos bancos colunares é evidenciada ao observarmos os resultados das tabelas 
+Essa característica dos bancos colunares é evidenciada na observação dos resultados das tabelas 
 NFCE\_TPPAGA e ITEM\_NFE. Embora a ITEM\_NFE ocupe quase o dobro do espaço de NFCE\_TPPAGA no SQL 
 Server, após a transferência para o ClickHouse, esta passou a ocupar menos espaço do que a NFCE\_TPPAGA. 
 Isso ocorre devido à distribuição dos dados em um maior número de colunas, favorecendo o agrupamento e, 

@@ -136,7 +136,7 @@ reutilização de componentes.
 
 Para tal, foi estabelecida a estrutura de diretórios apresentada na Figura 
 \ref{fig:estrutura_diretorios}. Ademais, dentre os diretórios que compõem o projeto, 
-podemos destacar os mais relevantes para a implementação: \textit{/dags}, \textit{/sql} e 
+destacam-se os mais relevantes para a implementação: \textit{/dags}, \textit{/sql} e 
 \textit{/scripts\_spark}, cada um responsável por uma etapa específica da execução do projeto.
 
 O diretório \textit{/dags} concentra exclusivamente os arquivos responsáveis pela orquestração dos 
@@ -189,7 +189,7 @@ instanciar diretamente os operadores disponibilizados pelo Airflow e criar seus 
 execução, cada tarefa passou a ser definida por meio da configuração de elementos específicos, enquanto 
 a lógica comum de execução ficou centralizada na própria classe.
 
-Devemos destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
+Cabe destacar que essa abstração foi projetada para suportar os principais tipos de tarefas presentes 
 no ETL do BDMalhas, incluindo as tarefas de validação inicial, execução das cargas e demais etapas auxiliares 
 do fluxo de ETL. Com isso, a implementação de novos \textit{pipelines} passou a consistir, predominantemente,
 na configuração das tarefas necessárias, reutilizando a mesma estrutura de criação disponibilizada 
@@ -205,7 +205,7 @@ por essa classe.
 Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
 definidos os parâmetros necessários para a criação da \textit{task} Airflow, como seu identificador, o 
 caminho da consulta SQL, o caminho do script Spark responsável pelo processamento, a tabela de destino dos 
-dados e as demais configurações específicas da carga. Após essa configuração, podemos escolher através dos
+dados e as demais configurações específicas da carga. Após essa configuração, é possível escolher, por meio dos
 métodos \textit{create\_task()} ou \textit{create\_spark\_task()} qual o tipo de \textit{task} Airflow que será criada,
 retornando um \textit{PythonOperator} ou um \textit{SparkSubmitOperator}, conforme o tipo de processamento 
 solicitado.
@@ -213,7 +213,7 @@ solicitado.
 Ademais, essa abordagem permitiu que a implementação das DAGs passasse a consistir, essencialmente, na
 definição da sequência das tarefas e de seus respectivos parâmetros de criação, enquanto toda a lógica
 comum de criação e configuração dos operadores Airflow permaneceu encapsulada na \textit{BaseTask}.
-Como consequência, tivemos uma redução significativa na quantidade de código necessária para implementar 
+Como consequência, obteve-se uma redução significativa na quantidade de código necessária para implementar 
 todo o novo sistema ETL do BDMalhas. Além disso, a utilização da \textit{BaseTask} tornou o desenvolvimento 
 do projeto bem mais ágil do que seria com uma implementação utilizando apenas os recursos 
 nativos do Airflow.
@@ -226,7 +226,7 @@ intervalo maior em múltiplos subintervalos independentes.
 Para isso, foi implementado um mecanismo que recebe o período solicitado para a carga e o particiona 
 em um número configurável de intervalos a ser definido pelo usuário do sistema. Em seguida, foi
 utilizado o recurso de \textit{Dynamic Task Mapping} do Airflow para criar um conjunto de tarefas 
-"clone", cada qual referente a um dos intervalos. Desse modo, podemos particionar uma tarefa maior em
+"clone", cada qual referente a um dos intervalos. Desse modo, é possível particionar uma tarefa maior em
 um conjunto de tarefas menores que são executadas em paralelo.
 
 \begin{figure*}[ht!]
