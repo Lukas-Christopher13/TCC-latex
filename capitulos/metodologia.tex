@@ -73,7 +73,7 @@ componentes internos. Em diversos fluxos, uma mesma carga demandava a execução
 distintas, chegando a até sete consultas em alguns casos. Cada uma dessas operações com consultas foi 
 contabilizada como um nó separado, por constituirem operações logicamente distintas das demais.
 
-Nesse sentido, a utilização do \textit{*Data Lake*} da UFPB eliminou a necessidade de múltiplas consultas, 
+Nesse sentido, a utilização do \textit{Data Lake} da UFPB eliminou a necessidade de múltiplas consultas, 
 substituindo-as por uma única consulta adequada ao seu \textit{*schema*}. Além disso, o recurso de 
 \textit{*Dynamic Task Mapping*} do Airflow permite gerar dinamicamente múltiplas instâncias de uma mesma 
 tarefa, diferenciadas apenas pelos parâmetros recebidos. Como essas instâncias mantêm a mesma lógica de 
