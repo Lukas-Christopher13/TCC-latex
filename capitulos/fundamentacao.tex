@@ -21,7 +21,7 @@ dados que contêm maior variedade, chegando em volumes crescentes e com mais vel
 complexo, de modo que software tradicional não consegue processá-los e gerenciá-los 
 \cite{googlecloud2025bigdata}.
 
-Com base nessas definições, podemos observar um certo padrão para o Big Data, grande 
+Com base nessas definições, pode-se observar um certo padrão para o Big Data, grande 
 variedade, o alto volume e a velocidade com que os dados são gerados. Esses elementos 
 convergem para uma das abordagens mais difundidas na literatura, os 3 Vs, proposto por 
 Doug Laney. Nesse contexto, o Big Data é caracterizado por três dimensões fundamentais: 
@@ -33,7 +33,7 @@ anos \cite{sherman2015business}. Essa crescente no volume de dados gerados deve-
 fatores como a digitalização das atividades humanas, a popularização da internet e aumento 
 da capacidade de armazenamento de dados.
 
-Em relação a velocidade, ela está relacionada com a rapidez com que os dados são produzidos 
+Em relação à velocidade, ela está relacionada com a rapidez com que os dados são produzidos 
 junto a necessidade de processá-los em tempo real. Atualmente dependemos da velocidade de 
 alguns desses dados. "É extremamente útil receber uma notificação imediata do banco quando 
 uma transação fraudulenta é detectada […]" \cite[p. 26]{sherman2015business}.
@@ -46,7 +46,7 @@ dados de publicações em redes sociais sobre seus produtos […] assim como lid
 valiosos gerados em planilhas e documentos de texto" \cite[p. 27]{sherman2015business}.
 
 Ademais, a definição de Big Data em termos dos 3 Vs evoluiu, ganhando dois Vs adicionais 
-de veracidade e valor, formando os 5 Vs do Big Data. A veracidade, se refere à confiabilidade
+de veracidade e valor, formando os 5 Vs do Big Data. A veracidade se refere à confiabilidade
 e à qualidade dos dados, considerando aspectos como inconsistências, ruídos e possíveis 
 incertezas presentes nas informações. Já o valor diz respeito à capacidade de extrair 
 \textit{insights} úteis e relevantes a partir dos dados, transformando-os em informação estratégica 
@@ -86,7 +86,7 @@ o surgimento de novas soluções tecnológicas. Nesse contexto, empresas como Go
 Microsoft, bem como a Fundação Apache, destacaram-se como importantes provedoras de 
 plataformas e soluções para o cenário de Big Data \cite{khamaru2022dynamics}.
 
-Essas novas soluções, se mostraram essenciais para o novo cenário global. Instituições que 
+Essas novas soluções se mostraram essenciais para o novo cenário global. Instituições que 
 já dependiam de dados viram-se cada vez mais inundadas pelos grandes contingentes de 
 informações. Em contrapartida, muitas empresas passaram a enxergar no cenário de Big Data 
 uma oportunidade de extrair \textit{insights} relevantes dos dados, com o objetivo de apoiar a tomada 
@@ -109,7 +109,7 @@ de forma integrada, viabilizam o tratamento eficiente dos dados ao longo de seu 
 \subsection{Elementos do Big Data}
 
 A infraestrutura de armazenamento é um dos principais pilares do Big Data, é nela que o 
-volume massivo e diverso dos dados é armazenado. Dado as características do Big Data, os 
+volume massivo e diverso dos dados é armazenado. Dadas as características do Big Data, os 
 principais mecanismos de armazenamento adotados são os sistemas de arquivos distribuídos, 
 NoSQL, NewSQL e outros sistemas de gerenciamento de dados \cite{wang2020architecture}. 
 
@@ -121,7 +121,7 @@ interactive processing e hybrid processing.}
 
 Nesse contexto, temos que o \textit{batch processing} processa grandes volumes de dados acumulados, 
 enquanto o \textit{streaming processing} atua sobre fluxos contínuos de dados. 
-Ja o \textit{real-time processing} prioriza respostas com baixa latência, ao passo que o 
+Já o \textit{real-time processing} prioriza respostas com baixa latência, ao passo que o 
 \textit{interactive processing} permite consultas \textit{ad-hoc} (consultas formuladas sob demanda) 
 e exploração dinâmica dos dados. Por fim, o \textit{hybrid processing} combina duas ou mais dessas 
 abordagens para atender a diferentes demandas operacionais e analíticas.
@@ -165,14 +165,14 @@ características, técnicas e desafios no processo de integração de dados.
 A primeira etapa do processo de ETL é denominada \textit{Extract}. Seu principal objetivo consiste
 em capturar os dados de interesse a partir de diferentes fontes de dados 
 \cite{assisvilela2021realtime}. Nessa fase, realiza-se a identificação, seleção e 
-coleta dos dados provenientes de das mais diversas fontes, como bancos de dados 
-relacionais, arquivos XML e aplicações externas, Essa etapa garante  que as informações 
+coleta dos dados provenientes das mais diversas fontes, como bancos de dados
+relacionais, arquivos XML e aplicações externas. Essa etapa garante que as informações 
 relevantes sejam disponibilizadas para as etapas subsequentes.
 
 Após a etapa de extração, os dados passam por um processo de transformação antes de 
 serem carregados no destino final. Essa etapa é necessária devido à heterogeneidade 
-das fontes e dos formatos de origem. Na fase de \textit{Transform}, os dados são transformados 
-ara corresponder ao esquema de dados de destino, geralmente um \textit{data warehouse} 
+das fontes e dos formatos de origem. Na fase de \textit{Transform}, os dados são transformados
+para corresponder ao esquema de dados de destino, geralmente um \textit{data warehouse} 
 \cite{venkateswarlu2023cloud}.
 
 Por fim, os dados extraídos e transformados precisam ser carregados no repositório de 
@@ -235,8 +235,8 @@ Apache NiFi e o Pentaho Data Integration, amplamente utilizadas na construção 
 de \textit{pipelines} de dados.
 
 \begin{itemize}
-    \item \textbf{Apache Airflow:} é uma ferramenta de código aberto voltada à automação de fluxos de 
-    trabalho. o Airflow surgiu como alternativa às ferramentas tradicionais de ETL e sendo 
+    \item \textbf{Apache Airflow:} é uma ferramenta de código aberto voltada à automação de fluxos de
+    trabalho. O Airflow surgiu como alternativa às ferramentas tradicionais de ETL e sendo 
     projetado para orquestrar processos computacionais complexos de forma dinâmica e escalável 
     \cite{eeti2022efficient}. Além disso, sua flexibilidade permite a integração com ferramentas de 
     processamento distribuído, como o Apache Spark. No mais, a plataforma baseia-se no conceito 
@@ -275,8 +275,8 @@ forma confiável para apoio à tomada de decisão.
 
 \begin{itemize}
     \item \textbf{Data Extraction:} a etapa de extração de dados (Data Extraction) é responsável por 
-    coletar dados de diferentes fontes, como bancos de dados relacionais, arquivos, APIs e 
-    sistemas, planilhas etc. Essa fase é crítica, pois impacta diretamente a qualidade e a 
+    coletar dados de diferentes fontes, como bancos de dados relacionais, arquivos, APIs,
+    sistemas e planilhas, entre outros. Essa fase é crítica, pois impacta diretamente a qualidade e a 
     integridade das etapas subsequentes do processo de ETL. A extração pode ocorrer de forma 
     completa ou incremental, sendo esta última utilizada para capturar apenas dados novos ou 
     modificados, reduzindo o volume de processamento e aumentando a eficiência do sistema. 
@@ -287,7 +287,7 @@ forma confiável para apoio à tomada de decisão.
     dados já tratados em repositórios voltados ao consumo pelos usuários. Essa abordagem 
     consiste em empacotar os dados em estruturas como \textit{data marts} (subconjuntos de dados 
     orientados a áreas específicas) ou cubos analíticos, facilitando o acesso, a compreensão 
-    e a utilização das informações por analistas e gestores. Embora essa prática gera 
+    e a utilização das informações por analistas e gestores. Embora essa prática gere
     redundância em relação ao \textit{data warehouse}, trata-se de uma redundância controlada e 
     intencional, que visa melhorar o desempenho e a usabilidade dos dados. Ademais, o data 
     franchising ocorre após as etapas de preparação e transformação, garantindo que apenas 

@@ -21,8 +21,8 @@ arquitetura e os principais aspectos de sua implementação.
 
 O BDMalhas é um projeto composto por sistemas integrados que auxiliam o processo de 
 fiscalização tributária da SEFAZ-PB por meio da análise de documentos fiscais, como NFe, 
-NFCe e EFD. Nesse cenário, os dados oriundos do Sistema de Administração Tributária e 
-Financeira (ATF), que atua como System of Record (SOR), ou seja, o sistema considerado fonte 
+NFCe e EFD. Nesse cenário, os dados são originados no Sistema de Administração Tributária e
+Financeira (ATF), que atua como System of Record (SOR), ou seja, o sistema considerado fonte
 oficial e autorizada das informações tributárias e financeiras da Secretaria. Essas informações 
 são coletadas por meio de um processo de ETL implementado em SSIS, e em seguida, armazenadas 
 em uma área \textit{staging} (área de preparação dos dados). 
@@ -35,7 +35,7 @@ do Sistema de Controle e Análise das Malhas Fiscais (SCAMF).
     \centering
     \caption{Visão geral da arquitetura antiga do BDMalhas}\label{fig:arq_ant_bdmalha}
     \includegraphics[width=0.8\textwidth]{imagens/ArquiteturaAntiga_bdmalhas}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 Nesse sentido, a Figura \ref{fig:arq_ant_bdmalha} apresenta a arquitetura de dados do BDMalhas, estruturada nas seguintes 
@@ -86,7 +86,7 @@ características essenciais para a nova arquitetura proposta.
     \centering
     \caption{Visão geral da arquitetura nova do BDMalhas}\label{fig:arq_nova_bdmalha}
     \includegraphics[width=0.8\textwidth]{imagens/ArquiteturaNova_bdmalhas}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 A Figura \ref{fig:arq_nova_bdmalha} apresenta a nova arquitetura de dados do BDMalhas, com alterações para as 
@@ -124,7 +124,7 @@ de negócio do sistema.
     \centering
     \caption{Estrutura de diretórios do projeto}\label{fig:estrutura_diretorios}
     \includegraphics[width=0.3\textwidth]{imagens/estrutura_de_diretorios.png}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 \subsection{Estrutura de diretórios}
@@ -173,7 +173,7 @@ informações na tabela de \textit{logs} que realiza o controle das cargas.
     \centering
     \caption{Exemplo de fluxo do projeto original}\label{fig:ex_task_siss}
     \includegraphics[width=0.4\textwidth]{imagens/ex_task_siss.png}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 Nesse contexto, a Figura \ref{fig:ex_task_siss} apresenta um exemplo desse padrão identificado no projeto
@@ -199,7 +199,7 @@ por essa classe.
     \centering
     \caption{Exemplo de objeto instanciado com a BaseTask}\label{fig:base_task}
     \includegraphics[width=0.8\textwidth]{imagens/base_task_ex.png}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 Conforme é ilustrado na Figura \ref{fig:base_task}, após a instanciação da classe são 
@@ -233,7 +233,7 @@ um conjunto de tarefas menores que são executadas em paralelo.
     \centering
     \caption{Exemplo de Task particionada por intervalo de tempo}\label{fig:task_p_by_time}
     \includegraphics[width=1\textwidth]{imagens/ex_task_loop.png}\\
-    {\small Fonte: Elaborado pelo autor, 2026}
+    {\small Fonte: Elaborada pelo autor, 2026}
 \end{figure*}
 
 Dessa forma, cada tarefa processa apenas uma fração do período original, permitindo distribuir o processamento 
