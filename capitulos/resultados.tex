@@ -92,19 +92,26 @@ Em muitos cenários, a ferramenta não conseguia extrair, em uma única execuç�
 notas fiscais de emitente e de destinatário, devido ao elevado volume de dados. Como consequência, 
 essas cargas frequentemente eram interrompidas por erros e perdas de conexão com o banco de dados.
 
-Desse modo, tendo em vista a adoção do Apache Spark e a utilização do \textit{Data Lake} da UFPB como 
-nova fonte de dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo 
-sistema ETL. Essa mudança permitiu unificar o processamento em um único fluxo, reduzindo em 
-aproximadamente 50\% tanto o número de nós do \textit{workflow} quanto o número de consultas SQL 
-necessárias ao funcionamento do ETL.
+Desse modo, tendo em vista a adoção do Apache Spark e a utilização do \textit{Data Lake} da UFPB como
+nova fonte de dados, optou-se por eliminar a separação entre notas de emitente e de destinatário no novo
+sistema ETL. Essa mudança permitiu unificar o processamento em um único fluxo, sendo responsável,
+isoladamente, por uma redução de aproximadamente 50\% tanto no número de nós do \textit{workflow} quanto
+no número de consultas SQL necessárias ao funcionamento do ETL. 
 
-Além disso, a utilização do \textit{Data Lake} e de suas consultas unificadas contribuiu significativamente 
-para a redução do número de tarefas do fluxo de ETL. A Figura \ref{fig:fluxo_ssis_mult} apresenta 
-um trecho do fluxo da carga de NFE, evidenciando a elevada quantidade de consultas executadas na 
-implementação original. Com a adoção do esquema de dados disponibilizado pelo \textit{Data Lake}, foi possível 
-substituir essas múltiplas consultas por uma única consulta ao banco de dados, reduzindo 
-significativamente tanto o número de nós da aplicação quanto o de consultas e, assim, simplificando o 
-\textit{pipeline} ETL como um todo.
+Vale resalta, que essa contribuição, no entanto, corresponde a apenas um dos fatores responsáveis 
+pela redução total registrada na Tabela \ref{tab:comparacao_manutenibilidade}; a redução adicional, 
+que eleva o total para os 86,2\% e 85,8\% observados em NFCE e NFE, respectivamente, decorre da 
+unificação das consultas por meio do \textit{Data Lake}.
+
+No mais, além da eliminação da duplicação de blocos, a utilização do \textit{Data Lake} e de
+suas consultas unificadas contribuiu para a redução adicional do número de tarefas do fluxo de ETL. A
+Figura \ref{fig:fluxo_ssis_mult} apresenta um trecho do fluxo da carga de NFE, evidenciando a elevada 
+quantidade de consultas executadas na implementação original. 
+
+Com a adoção do esquema de dados 
+disponibilizado pelo \textit{Data Lake}, foi possível substituir essas múltiplas consultas por uma 
+única consulta ao banco de dados, reduzindo significativamente tanto o número de nós da aplicação 
+quanto o de consultas e, assim, simplificando o \textit{pipeline} ETL como um todo.
 
 \begin{figure*}[ht!]
     \centering
