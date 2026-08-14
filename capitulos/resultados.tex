@@ -338,10 +338,11 @@ expressivas, chegando à ordem de milhões de registros. Isso se deve, principal
 da réplica do \textit{Data Lake}, que possui um volume de dados bem menor que o ambiente 
 original.
 
-No caso da carga de CTE, a nova solução reduziu o tempo de execução de 6,95 para 3,09 minutos, 
-representando uma diminuição de 55,54\%. Embora tenha processado uma quantidade menor de registros, 
-apresentou uma taxa média de processamento superior, passando de 25.431,51 para 36.585,44 registros 
-por minuto, um aumento de 43,86\% em relação ao SSIS.
+No caso da carga de CTE, a nova solução reduziu o tempo de execução de 6,95 para 3,09 minutos,
+representando uma diminuição de aproximadamente 56\%. Embora tenha processado uma quantidade menor de
+registros, apresentou uma taxa de processamento cerca de 40\% superior à do SSIS (25.431,51 contra
+36.585,44 registros por minuto). Essa comparação, como as demais desta seção, não é direta, dadas as
+diferenças de volume e de ambiente entre as duas implementações.
 
 Para a carga de EFD, o novo sistema executou a carga em apenas 7,55 minutos, frente aos 204,75 
 minutos da implementação em SSIS. Entretanto, essa comparação deve ser interpretada com cautela, 
@@ -353,10 +354,12 @@ implementação em SSIS. Contudo, assim como no caso da EFD, houve uma diferenç
 quantidade de registros processados, impossibilitando uma comparação direta da taxa de processamento 
 entre as duas implementações.
 
-Por fim, na carga de NFE, o novo sistema reduziu o tempo de execução de 61,27 para 8,25 minutos, 
-correspondendo a uma redução de 86,54\%. Mesmo processando uma quantidade menor de registros, 
-apresentou uma taxa média de processamento superior, passando de 16.328,06 para 78.955,76 registros 
-por minuto, um aumento de 383,56\% em relação ao SSIS.
+Por fim, na carga de NFE, o novo sistema reduziu o tempo de execução de 61,27 para 8,25 minutos,
+correspondendo a uma redução de aproximadamente 87\%. Mesmo processando uma quantidade menor de
+registros, apresentou uma taxa de processamento aproximadamente quatro vezes e meia superior à do
+SSIS (16.328,06 contra 78.955,76 registros por minuto). Essa comparação, assim como as demais
+apresentadas nesta seção, não é direta, dadas as diferenças de volume e de ambiente entre as duas
+implementações.
 
 
 \section{Comparação do espaço de armazenamento}
