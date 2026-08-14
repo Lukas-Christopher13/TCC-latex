@@ -63,8 +63,26 @@ nós, dependências e número de consultas SQL, por representarem indicadores da
 do esforço necessário para manutenção dos \textit{pipelines}.
 
 Essa coleta foi realizada por meio da contagem individual dos elementos presentes nos fluxos correspondentes
-a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solução baseada em SSIS quanto 
+a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solução baseada em SSIS quanto
 na arquitetura proposta baseada em Apache Airflow.
+
+A definição do que constitui um nó seguiu o critério de granularidade mínima, isto é, cada tarefa foi
+decomposta até o nível da menor unidade de execução logicamente distinta que a compõe. No SSIS, isso
+significa que uma \textit{Data Flow Task} não foi contabilizada como um único nó, mas decomposta em seus
+componentes internos. Em diversos fluxos, uma mesma carga demandava a execução de múltiplas consultas SQL
+distintas, chegando a até sete consultas em alguns casos. Cada uma dessas operações com consultas foi 
+contabilizada como um nó separado, por constituirem operações logicamente distintas das demais.
+
+Nesse sentido, a utilização do \textit{*Data Lake*} da UFPB eliminou a necessidade de múltiplas consultas, 
+substituindo-as por uma única consulta adequada ao seu \textit{*schema*}. Além disso, o recurso de 
+\textit{*Dynamic Task Mapping*} do Airflow permite gerar dinamicamente múltiplas instâncias de uma mesma 
+tarefa, diferenciadas apenas pelos parâmetros recebidos. Como essas instâncias mantêm a mesma lógica de 
+execução e são geradas dinamicamente a medida que o fluxo é executado, foram contabilizadas como um único nó.
+
+Já as dependências correspondem às relações de precedência explícitas entre dois nós, ou seja, a cada
+aresta do grafo de execução que conecta um nó predecessor a um nó sucessor. Um mesmo nó pode estar
+associado a múltiplas dependências, a depender do número de relações de precedência que o conectam a
+outros nós, tanto na origem quanto no destino.
 
 Em seguida, foram realizados experimentos com os quatro tipos de documentos 
 fiscais processados pelo BDMalhas: NFE, NFCE, CTE e EFD. Para cada documento, foram executadas 
