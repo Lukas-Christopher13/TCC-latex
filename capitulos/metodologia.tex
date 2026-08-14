@@ -84,15 +84,17 @@ aresta do grafo de execução que conecta um nó predecessor a um nó sucessor. 
 associado a múltiplas dependências, a depender do número de relações de precedência que o conectam a
 outros nós, tanto na origem quanto no destino.
 
-Em seguida, foram realizados experimentos com os quatro tipos de documentos 
-fiscais processados pelo BDMalhas: NFE, NFCE, CTE e EFD. Para cada documento, foram executadas 
-cargas referentes aos períodos de sete dias, um mês e três meses, compreendidos entre 
-janeiro e março de 2020. Em cada cenário experimental, a mesma carga foi executada na solução legada e 
-na arquitetura proposta, utilizando o mesmo conjunto de dados. 
+Em seguida, foram realizados experimentos com os quatro tipos de documentos
+fiscais processados pelo BDMalhas: NFE, NFCE, CTE e EFD. Na arquitetura proposta, para cada
+documento, foram executadas cargas referentes aos períodos de sete dias, um mês e três meses,
+compreendidos entre janeiro e março de 2020, cada cenário executado uma única vez.
 
-Ademais, cada cenário experimental foi executado uma única vez, mantendo-se o mesmo ambiente 
-computacional e o mesmo conjunto de dados para garantir a comparabilidade dos resultados 
-obtidos.
+Já a execução do sistema legado, em razão da dependência operacional da equipe do Núcleo de
+Tecnologia Estratégica em Saúde (Nutes) para iniciar suas cargas, foi realizada uma única vez,
+restrita ao período de três meses (janeiro a março de 2020), em seu próprio ambiente de produção.
+Por esse motivo, a comparação entre as duas soluções não ocorreu sob o mesmo ambiente computacional
+nem sobre o mesmo volume de dados; as limitações decorrentes dessa diferença de desenho experimental
+estão detalhadas na Seção \ref{sec:limitacoes_comparacao}.
 
 Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de
 registros processados em cada experimento e ao tamanho final das bases analíticas. Os resultados
