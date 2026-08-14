@@ -56,6 +56,7 @@ Durante essa etapa, buscou-se estruturar os \textit{pipelines} de forma modular,
 de componentes e facilitando sua manutenção e evolução.
 
 \section{Procedimentos experimentais}
+\label{sec:procedimentos_experimentais}
 
 Após a implementação dos novos \textit{pipelines} de ETL para o BDMalhas, foram coletadas métricas de número de 
 nós, dependências e número de consultas SQL, por representarem indicadores da complexidade estrutural e 
@@ -66,7 +67,7 @@ a cada um dos quatro documentos fiscais processados pelo BDMalhas, tanto na solu
 na arquitetura proposta baseada em Apache Airflow.
 
 Em seguida, foram realizados experimentos com os quatro tipos de documentos 
-fiscais processados pelo BDMalhas: NFe, NFCe, CTe e EFD. Para cada documento, foram executadas 
+fiscais processados pelo BDMalhas: NFE, NFCE, CTE e EFD. Para cada documento, foram executadas 
 cargas referentes aos períodos de sete dias, um mês e três meses, compreendidos entre 
 janeiro e março de 2020. Em cada cenário experimental, a mesma carga foi executada na solução legada e 
 na arquitetura proposta, utilizando o mesmo conjunto de dados. 
@@ -75,10 +76,30 @@ Ademais, cada cenário experimental foi executado uma única vez, mantendo-se o 
 computacional e o mesmo conjunto de dados para garantir a comparabilidade dos resultados 
 obtidos.
 
-Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de 
+Por fim, foram coletadas métricas referentes ao tempo de execução das cargas, à quantidade de
 registros processados em cada experimento e ao tamanho final das bases analíticas. Os resultados
-obtidos foram organizados em tabelas e gráficos, possibilitando a comparação do desempenho da 
+obtidos foram organizados em tabelas e gráficos, possibilitando a comparação do desempenho da
 arquitetura proposta em relação à solução legada baseada em SSIS.
+
+Além das métricas de desempenho e complexidade estrutural, buscou-se comparar o espaço de
+armazenamento ocupado pelos dados entre a solução legada e a arquitetura proposta. Inicialmente,
+pretendia-se realizar essa comparação de forma direta, contrapondo o tamanho total das bases de
+dados dos dois sistemas. Contudo, em razão das discrepâncias entre as bases de origem de ambas as
+versões do ETL e das diferenças nos volumes de dados carregados por cada uma, essa comparação
+direta não se mostrou viável.
+
+Diante disso, optou-se por selecionar cinco tabelas carregadas pelo sistema legado no SQL Server,
+escolhidas por apresentarem diferentes tamanhos e volumes de dados e por representarem,
+individualmente, cada um dos quatro documentos fiscais processados pelo BDMalhas (CTE, NFE,
+NFCE e EFD). Essa seleção teve como objetivo avaliar o comportamento do ClickHouse diante de
+distintas quantidades e naturezas de dados.
+
+Os registros dessas tabelas foram extraídos do SQL Server e inseridos no ClickHouse do ambiente
+cedido pela SEFAZ-PB por meio do \textit{DBeaver}, uma ferramenta de gerenciamento de bancos de
+dados que permite a execução de consultas e a transferência de dados entre diferentes sistemas
+gerenciadores de bancos de dados. Após a transferência, as estatísticas de tamanho ocupado por
+cada tabela em ambos os bancos de dados foram coletadas por meio do próprio painel de estatísticas
+do DBeaver, possibilitando a comparação apresentada no Capítulo 5.
 
 \section{Ambiente utilizado}
 

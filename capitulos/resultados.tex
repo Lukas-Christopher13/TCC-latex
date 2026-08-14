@@ -361,11 +361,12 @@ por minuto, um aumento de 383,56\% em relação ao SSIS.
 
 \section{Comparação do espaço de armazenamento}
 
-Antes de mais nada, deve-se mencionar que, devido às discrepâncias entre as bases de origem 
-de ambas as versões do ETL, bem como às diferenças nos volumes de dados carregados por cada 
-sistema, não foi possível realizar uma comparação direta entre os tamanhos das bases de dados 
-dos dois projetos.
-
+Conforme descrito na Seção \ref{sec:procedimentos_experimentais}, a comparação do espaço de
+armazenamento entre a solução legada e a arquitetura proposta foi realizada a partir de cinco
+tabelas selecionadas do SQL Server, transferidas para o ClickHouse do ambiente cedido pela
+SEFAZ-PB por meio do \textit{DBeaver}. A Tabela \ref{tab:comparacao_armazenamento} apresenta as
+estatísticas de tamanho ocupado por cada uma dessas tabelas em ambos os bancos de dados,
+coletadas por meio do painel de estatísticas do próprio DBeaver.
 
 \begin{table}[H]
 \centering
@@ -385,18 +386,6 @@ EFD\_C100    & 1,6 GB  & 167 MB \\
 
 \caption*{\small Fonte: Elaborado pelo autor, 2026}
 \end{table}
-
-Desse modo, com o intuito de realizar uma comparação justa, foram selecionadas cinco tabelas 
-carregadas pelo sistema original no SQL Server, cada uma com diferentes tamanhos e volumes de
-dados. Essa seleção teve como objetivo avaliar o comportamento do ClickHouse diante de distintas 
-quantidades de dados. Em seguida, todos os registros dessas tabelas foram extraídos e inseridos 
-no banco ClickHouse do ambiente cedido pela SEFAZ.
-
-Além disso, essa transferência de dados foi realizada por meio do \textit{DBeaver}, uma ferramenta de 
-gerenciamento de bancos de dados que permite a execução de consultas e a transferência de dados entre 
-diferentes sistemas gerenciadores de bancos de dados. Após a transferência dos dados do SQL Server para
-o ClickHouse, a Tabela \ref{tab:comparacao_armazenamento} foi elaborada com base nas estatísticas de 
-armazenamento obtidas em ambos os bancos de dados.
 
 Através da análise da Tabela \ref{tab:comparacao_armazenamento}, fica evidente a redução no espaço 
 de armazenamento ocupado pelos dados após a migração para o ClickHouse. Vale destacar que esse 
