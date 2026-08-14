@@ -306,57 +306,11 @@ múltiplos nós computacionais trabalhando em conjunto, o que viabiliza a execu�
 expansão horizontal da capacidade computacional por meio da adição de novos nós ao \textit{cluster} --- característica 
 crucial para acompanhar o crescimento do volume de dados processados.
 
-Por fim, como forma de otimizar ainda mais o tempo de execução das cargas no novo BDMalhas, foi realizada 
-a substituição do banco de dados relacional de destino (Microsoft SQL Server) por um banco de dados colunar, 
-mais especificamente o ClickHouse.
+Por fim, visando otimizar o tempo de execução das cargas no novo BDMalhas e promover maior economia de 
+espaço de armazenamento, foi realizada a substituição do banco de dados relacional de destino 
+(Microsoft SQL Server) por um banco de dados colunar, especificamente o ClickHouse.
 
-O ClickHouse foi escolhido em detrimento das soluções baseadas em bancos de dados relacionais por apresentar 
-tempos de inserção significativamente inferiores para grandes volumes de dados. A Tabela 
-\ref{tab:comparacao_insercao} evidencia esse comportamento ao comparar os tempos de inserção obtidos para 
-diferentes quantidades de registros entre o PostgreSQL e o ClickHouse.
-
-%-------------------
-%-----Tabela--------
-
-\begin{table}[htb]
-\centering
-\caption{Comparação do tempo de inserção entre PostgreSQL e ClickHouse.}
-\label{tab:comparacao_insercao}
-
-\footnotesize
-\renewcommand{\arraystretch}{1.2}
-
-\newcolumntype{Y}{>{\centering\arraybackslash}X}
-
-\begin{tabularx}{\textwidth}{|p{5.0cm}|Y|Y|}
-\hline
-\textbf{Quantidade de Registros} & \textbf{PostgreSQL (s)} & \textbf{ClickHouse (s)} \\
-\hline
-100\,000   & 10.6130 & 0.1759 \\
-\hline
-200\,000   & 22.1700 & 0.3773 \\
-\hline
-500\,000   & 53.1294 & 0.9095 \\
-\hline
-1\,000\,000 & 106.7120 & 1.5910 \\
-\hline
-\end{tabularx}
-
-\vspace{0.5em}
-{\small Fonte: Elaborado pelo autor, 2026.}
-
-\end{table}
-
-Esses experimentos foram realizados em uma máquina equipada com processador AMD Ryzen 5 5600GT, 
-16 GB de memória RAM DDR4 e unidade de armazenamento SSD de 1 TB. 
-
-Diante dos resultados obtidos no experimento, observou-se que o ClickHouse apresentou comportamento mais 
-adequado às necessidades de inserção da solução proposta. Por se tratar de um banco de 
-dados colunar voltado para cargas de trabalho analíticas, sua arquitetura é otimizada para operações de
-inserção e leitura em larga escala, proporcionando elevado desempenho no processamento de grandes conjuntos 
-de dados.
-
-Por fim, essas decisões arquiteturais resultaram em um sistema mais modular e flexível, facilitando a 
+No mais, essas decisões arquiteturais resultaram em um sistema mais modular e flexível, facilitando a 
 manutenção dos \textit{pipelines}, simplificando sua evolução e oferecendo uma infraestrutura compatível com as demandas 
 de processamento do BDMalhas. No capítulo seguinte, os impactos dessas decisões são avaliados por meio da 
 comparação entre a arquitetura legada e a arquitetura proposta, com base nas métricas definidas na metodologia.
