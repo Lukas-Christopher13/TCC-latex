@@ -41,19 +41,16 @@ parceria com a SEFAZ-PB. A pesquisa busca, nesse contexto, avaliar os efeitos da
 de ETL.
 
 
-\section{Desenvolvimento da solução}
+\section{Procedimentos de desenvolvimento}
 
-Após o levantamento da arquitetura existente e a identificação de suas limitações, iniciou-se o 
-desenvolvimento da nova solução de ETL proposta neste trabalho.
+Após o levantamento da arquitetura existente e a identificação de suas limitações, iniciou-se o
+desenvolvimento da nova solução de ETL proposta neste trabalho, estruturado em duas etapas
+principais: a definição de uma nova arquitetura de dados e a implementação dos \textit{pipelines}
+de ETL para o projeto BDMalhas.
 
-Para isso, definiu-se uma nova arquitetura baseada em tecnologias do ecossistema de Big Data, 
-adotando o Apache Airflow como ferramenta responsável pela orquestração dos processos de ETL, o Apache 
-Spark como mecanismo de processamento distribuído, um \textit{Data Lake} em PostgreSQL como fonte dos dados e o 
-ClickHouse como banco de dados analítico para a persistência das informações processadas.
-
-Com a arquitetura definida, iniciou-se a implementação dos \textit{pipelines} de ETL para o projeto BDMalhas. 
-Durante essa etapa, buscou-se estruturar os \textit{pipelines} de forma modular, favorecendo a reutilização 
-de componentes e facilitando sua manutenção e evolução.
+Na etapa de implementação, buscou-se estruturar os \textit{pipelines} de forma modular, favorecendo
+a reutilização de componentes e facilitando sua manutenção e evolução. A arquitetura adotada, as
+tecnologias empregadas e os detalhes da implementação são descritos no \chapref{chap:desenvolvimento}.
 
 \section{Procedimentos experimentais}
 \label{sec:procedimentos_experimentais}
