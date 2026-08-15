@@ -318,10 +318,9 @@ dados brutos e atender a diferentes necessidades dos usuários \cite{hai2023data
 Ao contrário do \textit{data warehouse}, que exige a definição do esquema antes da
 carga dos dados \textit{schema-on-write}, o Data Lake adota a abordagem de
 \textit{schema-on-read}, na qual a estrutura é aplicada apenas no momento da leitura ou
-do consumo dos dados \cite{hai2023datalakes}. Essa característica torna o Data Lake
-especialmente adequado como fonte de extração \textit{Extract} em cenários de Big Data,
-uma vez que permite a ingestão de dados heterogêneos, estruturados ou não, sem as
-restrições impostas pelos bancos de dados relacionais tradicionais.
+do consumo dos dados \cite{hai2023datalakes}. Essa característica torna o Data Lake adequado 
+como fonte de extração em cenários de Big Data, pois permite o armazenamento de dados de 
+diferentes formatos e estruturas, sem exigir a definição prévia de um esquema rígido
 
 \subsection{Processamento distribuído: Apache Spark}
 
@@ -348,22 +347,21 @@ simples nos dados, como conversões de tipos.
 
 \subsection{Orquestração com DAGs}
 
-A execução de \textit{pipelines} de ETL modernos, compostos por múltiplas etapas
-interdependentes, exige um mecanismo capaz de definir e controlar a ordem e as
-dependências entre essas etapas. Esse mecanismo é o grafo acíclico direcionado
-(\textit{Directed Acyclic Graph} — DAG), já mencionado na \secref{sec:ferramentas-etl}
-como conceito central do Apache Airflow. Em um DAG, cada nó representa uma tarefa do
-\textit{pipeline} (por exemplo, uma etapa de extração ou de transformação), enquanto as
-arestas direcionadas representam as dependências entre essas tarefas, determinando a
-ordem de execução. A representação por DAGs permitem visualizar as dependências e a 
-ordem com que as tarefas são executadas, facilitando sua modificação, integração com 
-diferentes fontes de dados e escalabilidade \cite{eeti2022efficient}.
+Na execução de \textit{pipelines} de ETL compostos por múltiplas etapas interdependentes, 
+as DAGs (\textit{Directed Acyclic Graph} — DAG) permitem definir e controlar as dependências e a ordem de execução dessas etapas, 
+constituindo um conceito central do Apache Airflow, conforme apresentado na 
+\secref{sec:ferramentas-etl}. 
+
+Em uma DAG, cada nó representa uma tarefa do \textit{pipeline} (por exemplo, uma etapa de 
+extração ou de transformação), enquanto as arestas direcionadas representam as dependências 
+entre essas tarefas, determinando a ordem de execução. A representação por DAGs permitem 
+visualizar as dependências e a ordem com que as tarefas são executadas, facilitando sua 
+modificação, integração com diferentes fontes de dados e escalabilidade \cite{eeti2022efficient}.
 
 Ferramentas como o Apache Airflow utilizam essa estrutura para orquestrar os
-\textit{pipelines} de dados, permitindo o monitoramento individual de cada tarefa, a
-definição de dependências explícitas e o reprocessamento seletivo de etapas que falharam,
-sem a necessidade de reexecutar o \textit{pipeline} por completo \cite{eeti2022efficient}.
-Na solução proposta, os DAGs estruturam os novos \textit{pipelines}, coordenando os processos 
+\textit{pipelines} de dados, permitindo definir dependências e monitorar cada tarefa,
+além de possibilitar o reprocessamento seletivo de etapas que falharam \cite{eeti2022efficient}.
+Na solução proposta, as DAGs estruturam os novos \textit{pipelines}, coordenando os processos 
 de extração, transformação e carregamento dos dados.
 
 \subsection{Bancos de dados colunares}
@@ -421,13 +419,6 @@ Por fim, na arquitetura proposta, o ClickHouse atua como banco de dados de desti
 ETL. Em contraste com soluções relacionais tradicionais, seu armazenamento colunar e os mecanismos 
 de compressão utilizados fornecem a base para os ganhos de espaço de armazenamento apresentados no 
 \chapref{cap:resultados}.
-
-\section{Qualidade e manutenibilidade de software}
-
-Além dos aspectos técnicos relacionados ao volume, ao processamento e ao armazenamento
-dos dados, a avaliação da solução proposta neste trabalho também considera sua qualidade
-enquanto software, uma vez que a manutenibilidade dos novos \textit{pipelines} constitui
-um dos eixos de avaliação dos resultados obtidos.
 
 % \subsection{ISO/IEC 25010}
 % Pendente: falta referência (norma ISO/IEC 25010:2011 ou fonte secundária confiável).
