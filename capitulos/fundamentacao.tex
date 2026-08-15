@@ -13,6 +13,7 @@ Em seguida, detalham-se as etapas e aplicações dos processos de ETL, suas vari
 decisivos para o projeto de \textit{pipelines} eficientes de dados.
 
 \section{Big Data}
+\label{sec:big-data}
 
 Embora não exista uma definição única e consensual para Big Data, observa-se um certo 
 consenso sobre as características que definem o Big Data. Para a Oracle, Big Data são 
@@ -107,6 +108,7 @@ Nesse contexto, a arquitetura organiza-se por meio de diferentes elementos e pro
 de forma integrada, viabilizam o tratamento eficiente dos dados ao longo de seu ciclo de vida.
 
 \subsection{Elementos do Big Data}
+\label{sec:elementos-big-data}
 
 A infraestrutura de armazenamento é um dos principais pilares do Big Data, é nela que o 
 volume massivo e diverso dos dados é armazenado. Dadas as características do Big Data, os 
@@ -227,6 +229,7 @@ destino. Tal abordagem é particularmente relevante em cenários cujos requisito
 estão em constante evolução.
 
 \subsection{Ferramentas de ETL}
+\label{sec:ferramentas-etl}
 
 Dado o amplo uso do ETL e de seus derivados, é natural que empresas e instituições tenham 
 desenvolvido ferramentas e \textit{frameworks} voltados para esse tipo de processo. Nesse contexto, 
@@ -240,7 +243,7 @@ de \textit{pipelines} de dados.
     projetado para orquestrar processos computacionais complexos de forma dinâmica e escalável 
     \cite{eeti2022efficient}. Além disso, sua flexibilidade permite a integração com ferramentas de 
     processamento distribuído, como o Apache Spark. No mais, a plataforma baseia-se no conceito 
-    de grafos acíclicos direcionados (DAGs) e utiliza a linguagem Python para a programação dos 
+    de grafos acíclicos direcionados (\textit{Directed Acyclic Graph} — DAG) e utiliza a linguagem Python para a programação dos 
     fluxos. 
 
     \item \textbf{SSIS:} o SQL Server Integration Services (SSIS) é uma plataforma da Microsoft 
@@ -290,49 +293,108 @@ forma confiável para apoio à tomada de decisão.
     e a utilização das informações por analistas e gestores. Embora essa prática gere
     redundância em relação ao \textit{data warehouse}, trata-se de uma redundância controlada e 
     intencional, que visa melhorar o desempenho e a usabilidade dos dados. Ademais, o data 
-    franchising ocorre após as etapas de preparação e transformação, garantindo que apenas 
+    franchising ocorre após as etapas de preparação e transformação, garantindo que apenas
     dados consistentes e estruturados sejam disponibilizados \cite{sherman2015business}.
 
 \end{itemize}
 
+As ferramentas e etapas descritas até aqui caracterizam o ETL de forma genérica, tal
+como consolidado pelo mercado. A solução proposta neste trabalho, entretanto, instancia
+cada uma dessas etapas com um conjunto específico de tecnologias de Big Data, escolhidas
+para lidar com o volume e a variedade de dados da SEFAZ-PB. Assim, torna-se necessário
+apresentar essas tecnologias e situá-las dentro do processo de ETL já descrito, da fonte
+de dados ao motor de processamento e ao repositório de destino.
 
-% \subsection{Projeto e Manutenibilidade de ETL}
-% Fazer...
+\section{Tecnologias de Big Data para ETL Moderno}
 
+\subsection{Data Lake}
 
-% \section{Fontes de Dados}
+Diferentemente das fontes de dados tradicionais, estruturadas e centralizadas, discutidas
+na \secref{sec:elementos-big-data}, o Data Lake surgiu como um repositório capaz de armazenar 
+dados em seu formato bruto, sem exigir um esquema definido previamente. O conceito foi proposto 
+inicialmente por James Dixon, então CTO da Pentaho, em 2010, como uma solução capaz de lidar com 
+dados brutos e atender a diferentes necessidades dos usuários \cite{hai2023datalakes}.
 
-% \subsection{Data lake}
+Ao contrário do \textit{data warehouse}, que exige a definição do esquema antes da
+carga dos dados \textit{schema-on-write}, o Data Lake adota a abordagem de
+\textit{schema-on-read}, na qual a estrutura é aplicada apenas no momento da leitura ou
+do consumo dos dados \cite{hai2023datalakes}. Essa característica torna o Data Lake
+especialmente adequado como fonte de extração \textit{Extract} em cenários de Big Data,
+uma vez que permite a ingestão de dados heterogêneos, estruturados ou não, sem as
+restrições impostas pelos bancos de dados relacionais tradicionais.
 
-% A fazer...
+\subsection{Processamento Distribuído: Apache Spark}
 
-% O conceito de Data Lake surgiu inicialmente no setor industrial. Em 2010, James Dixon, então CTO da Pentaho, 
-% propôs o conceito como uma solução capaz de lidar com dados brutos e atender a diferentes necessidades dos 
-% usuários \cite{hai2023datalakes}.
+O Apache Spark é um \textit{framework} de processamento distribuído que surgiu como
+evolução do modelo MapReduce, já mencionado na \secref{sec:big-data}
+como um dos pilares do ecossistema Apache voltado ao Big Data. Enquanto o MapReduce 
+depende da escrita de resultados intermediários em disco, o Spark utiliza os 
+\textit{Resilient Distributed Datasets} (RDDs), coleções de dados particionadas 
+entre máquinas do \textit{cluster} e reconstruíveis em caso de falha \cite{zaharia2010spark}.
 
+Essa reconstrução é possível graças ao conceito de \textit{lineage}: cada RDD mantém
+o registro de como foi derivado de outros RDDs, permitindo que apenas a partição perdida
+seja recalculada, sem a necessidade de reprocessar todo o conjunto de dados
+\cite{zaharia2010spark}. Além disso, o Spark permite armazenar RDDs em memória entre
+as máquinas do \textit{cluster}, possibilitando sua reutilização em múltiplas operações
+paralelas subsequentes, o que resulta em ganhos expressivos de desempenho frente a
+\textit{frameworks} baseados exclusivamente em disco. 
 
-% \section{Processamento de Dados}
+Na arquitetura proposta neste
+trabalho, o Spark atua principalmente na etapa de extração do processo de ETL, consumindo 
+os dados do Data Lake e utilizando recursos de particionamento e processamento paralelo 
+para otimizar a extração. Durante esse processo, também são realizadas transformações 
+simples nos dados, como conversões de tipos.
 
-% \subsection{Apache Spark}
+\subsection{Orquestração com DAGs}
 
-% The main abstraction in Spark is that of a resilient distributed dataset (RDD), which represents a read-only collection of objects partitioned across a set of machines that
-% can be rebuilt if a partition is lost. Users can explicitly
-% cache an RDD in memory across machines and reuse it
-% in multiple MapReduce-like parallel operations. RDDs
-% achieve fault tolerance through a notion of lineage: if a
-% partition of an RDD is lost, the RDD has enough information about how it was derived from other RDDs to be
-% able to rebuild just that partition. Although RDDs are
-% not a general shared memory abstraction, they represent
-% a sweet-spot between expressivity on the one hand and
-% scalability and reliability on the other hand, and we have
-% found them well-suited for a variety of applications \cite{zaharia2010spark}.
+A execução de \textit{pipelines} de ETL modernos, compostos por múltiplas etapas
+interdependentes, exige um mecanismo capaz de definir e controlar a ordem e as
+dependências entre essas etapas. Esse mecanismo é o grafo acíclico direcionado
+(\textit{Directed Acyclic Graph} — DAG), já mencionado na \secref{sec:ferramentas-etl}
+como conceito central do Apache Airflow. Em um DAG, cada nó representa uma tarefa do
+\textit{pipeline} (por exemplo, uma etapa de extração ou de transformação), enquanto as
+arestas direcionadas representam as dependências entre essas tarefas, determinando a
+ordem de execução. A representação por DAGs permitem visualizar as dependências e a 
+ordem com que as tarefas são executadas, facilitando sua modificação, integração com 
+diferentes fontes de dados e escalabilidade \cite{eeti2022efficient}.
 
-% \section{Armazenamento de Dados}
+Ferramentas como o Apache Airflow utilizam essa estrutura para orquestrar os
+\textit{pipelines} de dados, permitindo o monitoramento individual de cada tarefa, a
+definição de dependências explícitas e o reprocessamento seletivo de etapas que falharam,
+sem a necessidade de reexecutar o \textit{pipeline} por completo \cite{eeti2022efficient}.
+Na solução proposta, os DAGs estruturam os novos \textit{pipelines}, coordenando os processos 
+de extração, transformação e carregamento dos dados.
 
-% \subsection{Bancos Relacionais}
+% \subsection{Bancos de Dados Colunares e Compressão: ClickHouse}
+% Pendente: falta referência bibliográfica (documentação oficial do ClickHouse e/ou
+% artigo sobre bancos colunares). Conteúdo a cobrir:
+%   - Bancos analíticos colunares (OLAP) vs. bancos relacionais orientados a linha (OLTP)
+%   - Por que armazenamento colunar favorece compressão (dados do mesmo tipo/coluna
+%     agrupados fisicamente) e consultas analíticas (leitura só das colunas necessárias)
+%   - ClickHouse especificamente: velocidade de inserção em lote e economia de espaço
+%     (fundamenta a redução de ~85% de armazenamento citada no Cap. 4/5)
+%   - Conectar com a etapa de Load do ETL: ClickHouse como banco de destino, em
+%     contraste com o data warehouse relacional já mencionado nas Seções 2.2 e 2.2.1
 
-% \subsection{Bancos de dados Analiticos}
+\section{Qualidade e Manutenibilidade de Software}
 
-% \subsection{ClickHouse}
-%descrever as propriedades do Clickhouse como velocidade de inserção em lotes
-%e economia de espaço.
+Além dos aspectos técnicos relacionados ao volume, ao processamento e ao armazenamento
+dos dados, a avaliação da solução proposta neste trabalho também considera sua qualidade
+enquanto software, uma vez que a manutenibilidade dos novos \textit{pipelines} constitui
+um dos eixos de avaliação dos resultados obtidos.
+
+% \subsection{ISO/IEC 25010}
+% Pendente: falta referência (norma ISO/IEC 25010:2011 ou fonte secundária confiável).
+% Conteúdo a cobrir: modelo de qualidade de produto de software da norma, características
+% (funcionalidade, eficiência de desempenho, compatibilidade, usabilidade, confiabilidade,
+% segurança, MANUTENIBILIDADE, portabilidade), com foco na característica de
+% manutenibilidade e suas subcaracterísticas (modularidade, reusabilidade,
+% analisabilidade, modificabilidade, testabilidade).
+
+% \subsection{Métricas de Acoplamento e Complexidade}
+% Pendente: falta referência (literatura de engenharia de software / métricas de
+% qualidade de código). Conteúdo a cobrir: métricas usadas para mensurar
+% manutenibilidade de forma objetiva (ex.: acoplamento entre módulos, complexidade
+% ciclomática, tamanho/LOC), e como essas métricas serão aplicadas na avaliação dos
+% pipelines no Cap. 5.
