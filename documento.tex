@@ -50,6 +50,10 @@
 % OBS: NÃO FAZER EDIÇÕES NESTE ARQUIVO pre-textual/10-listas ********************
 \glsaddallunused
 \input{config/listas}
+% O \glsaddallunused preenche a lista de siglas, mas não passa pelo comando
+% público \glsadd, que é o gatilho observado por config/listas.tex para
+% detectar que a lista deve ser impressa; esta chamada explícita aciona isso.
+\glsadd{etl}
 
 % Restaura o estilo "plain" com número de página, usado a partir dos capítulos
 \fancypagestyle{plain}{
