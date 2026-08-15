@@ -305,7 +305,7 @@ para lidar com o volume e a variedade de dados da SEFAZ-PB. Assim, torna-se nece
 apresentar essas tecnologias e situá-las dentro do processo de ETL já descrito, da fonte
 de dados ao motor de processamento e ao repositório de destino.
 
-\section{Tecnologias de Big Data para ETL Moderno}
+\section{Tecnologias de Big Data para ETL moderno}
 
 \subsection{Data Lake}
 
@@ -323,7 +323,7 @@ especialmente adequado como fonte de extração \textit{Extract} em cenários de
 uma vez que permite a ingestão de dados heterogêneos, estruturados ou não, sem as
 restrições impostas pelos bancos de dados relacionais tradicionais.
 
-\subsection{Processamento Distribuído: Apache Spark}
+\subsection{Processamento distribuído: Apache Spark}
 
 O Apache Spark é um \textit{framework} de processamento distribuído que surgiu como
 evolução do modelo MapReduce, já mencionado na \secref{sec:big-data}
@@ -366,18 +366,63 @@ sem a necessidade de reexecutar o \textit{pipeline} por completo \cite{eeti2022e
 Na solução proposta, os DAGs estruturam os novos \textit{pipelines}, coordenando os processos 
 de extração, transformação e carregamento dos dados.
 
-% \subsection{Bancos de Dados Colunares e Compressão: ClickHouse}
-% Pendente: falta referência bibliográfica (documentação oficial do ClickHouse e/ou
-% artigo sobre bancos colunares). Conteúdo a cobrir:
-%   - Bancos analíticos colunares (OLAP) vs. bancos relacionais orientados a linha (OLTP)
-%   - Por que armazenamento colunar favorece compressão (dados do mesmo tipo/coluna
-%     agrupados fisicamente) e consultas analíticas (leitura só das colunas necessárias)
-%   - ClickHouse especificamente: velocidade de inserção em lote e economia de espaço
-%     (fundamenta a redução de ~85% de armazenamento citada no Cap. 4/5)
-%   - Conectar com a etapa de Load do ETL: ClickHouse como banco de destino, em
-%     contraste com o data warehouse relacional já mencionado nas Seções 2.2 e 2.2.1
+\subsection{Bancos de dados colunares}
 
-\section{Qualidade e Manutenibilidade de Software}
+Os sistemas gerenciadores de bancos de dados relacionais tradicionais são voltados 
+para cargas de trabalho transacionais e armazenam os dados fisicamente de forma orientada 
+a linhas, mantendo os atributos de um mesmo registro próximos entre si no disco. 
+Por sua vez, os bancos de dados colunares adotam uma organização física diferente, armazenando 
+os dados de cada coluna separadamente. Essa diferença de layout torna os
+bancos colunares mais eficientes em termos de I/O para consultas analíticas de
+leitura, uma vez que a consulta só precisa ler do disco os atributos
+efetivamente acessados, ao invés de registros inteiros \cite{abadi2008column}.
+
+Além do ganho em I/O, o armazenamento colunar favorece diretamente a compressão dos
+dados. Isso ocorre porque valores de uma mesma coluna tendem a pertencer a um domínio
+mais homogêneo do que os valores de um registro completo, o que caracteriza uma baixa
+entropia de informação: agrupar, por exemplo, todos os números de telefone de uma
+tabela de clientes produz uma sequência de valores mais semelhante entre si do que a
+mistura desses telefones com nomes e endereços de um mesmo registro.
+
+Quando a coluna está ordenada, essa compressibilidade aumenta ainda mais, permitindo técnicas 
+como a codificação por repetição \textit{run-length encoding}, na qual sequências de valores
+repetidos são substituídas por um único par valor/contagem \cite{abadi2008column}.
+
+Essa compressão, por sua vez, não beneficia apenas o espaço em disco ocupado: como
+menos dados precisam ser transferidos do disco para a memória e da memória para o
+processador, a leitura de dados comprimidos reduz o tempo gasto em operações de I/O,
+melhorando o desempenho das consultas. Em alguns motores de banco de dados colunares,
+é inclusive possível operar diretamente sobre os dados comprimidos sem descomprimi-los
+por completo, reduzindo ainda mais o custo computacional das consultas
+\cite{abadi2008column}.
+
+\subsection{ClickHouse}
+
+O ClickHouse é um banco de dados colunar de código aberto voltado ao processamento
+analítico, projetado para consultas de alto desempenho sobre conjuntos de dados
+na escala de petabytes e com altas taxas de ingestão de dados \cite{schulze2024clickhouse}.
+Como mencionado na subseção anterior, a arquitetura colunar permite o armazenamento dos dados 
+por coluna, favorecendo a leitura, uma vez que apenas as colunas necessárias às consultas são 
+acessadas. Essa característica é especialmente útil no processamento de grandes volumes de dados.
+
+Ademais, no que se refere à inserção de dados, o modelo do ClickHouse é adequado para 
+operações em lote, nas quais grandes volumes de dados são inseridos de uma só vez. 
+Essa característica é especialmente interessante em cenários de Big Data, que envolvem o 
+processamento de grandes volumes de dados. 
+
+Quanto à compressão, o ClickHouse comprime, por padrão, os blocos de dados de cada coluna, 
+podendo utilizar algoritmos específicos mais adequados ao tipo de dado, contribuindo para a 
+redução do espaço de armazenamento. Esses algoritmos de compressão podem ainda ser encadeados, 
+aplicando-se, por exemplo, uma codificação delta aos valores numéricos antes de uma compressão 
+mais pesada, com o objetivo de reduzir o tamanho dos blocos e os custos de I/O 
+\cite{schulze2024clickhouse}. 
+
+Por fim, na arquitetura proposta, o ClickHouse atua como banco de dados de destino do processo de 
+ETL. Em contraste com soluções relacionais tradicionais, seu armazenamento colunar e os mecanismos 
+de compressão utilizados fornecem a base para os ganhos de espaço de armazenamento apresentados no 
+\chapref{cap:resultados}.
+
+\section{Qualidade e manutenibilidade de software}
 
 Além dos aspectos técnicos relacionados ao volume, ao processamento e ao armazenamento
 dos dados, a avaliação da solução proposta neste trabalho também considera sua qualidade
