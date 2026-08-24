@@ -46,7 +46,7 @@ camadas:
     bancos de dados transacionais do sistema ATF, implementados nas plataformas Informix e Oracle.
 
     \item \textbf{Data Extraction:} camada responsável pela extração dos dados. Por meio de processos de 
-    ETL (\textit{Extract, Transform and Load}), os dados são extraídos do SOR, submetidos às transformações 
+    ETL, os dados são extraídos do SOR, submetidos às transformações 
     necessárias e carregados em uma área intermediária de armazenamento.
 
     \item \textbf{Analytical Databases:} camada responsável pela consolidação e disponibilização analítica 
@@ -72,7 +72,7 @@ Dessa forma, os processos passam a extrair informações de um ambiente estrutur
 de Big Data, simplificando as consultas e aumentando a eficiência das etapas de integração e 
 processamento dos dados.
 
-Ademais, houve a substituição do SQL Server Integration Services (SSIS) pelo Apache Airflow como 
+Ademais, houve a substituição do SSIS pelo Apache Airflow como 
 plataforma de orquestração dos \textit{pipelines} de dados, juntamente com a adoção do Apache Spark como 
 mecanismo de processamento distribuído. Essa mudança visa proporcionar maior escalabilidade, 
 flexibilidade e capacidade de processamento.
@@ -104,7 +104,7 @@ seguintes camadas:
 Dado o contexto da nova \textit{stack} tecnológica adotada na reestruturação, o processo de ETL 
 inicia-se com a extração dos dados a partir do \textit{Data Lake} PostgreSQL da SEFAZ-PB. 
 O Apache Airflow é responsável pela orquestração dos fluxos de execução, estruturados em 
-DAGs (\textit{Directed Acyclic Graphs}) compostas por \textit{tasks} executadas de forma sequencial ou 
+DAGs compostas por \textit{tasks} executadas de forma sequencial ou 
 paralela, mantendo a mesma lógica operacional anteriormente implementada em Microsoft SSIS.
 
 Contudo, diferentemente da arquitetura anterior, o Airflow não realiza diretamente o 
