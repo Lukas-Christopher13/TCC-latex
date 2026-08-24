@@ -386,16 +386,18 @@ coletadas por meio do painel de estatísticas do próprio DBeaver.
 \label{tab:comparacao_armazenamento}
 \begin{tabular}{lcc}
 \toprule
-\textbf{Nome da Tabela} & \textbf{SQL Server} & \textbf{ClickHouse} \\
+\textbf{Tabela} & \textbf{SQL Server} & \textbf{ClickHouse} \\
 \midrule
-CTE          & 19 MB   & 2,1 MB \\
-NFE          & 69 MB   & 10 MB \\
-NFCE\_TPPAGA & 355 MB  & 76 MB \\
-ITEM\_NFE    & 647 MB  & 70 MB \\
-EFD\_C100    & 1,6 GB  & 167 MB \\
+Tabela 1 (CTE)  & 19 MB   & 2,1 MB \\
+Tabela 2 (NFE)  & 69 MB   & 10 MB \\
+Tabela 3 (NFCE) & 355 MB  & 76 MB \\
+Tabela 4 (NFE)  & 647 MB  & 70 MB \\
+Tabela 5 (EFD)  & 1,6 GB  & 167 MB \\
 \bottomrule
 \end{tabular}
 
+\caption*{\small Nomes das tabelas anonimizados por confidencialidade; Tabela 4 refere-se a uma
+tabela de itens vinculada à NFE, distinta da Tabela 2.}
 \caption*{\small Fonte: Elaborada pelo autor, 2026}
 \end{table}
 
@@ -404,12 +406,12 @@ de armazenamento ocupado pelos dados após a migração para o ClickHouse. Vale 
 comportamento de redução é observado independentemente do volume, pois todas as tabelas tiveram uma
 drástica redução em seu tamanho em comparação com as tabelas no SQL Server.
 
-A tabela CTE apresentou uma redução de 88,95\% no espaço ocupado, passando de 19 MB no SQL Server 
-para 2,1 MB no ClickHouse. A tabela NFE apresentou redução de 85,51\%, passando de 69 MB para 10 MB. 
-Já a tabela NFCE\_TPPAGA passou de 355 MB para 76 MB, correspondendo a uma redução de 78,59\%.
+A Tabela 1 apresentou uma redução de 88,95\% no espaço ocupado, passando de 19 MB no SQL Server
+para 2,1 MB no ClickHouse. A Tabela 2 apresentou redução de 85,51\%, passando de 69 MB para 10 MB.
+Já a Tabela 3 passou de 355 MB para 76 MB, correspondendo a uma redução de 78,59\%.
 
-Entre as tabelas de maior volume, a redução também foi expressiva. A tabela ITEM\_NFE passou de 
-647 MB para 70 MB, representando uma redução de 89,18\%. A tabela EFD\_C100 apresentou a maior 
+Entre as tabelas de maior volume, a redução também foi expressiva. A Tabela 4 passou de
+647 MB para 70 MB, representando uma redução de 89,18\%. A Tabela 5 apresentou a maior
 diferença absoluta, passando de 1,6 GB para 167 MB, o que corresponde a uma redução de 89,81\%.
 
 Ademais, essa diferença no espaço ocupado pelo SQL Server e pelo ClickHouse é explicada pelo modelo de
@@ -417,10 +419,10 @@ armazenamento colunar adotado no ClickHouse, no qual os valores das colunas são
 e comprimidos individualmente. Essa abordagem favorece a compressão ao agrupar dados com padrões 
 e valores repetitivos, reduzindo o espaço necessário para seu armazenamento.
 
-Essa característica dos bancos colunares é evidenciada na observação dos resultados das tabelas 
-NFCE\_TPPAGA e ITEM\_NFE. Embora a ITEM\_NFE ocupe quase o dobro do espaço de NFCE\_TPPAGA no SQL 
-Server, após a transferência para o ClickHouse, esta passou a ocupar menos espaço do que a NFCE\_TPPAGA. 
-Isso ocorre devido à distribuição dos dados em um maior número de colunas, favorecendo o agrupamento e, 
+Essa característica dos bancos colunares é evidenciada na observação dos resultados das Tabelas 3
+e 4. Embora a Tabela 4 ocupe quase o dobro do espaço da Tabela 3 no SQL Server, após a
+transferência para o ClickHouse, esta passou a ocupar menos espaço do que a Tabela 3.
+Isso ocorre devido à distribuição dos dados em um maior número de colunas, favorecendo o agrupamento e,
 consequentemente, a compressão dos dados.
 
 Além disso, cabe mencionar que o ClickHouse utiliza diferentes algoritmos de compressão e descompressão
