@@ -279,9 +279,19 @@ pelo Apache Spark como mecanismo de processamento distribuído e pelo ClickHouse
 banco de dados analítico de destino. Além disso, a fonte de dados foi migrada dos bancos pertencentes ao 
 sistema ATF para o \textit{Data Lake} implementado em PostgreSQL.
 
-O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxos por permitir que os 
-\textit{pipelines} sejam definidos de forma programática utilizando a linguagem de programação Python, algo que 
+O Apache Airflow foi escolhido como ferramenta de gerenciamento de fluxos por permitir que os
+\textit{pipelines} sejam definidos de forma programática utilizando a linguagem de programação Python, algo que
 não ocorria na abordagem baseada em fluxos gráficos do SSIS.
+
+Entre as demais ferramentas de ETL apresentadas na \secref{sec:ferramentas-etl}, o Apache NiFi e o
+Pentaho Data Integration também foram considerados, mas não se mostraram adequados ao contexto do
+BDMalhas. 
+
+O NiFi é voltado principalmente a fluxos de dados em tempo real, definidos por interface gráfica, 
+diferente das cargas em lote e agendadas do BDMalhas, além de não possuir integração nativa com motores 
+distribuídos como o Apache Spark. Por sua vez, o Pentaho tem foco em relatórios e \textit{dashboards} 
+de BI, não sendo direcionado à orquestração programática de 
+\textit{pipelines} complexos, necessária à reestruturação proposta.
 
 Essa abordagem é especialmente vantajosa por favorecer a reutilização de código e proporcionar maior flexibilidade 
 aos desenvolvedores na criação de soluções personalizadas. Além disso, a ferramenta disponibiliza 
