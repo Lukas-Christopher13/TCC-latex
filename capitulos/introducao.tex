@@ -43,11 +43,17 @@ Nesse contexto, a Secretaria de Estado da Fazenda da Paraíba (SEFAZ-PB) passou 
 um volume crescente de dados decorrente da digitalização fiscal. De janeiro a dezembro, 
 os estabelecimentos emitiram quase 180 milhões de notas, volume que continuará em forte
 expansão em 2017 com a finalização da implantação da NFC-e no comércio paraibano \cite{sefaz-pb_crecente_v_nfce}. 
-Esse crescimento, aliado às reclamações dos fiscais da secretaria quanto à demora excessiva dos 
-processos de carga de dados existentes, evidenciou a necessidade de reestruturação dos processos de 
+Esse crescimento, aliado às reclamações dos fiscais da secretaria quanto à demora excessiva dos
+processos de carga de dados existentes, evidenciou a necessidade de reestruturação dos processos de
 ETL da SEFAZ-PB.
 
-Desse modo, se faz necessária uma modernização dos processos de ETL utilizados na SEFAZ-PB, 
+Ademais, a arquitetura legada apresentava uma limitação atrelada à própria tecnologia empregada.
+Por ser implementada inteiramente em SSIS, o ETL do BDMalhas ficava restrito ao ecossistema de
+produtos da Microsoft, dificultando a adoção de ferramentas de processamento distribuído mais
+adequadas a cenários de Big Data, em sua maioria soluções de código aberto e não atreladas a um
+único fornecedor.
+
+Desse modo, se faz necessária uma modernização dos processos de ETL utilizados na SEFAZ-PB,
 tendo em vista os desafios e impactos associados a essa transformação. Nesse contexto surge 
 a seguinte questão de pesquisa: quais são os principais desafios associados à modernização 
 dos processos de ETL da SEFAZ-PB e quais impactos essa modernização produz sobre o desempenho,
