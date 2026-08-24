@@ -33,28 +33,26 @@ A redução no uso de armazenamento, por sua vez, foi constatada a partir da com
 espaço ocupado pelas tabelas do sistema legado e da nova solução, apresentada na
 \tabref{tab:comparacao_armazenamento}. 
 
-No mais, os resultados favoráveis de desempenho observados
-em determinados cenários, apresentados na \tabref{tab:desempenho_cargas} e no Gráfico
-\ref{graf:tempo_exec}, reforçam o atendimento a esse objetivo, ainda que, como discutido na
-\secref{sec:limitacoes_comparacao}, as diferenças de volume e de ambiente entre as implementações
-não permitam uma comparação direta de desempenho.
+No mais, os resultados favoráveis de desempenho, apresentados na \tabref{tab:desempenho_cargas} e
+no Gráfico \ref{graf:tempo_exec}, reforçam o atendimento a esse objetivo. Essa comparação, no
+entanto, não é direta, dadas as diferenças de volume e de ambiente entre as implementações,
+conforme discutido na \secref{sec:limitacoes_comparacao}.
 
-Por fim, a discussão dos resultados, apresentada no \chapref{chap:discussao}, permitiu alcançar
-o terceiro objetivo específico, ao identificar os principais desafios enfrentados durante a
-reestruturação, bem como os ganhos obtidos em termos de manutenibilidade, economia de espaço de
-armazenamento, além de fornecer indicativos dos possíveis ganhos de escalabilidade proporcionados
-pela nova arquitetura.
+Por fim, o \chapref{chap:discussao} permitiu alcançar o terceiro objetivo específico. Nele,
+identificam-se os principais desafios enfrentados durante a reestruturação e os ganhos obtidos em
+termos de manutenibilidade e de economia de espaço de armazenamento, além de indicativos dos
+possíveis ganhos de escalabilidade proporcionados pela nova arquitetura.
 
 Com isso, os resultados obtidos fornecem evidências favoráveis à hipótese de que a 
 reestruturação dos \textit{pipelines} de ETL pode trazer impactos positivos para os 
 processos de Big Data da SEFAZ-PB, indicando a viabilidade da abordagem proposta.
 
 Diante dos resultados obtidos, conclui-se que o problema de pesquisa foi respondido de forma
-satisfatória nas dimensões avaliadas: os ganhos de manutenibilidade, apresentados na
-\tabref{tab:comparacao_manutenibilidade}, e de armazenamento, apresentados na
-\tabref{tab:comparacao_armazenamento}, foram conclusivos, enquanto os resultados de desempenho,
-apresentados na \tabref{tab:desempenho_cargas}, embora favoráveis em determinados cenários, não
-permitem uma comparação definitiva entre as duas implementações, dadas as limitações discutidas na
+satisfatória nas dimensões avaliadas. A \tabref{tab:comparacao_manutenibilidade} e a
+\tabref{tab:comparacao_armazenamento} confirmam ganhos conclusivos de manutenibilidade e de
+armazenamento, respectivamente. Já os resultados de desempenho, apresentados na
+\tabref{tab:desempenho_cargas}, foram favoráveis em determinados cenários, mas não permitem uma
+comparação definitiva entre as duas implementações, conforme discutido na
 \secref{sec:limitacoes_comparacao}. Ainda assim, a pesquisa demonstra que a reestruturação da
 estratégia de ETL baseada em tecnologias de Big Data constitui uma alternativa viável para
 modernizar os processos da SEFAZ-PB.
