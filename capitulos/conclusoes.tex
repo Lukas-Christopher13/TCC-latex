@@ -10,39 +10,54 @@ a esse cenário, investigou-se a viabilidade de uma reestruturação do ETL base
 tecnologias de Big Data, visando ampliar o desempenho, a manutenibilidade e a eficiência 
 no armazenamento dos dados.
 
-Desse modo, o objetivo geral desta pesquisa, de reestruturar a estratégia de ETL com base no 
-projeto BDMalhas, foi alcançado. Os resultados obtidos evidenciaram melhorias na estrutura dos 
-fluxos e no espaço em disco utilizado, além de resultados favoráveis de desempenho em determinados
-cenários, embora sua avaliação comparativa tenha sido limitada pelas diferenças entre os ambientes
-e volumes de dados processados.
+Desse modo, o objetivo geral desta pesquisa, de reestruturar a estratégia de ETL com base no
+projeto BDMalhas, foi alcançado. Essa conclusão apoia-se na comparação entre o sistema legado e a
+nova implementação apresentada no \chapref{cap:resultados}: a \tabref{tab:comparacao_manutenibilidade}
+evidenciou melhorias na estrutura dos fluxos, a \tabref{tab:comparacao_armazenamento} evidenciou a
+redução no espaço em disco utilizado, e a \tabref{tab:desempenho_cargas} apontou resultados
+favoráveis de desempenho em determinados cenários, embora sua avaliação comparativa tenha sido
+limitada pelas diferenças entre os ambientes e volumes de dados processados.
 
-Quanto ao primeiro objetivo específico, este foi alcançado por meio do desenvolvimento de 
-um sistema de ETL que materializou a proposta de reestruturação, utilizando Airflow para 
-orquestração, Spark para processamento distribuído e ClickHouse como banco de dados 
-analítico.
+Quanto ao primeiro objetivo específico, este foi alcançado por meio do desenvolvimento de
+um sistema de ETL que materializou a proposta de reestruturação, utilizando Airflow para
+orquestração, Spark para processamento distribuído e ClickHouse como banco de dados
+analítico, conforme detalhado no \chapref{chap:desenvolvimento}.
 
 Em seguida, a avaliação da nova implementação permitiu atender ao segundo objetivo específico.
-Este foi alcançado por meio da comparação entre o sistema original e o sistema desenvolvido, 
-utilizando métricas de manutenibilidade, desempenho e ocupação de disco. Os resultados 
-demonstraram que a nova arquitetura proporcionou ganhos estruturais e operacionais, simplificando 
-os \textit{pipelines} de ETL e reduzindo o uso de armazenamento, além de apresentar resultados 
-favoráveis de desempenho em determinados cenários.
+O ganho de manutenibilidade foi verificado por meio da comparação do número de nós, de
+dependências entre nós e de consultas SQL entre as duas implementações, apresentada na
+\tabref{tab:comparacao_manutenibilidade}, que evidenciou a simplificação dos \textit{pipelines}
+de ETL. 
 
-Por fim, a discussão dos resultados permitiu alcançar o terceiro objetivo específico, 
-ao identificar os principais desafios enfrentados durante a reestruturação, bem como os 
-ganhos obtidos em termos de manutenibilidade, economia de espaço de armazenamento, além de 
-fornecer indicativos dos possíveis ganhos de escalabilidade proporcionados pela nova arquitetura.
+A redução no uso de armazenamento, por sua vez, foi constatada a partir da comparação do
+espaço ocupado pelas tabelas do sistema legado e da nova solução, apresentada na
+\tabref{tab:comparacao_armazenamento}. 
+
+No mais, os resultados favoráveis de desempenho observados
+em determinados cenários, apresentados na \tabref{tab:desempenho_cargas} e no Gráfico
+\ref{graf:tempo_exec}, reforçam o atendimento a esse objetivo, ainda que, como discutido na
+\secref{sec:limitacoes_comparacao}, as diferenças de volume e de ambiente entre as implementações
+não permitam uma comparação direta de desempenho.
+
+Por fim, a discussão dos resultados, apresentada no \chapref{chap:discussao}, permitiu alcançar
+o terceiro objetivo específico, ao identificar os principais desafios enfrentados durante a
+reestruturação, bem como os ganhos obtidos em termos de manutenibilidade, economia de espaço de
+armazenamento, além de fornecer indicativos dos possíveis ganhos de escalabilidade proporcionados
+pela nova arquitetura.
 
 Com isso, os resultados obtidos fornecem evidências favoráveis à hipótese de que a 
 reestruturação dos \textit{pipelines} de ETL pode trazer impactos positivos para os 
 processos de Big Data da SEFAZ-PB, indicando a viabilidade da abordagem proposta.
 
 Diante dos resultados obtidos, conclui-se que o problema de pesquisa foi respondido de forma
-satisfatória nas dimensões avaliadas: os ganhos de manutenibilidade e de armazenamento foram
-conclusivos, enquanto os resultados de desempenho, embora favoráveis em determinados cenários, não
-permitem uma comparação definitiva entre as duas implementações. Ainda assim, a pesquisa demonstra
-que a reestruturação da estratégia de ETL baseada em tecnologias de Big Data constitui uma
-alternativa viável para modernizar os processos da SEFAZ-PB.
+satisfatória nas dimensões avaliadas: os ganhos de manutenibilidade, apresentados na
+\tabref{tab:comparacao_manutenibilidade}, e de armazenamento, apresentados na
+\tabref{tab:comparacao_armazenamento}, foram conclusivos, enquanto os resultados de desempenho,
+apresentados na \tabref{tab:desempenho_cargas}, embora favoráveis em determinados cenários, não
+permitem uma comparação definitiva entre as duas implementações, dadas as limitações discutidas na
+\secref{sec:limitacoes_comparacao}. Ainda assim, a pesquisa demonstra que a reestruturação da
+estratégia de ETL baseada em tecnologias de Big Data constitui uma alternativa viável para
+modernizar os processos da SEFAZ-PB.
 
 Quanto às contribuições desta pesquisa, destacam-se três frentes. No âmbito prático, entrega-se à
 SEFAZ-PB um sistema de ETL funcional para os quatro fluxos avaliados, que demonstra potencial para
