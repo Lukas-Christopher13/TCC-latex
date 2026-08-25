@@ -415,10 +415,87 @@ aplicando-se, por exemplo, uma codificação delta aos valores numéricos antes 
 mais pesada, com o objetivo de reduzir o tamanho dos blocos e os custos de I/O 
 \cite{schulze2024clickhouse}. 
 
-Por fim, na arquitetura proposta, o ClickHouse atua como banco de dados de destino do processo de 
-ETL. Em contraste com soluções relacionais tradicionais, seu armazenamento colunar e os mecanismos 
-de compressão utilizados fornecem a base para os ganhos de espaço de armazenamento apresentados no 
+Por fim, na arquitetura proposta, o ClickHouse atua como banco de dados de destino do processo de
+ETL. Em contraste com soluções relacionais tradicionais, seu armazenamento colunar e os mecanismos
+de compressão utilizados fornecem a base para os ganhos de espaço de armazenamento apresentados no
 \chapref{cap:resultados}.
+
+\section{Trabalhos Relacionados}
+
+Esta seção discute pesquisas que também trataram da reestruturação de arquiteturas de ETL,
+por vezes na forma de migração de ferramentas ou de modernização de \textit{pipelines} de
+dados, situando a presente pesquisa em relação a esses trabalhos.
+
+\citeonline{katragadda2015etl} realizam um estudo empírico comparativo entre o Talend Open
+Studio, ferramenta de ETL de código aberto, e o SSIS, solução proprietária da Microsoft. Os
+autores avaliam aspectos como desempenho, suporte, documentação e recursos de paralelização,
+concluindo que o SSIS leva vantagem em maturidade e velocidade de implementação, ao passo que
+o Talend se mostra mais adequado a implementações de menor porte.
+
+Nesse mesmo sentido, mas com foco na etapa de orquestração, \citeonline{eeti2022efficient}
+comparam a eficiência de processos de ETL orquestrados pelo Apache Airflow frente a métodos
+tradicionais. Os resultados reforçam a adequação do uso de DAGs, já discutido na
+\secref{sec:ferramentas-etl}, para a coordenação de \textit{pipelines} complexos.
+
+Esse tipo de comparação direta entre uma ferramenta legada e uma alternativa de código aberto
+aproxima-se da metodologia adotada neste trabalho. Afinal, compara-se aqui o sistema original
+do BDMalhas, implementado em SSIS, à solução proposta, orquestrada por DAGs no Apache Airflow.
+
+Sob uma perspectiva mais ampla, \citeonline{naphade2025evolution} discute a evolução das
+arquiteturas de \textit{pipelines} de dados e a transição do paradigma ETL para o ELT. Segundo
+o autor, essa tendência está associada, entre outros fatores, à maior capacidade de
+processamento dos sistemas de destino modernos, cenário compatível com a adoção do ClickHouse
+como banco de dados de destino na solução proposta.
+
+Já \citeonline{guntupalli2021evolution} traça uma evolução histórica semelhante, partindo de
+ferramentas legadas como Informatica PowerCenter, IBM DataStage e SSIS até soluções nativas de
+nuvem, como Fivetran, dbt e Snowflake. A autora ilustra essa transição com um estudo de caso de
+migração de uma instituição financeira do Informatica PowerCenter para uma pilha
+(\textit{stack}) baseada nessas ferramentas. Entre os motivadores dessa migração estão os
+custos de licenciamento, a rigidez do sistema legado e a necessidade de maior agilidade,
+fatores análogos aos que fundamentam a reestruturação do ETL da SEFAZ-PB.
+
+Também em contexto de reestruturação de ferramentas legadas para arquiteturas de código aberto, \citeonline{singh2025transitioning}
+descreve, sob perspectiva prática, a passagem de \textit{pipelines} de ETL do Informatica
+PowerCenter para uma arquitetura composta por Apache Airflow, Apache NiFi e Apache Spark, as
+mesmas ferramentas mencionadas na \secref{sec:ferramentas-etl} e, no caso do Airflow e do
+Spark, efetivamente empregadas na solução proposta. O autor discute etapas como o levantamento
+dos fluxos de trabalho existentes, o redesenho modular das transformações e a execução em
+paralelo do sistema legado e do novo sistema antes do desligamento definitivo do primeiro.
+Ademais, aponta desafios recorrentes, como a curva de aprendizado das equipes e a ausência de
+mecanismos nativos de governança e linhagem de dados nas ferramentas de código aberto, desafios
+que também se manifestam, em alguma medida, na reestruturação do BDMalhas.
+
+Em volume de dados comparável ao tratado neste trabalho, \citeonline{azzolini2016pentaho}
+relatam a experiência da Universidade Estadual de Campinas (UNICAMP) na migração de
+aproximadamente 18 milhões de registros do sistema legado de protocolo para o SIGAD/Unicamp.
+Para isso, os autores utilizam o Pentaho Data Integration, ferramenta também discutida na
+\secref{sec:ferramentas-etl}, a partir de 71 transformações desenvolvidas para a carga gradual
+e parcial dos dados. O caso ilustra, assim, a viabilidade de ferramentas de ETL de código
+aberto para migrações de grande volume em instituições públicas brasileiras.
+
+Na mesma linha, \citeonline{arsyad2021dynamic} discute técnicas de carga incremental dinâmica
+para integração de dados em \textit{data warehouses}. Essa abordagem, assim como nas migrações
+relatadas pelos autores anteriores, busca reduzir o volume de dados reprocessados a cada
+execução do \textit{pipeline}.
+
+Por fim, em âmbito nacional e de setor público, \citeonline{dias2017bigdata} investiga a
+aplicabilidade de soluções de Big Data ao setor público brasileiro a partir do estudo de caso
+da plataforma DataViva, iniciativa do Governo de Minas Gerais desenvolvida em parceria com o
+MIT Media Lab. O autor discute o modelo de governança colaborativa adotado em seu
+desenvolvimento e a atuação do governo como ``catalisador de dados e informações''. Embora o
+DataViva esteja voltado à publicação de dados abertos, e não à reestruturação de processos
+internos de ETL como no caso do BDMalhas, o trabalho contribui para situar a presente pesquisa
+dentro de um cenário mais amplo de iniciativas de Big Data no setor público brasileiro.
+
+Em conjunto, os trabalhos revisados nesta seção evidenciam uma tendência, tanto de mercado
+quanto de pesquisa acadêmica, de substituição de ferramentas de ETL proprietárias e monolíticas
+por arquiteturas modulares baseadas em componentes de código aberto. Essa tendência é motivada
+sobretudo por custos de licenciamento, rigidez tecnológica e dificuldades de escalabilidade.
+Distingue-se, contudo, das pesquisas apresentadas por tratar de um caso real e de produção do
+setor público brasileiro, o BDMalhas da SEFAZ-PB, comparando empiricamente indicadores de
+desempenho e economia de espaço em disco entre a arquitetura original, baseada em SSIS, e a
+arquitetura proposta, composta por Data Lake, Apache Spark, Apache Airflow e ClickHouse.
 
 % \subsection{ISO/IEC 25010}
 % Pendente: falta referência (norma ISO/IEC 25010:2011 ou fonte secundária confiável).
