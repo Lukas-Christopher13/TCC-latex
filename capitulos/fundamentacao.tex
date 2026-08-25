@@ -457,19 +457,21 @@ o redesenho modular das transformações e a execução paralela dos sistemas le
 do primeiro. Essa validação por execução conjunta se assemelha à adotada neste trabalho, em que o sistema legado
 baseado em SSIS foi mantido em operação e comparado, lado a lado, à nova arquitetura proposta.
 
+Porm fim, embora que \citeonline{schulze2024clickhouse} não trate especificamente da reestruturação de \textit{pipelines} de ETL, 
+os autores apresentam o ClickHouse como uma solução para consultas analíticas de alto desempenho sobre grandes volumes 
+de dados, destacando sua arquitetura orientada a colunas e seus mecanismos de compressão. Essa abordagem se aproxima 
+da adotada nesta pesquisa, que substitui o banco relacional de destino pelo ClickHouse visando ganhos de desempenho 
+e economia de espaço, conforme apresentado no \chapref{cap:resultados}.
 
+De modo geral, os trabalhos revisados evidenciam uma tendência de substituição de ferramentas de ETL proprietárias 
+por soluções modernas e de código aberto, motivada pelos custos de licenciamento, pela rigidez dos ecossistemas 
+proprietários, pelas limitações de integração com outras ferramentas e pela necessidade de escalabilidade em cenários 
+de Big Data.
 
-
-
-
-Em conjunto, os trabalhos revisados nesta seção evidenciam uma tendência, tanto de mercado
-quanto de pesquisa acadêmica, de substituição de ferramentas de ETL proprietárias e monolíticas
-por arquiteturas modulares baseadas em componentes de código aberto. Essa tendência é motivada
-sobretudo por custos de licenciamento, rigidez tecnológica e dificuldades de escalabilidade.
-Distingue-se, contudo, das pesquisas apresentadas por tratar de um caso real e de produção do
-setor público brasileiro, o BDMalhas da SEFAZ-PB, comparando empiricamente indicadores de
-desempenho e economia de espaço em disco entre a arquitetura original, baseada em SSIS, e a
-arquitetura proposta, composta por Data Lake, Apache Spark, Apache Airflow e ClickHouse.
+Desse modo, o presente trabalho se diferencia das pesquisas apresentadas por tratar de um caso real de produção do 
+setor público brasileiro, o BDMalhas da SEFAZ-PB, comparando indicadores de desempenho, manutenibilidade e economia de
+espaço em disco entre a arquitetura original, baseada em SSIS, e a proposta, composta por Data Lake, Apache Spark, 
+Apache Airflow e ClickHouse.
 
 % \subsection{ISO/IEC 25010}
 % Pendente: falta referência (norma ISO/IEC 25010:2011 ou fonte secundária confiável).
