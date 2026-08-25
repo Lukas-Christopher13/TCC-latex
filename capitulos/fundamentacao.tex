@@ -435,20 +435,15 @@ o contexto desta pesquisa.
 
 Nesse mesmo sentido, mas com foco na etapa de orquestração, \citeonline{eeti2022efficient}
 comparam a eficiência de processos de ETL orquestrados pelo Apache Airflow frente a métodos
-tradicionais. Os resultados reforçam a adequação do uso de DAGs, já discutido na
-\secref{sec:ferramentas-etl}, para a coordenação de \textit{pipelines} complexos.
+tradicionais, exemplificados pelos autores por ferramentas como Informatica PowerCenter, IBM
+DataStage e o próprio SSIS. Os resultados reforçam a adequação do uso de DAGs 
+para a coordenação de \textit{pipelines} complexos.
 
-Esse tipo de comparação direta entre uma ferramenta legada e uma alternativa de código aberto
+No mais, esse tipo de comparação direta entre uma ferramenta legada e uma alternativa de código aberto
 aproxima-se da metodologia adotada neste trabalho. Afinal, compara-se aqui o sistema original
-do BDMalhas, implementado em SSIS, à solução proposta, orquestrada por DAGs no Apache Airflow.
+do BDMalhas, implementado em SSIS, com a solução proposta, orquestrada por DAGs no Apache Airflow.
 
-Sob uma perspectiva mais ampla, \citeonline{naphade2025evolution} discute a evolução das
-arquiteturas de \textit{pipelines} de dados e a transição do paradigma ETL para o ELT. Segundo
-o autor, essa tendência está associada, entre outros fatores, à maior capacidade de
-processamento dos sistemas de destino modernos, cenário compatível com a adoção do ClickHouse
-como banco de dados de destino na solução proposta.
-
-Já \citeonline{guntupalli2021evolution} traça uma evolução histórica semelhante, partindo de
+Ademais, \citeonline{guntupalli2021evolution} traça uma evolução histórica semelhante, partindo de
 ferramentas legadas como Informatica PowerCenter, IBM DataStage e SSIS até soluções nativas de
 nuvem, como Fivetran, dbt e Snowflake. A autora ilustra essa transição com um estudo de caso de
 migração de uma instituição financeira do Informatica PowerCenter para uma pilha
