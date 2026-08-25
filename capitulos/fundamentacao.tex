@@ -443,46 +443,24 @@ No mais, esse tipo de comparação direta entre uma ferramenta legada e uma alte
 aproxima-se da metodologia adotada neste trabalho. Afinal, compara-se aqui o sistema original
 do BDMalhas, implementado em SSIS, com a solução proposta, orquestrada por DAGs no Apache Airflow.
 
-Ademais, \citeonline{guntupalli2021evolution} traça uma evolução histórica semelhante, partindo de
-ferramentas legadas como Informatica PowerCenter, IBM DataStage e SSIS até soluções nativas de
-nuvem, como Fivetran, dbt e Snowflake. A autora ilustra essa transição com um estudo de caso de
-migração de uma instituição financeira do Informatica PowerCenter para uma pilha
-(\textit{stack}) baseada nessas ferramentas. Entre os motivadores dessa migração estão os
-custos de licenciamento, a rigidez do sistema legado e a necessidade de maior agilidade,
-fatores análogos aos que fundamentam a reestruturação do ETL da SEFAZ-PB.
+Ademais, \citeonline{guntupalli2021evolution} apresenta uma evolução histórica que parte das ferramentas 
+e métodos tradicionais analisadas e comparadas por \citeonline{eeti2022efficient}, como Informatica PowerCenter, 
+IBM DataStage e SSIS, e avança para soluções mais modernas, como Fivetran, dbt e Snowflake. 
+Essa evolução parte de um estudo de caso de migração de tecnologia de ETL em uma instituição financeira, 
+motivada por custos de licenciamento, rigidez do sistema legado e necessidade de maior velocidade no processamento, 
+fatores também presentes na reestruturação do ETL da SEFAZ-PB.
 
-Também em contexto de reestruturação de ferramentas legadas para arquiteturas de código aberto, \citeonline{singh2025transitioning}
-descreve, sob perspectiva prática, a passagem de \textit{pipelines} de ETL do Informatica
-PowerCenter para uma arquitetura composta por Apache Airflow, Apache NiFi e Apache Spark, as
-mesmas ferramentas mencionadas na \secref{sec:ferramentas-etl} e, no caso do Airflow e do
-Spark, efetivamente empregadas na solução proposta. O autor discute etapas como o levantamento
-dos fluxos de trabalho existentes, o redesenho modular das transformações e a execução em
-paralelo do sistema legado e do novo sistema antes do desligamento definitivo do primeiro.
-Ademais, aponta desafios recorrentes, como a curva de aprendizado das equipes e a ausência de
-mecanismos nativos de governança e linhagem de dados nas ferramentas de código aberto, desafios
-que também se manifestam, em alguma medida, na reestruturação do BDMalhas.
+Ainda nesse contexto, \citeonline{singh2025transitioning} apresenta um estudo prático sobre a reestruturação de 
+\textit{pipelines} de ETL por meio da substituição do Informatica PowerCenter por uma arquitetura de código aberto 
+baseada em Apache Airflow, Apache NiFi e Apache Spark. O autor aborda etapas como o levantamento dos fluxos existentes, 
+o redesenho modular das transformações e a execução paralela dos sistemas legado e novo antes da desativação definitiva
+do primeiro. Essa validação por execução conjunta se assemelha à adotada neste trabalho, em que o sistema legado
+baseado em SSIS foi mantido em operação e comparado, lado a lado, à nova arquitetura proposta.
 
-Em volume de dados comparável ao tratado neste trabalho, \citeonline{azzolini2016pentaho}
-relatam a experiência da Universidade Estadual de Campinas (UNICAMP) na migração de
-aproximadamente 18 milhões de registros do sistema legado de protocolo para o SIGAD/Unicamp.
-Para isso, os autores utilizam o Pentaho Data Integration, ferramenta também discutida na
-\secref{sec:ferramentas-etl}, a partir de 71 transformações desenvolvidas para a carga gradual
-e parcial dos dados. O caso ilustra, assim, a viabilidade de ferramentas de ETL de código
-aberto para migrações de grande volume em instituições públicas brasileiras.
 
-Na mesma linha, \citeonline{arsyad2021dynamic} discute técnicas de carga incremental dinâmica
-para integração de dados em \textit{data warehouses}. Essa abordagem, assim como nas migrações
-relatadas pelos autores anteriores, busca reduzir o volume de dados reprocessados a cada
-execução do \textit{pipeline}.
 
-Por fim, em âmbito nacional e de setor público, \citeonline{dias2017bigdata} investiga a
-aplicabilidade de soluções de Big Data ao setor público brasileiro a partir do estudo de caso
-da plataforma DataViva, iniciativa do Governo de Minas Gerais desenvolvida em parceria com o
-MIT Media Lab. O autor discute o modelo de governança colaborativa adotado em seu
-desenvolvimento e a atuação do governo como ``catalisador de dados e informações''. Embora o
-DataViva esteja voltado à publicação de dados abertos, e não à reestruturação de processos
-internos de ETL como no caso do BDMalhas, o trabalho contribui para situar a presente pesquisa
-dentro de um cenário mais amplo de iniciativas de Big Data no setor público brasileiro.
+
+
 
 Em conjunto, os trabalhos revisados nesta seção evidenciam uma tendência, tanto de mercado
 quanto de pesquisa acadêmica, de substituição de ferramentas de ETL proprietárias e monolíticas
